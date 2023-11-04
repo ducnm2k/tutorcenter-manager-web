@@ -22,7 +22,7 @@ import {
 } from '@material-ui/core';
 // redux
 import { useDispatch, useSelector } from '../../redux/store';
-import { getProducts, deleteProduct } from '../../redux/slices/product';
+import { getProducts, deleteProduct, getParentsRequestList } from '../../redux/slices/product';
 // utils
 import { fDate } from '../../utils/formatTime';
 import { fCurrency } from '../../utils/formatNumber';
@@ -45,12 +45,12 @@ import {
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Parents', alignRight: false },
-  { id: 'name', label: 'Phone', alignRight: false },
-  { id: 'name', label: 'Subject', alignRight: false },
-  { id: 'name', label: 'Level', alignRight: false },
-  { id: 'createdAt', label: 'Create at', alignRight: false },
-  { id: 'inventoryType', label: 'Status', alignRight: false },
+  { id: 'parent', label: 'Parents', alignRight: false },
+  { id: 'address', label: 'Address', alignRight: false },
+  { id: 'subject', label: 'Subject', alignRight: false },
+  { id: 'classNo', label: 'Level', alignRight: false },
+  { id: 'dateCreate', label: 'Create at', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false },
   { id: '' }
 ];
 
@@ -110,7 +110,7 @@ export default function EcommerceProductList() {
   const [orderBy, setOrderBy] = useState('createdAt');
 
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(getParentsRequestList());
   }, [dispatch]);
 
   const handleRequestSort = (event, property) => {
@@ -208,21 +208,21 @@ export default function EcommerceProductList() {
                 />
                 <TableBody>
                   {filteredProducts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, cover, price, createdAt, inventoryType } = row;
+                    const { _id, parent, address, major, classNo, dateStart, status } = row;
 
-                    const isItemSelected = selected.indexOf(name) !== -1;
+                    const isItemSelected = selected.indexOf(parent.fullname) !== -1;
 
                     return (
                       <TableRow
                         hover
-                        key={id}
+                        key={_id}
                         tabIndex={-1}
                         role="checkbox"
                         selected={isItemSelected}
                         aria-checked={isItemSelected}
                       >
                         <TableCell padding="checkbox">
-                          <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, name)} />
+                          <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, parent.fullname)} />
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Box
@@ -232,28 +232,31 @@ export default function EcommerceProductList() {
                               alignItems: 'center'
                             }}
                           >
-                            <ThumbImgStyle alt={name} src={cover} />
+                            {/* <ThumbImgStyle alt={name} src={cover} /> */}
                             <Typography variant="subtitle2" noWrap>
-                              {name}
+                              {parent}
                             </Typography>
                           </Box>
                         </TableCell>
-                        <TableCell style={{ minWidth: 160 }}>{fDate(createdAt)}</TableCell>
+                        <TableCell style={{ minWidth: 160 }}>{address}</TableCell>
+                        <TableCell style={{ minWidth: 160 }}>{major}</TableCell>
+                        <TableCell style={{ minWidth: 160 }}>{classNo}</TableCell>
+                        <TableCell style={{ minWidth: 160 }}>{dateStart}</TableCell>
                         <TableCell style={{ minWidth: 160 }}>
                           <Label
                             variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-                            color={
-                              (inventoryType === 'out_of_stock' && 'error') ||
-                              (inventoryType === 'low_stock' && 'warning') ||
-                              'success'
-                            }
+                            // color={
+                            //   (inventoryType === 'out_of_stock' && 'error') ||
+                            //   (inventoryType === 'low_stock' && 'warning') ||
+                            //   'success'
+                            // }
                           >
-                            {sentenceCase(inventoryType)}
+                            {status}
                           </Label>
                         </TableCell>
-                        <TableCell align="right">{fCurrency(price)}</TableCell>
+                        {/* <TableCell align="right">{fCurrency(price)}</TableCell> */}
                         <TableCell align="right">
-                          <ProductMoreMenu onDelete={() => handleDeleteProduct(id)} productName={name} />
+                          <ProductMoreMenu onDelete={() => handleDeleteProduct(_id)} productName={_id} />
                         </TableCell>
                       </TableRow>
                     );

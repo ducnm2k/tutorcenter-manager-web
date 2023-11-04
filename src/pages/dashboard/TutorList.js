@@ -23,7 +23,7 @@ import {
 } from '@material-ui/core';
 // redux
 import { useDispatch, useSelector } from '../../redux/store';
-import { getUserList, deleteUser } from '../../redux/slices/user';
+import { getUserList, deleteUser, getTutorList } from '../../redux/slices/user';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // hooks
@@ -39,12 +39,12 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../../components/_d
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'company', label: 'Phone', alignRight: false },
-  { id: 'role', label: 'Email', alignRight: false },
-  { id: 'role', label: 'Location', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
+  { id: 'fullname', label: 'Name', alignRight: false },
+  { id: 'phone', label: 'Phone', alignRight: false },
+  { id: 'email', label: 'Email', alignRight: false },
+  { id: 'district', label: 'Location', alignRight: false },
+  { id: 'enabled', label: 'Status', alignRight: false },
+  { id: 'deleted', label: 'Deleted', alignRight: false },
   { id: '' }
 ];
 
@@ -92,7 +92,7 @@ export default function UserList() {
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
   useEffect(() => {
-    dispatch(getUserList());
+    dispatch(getTutorList());
   }, [dispatch]);
 
   const handleRequestSort = (event, property) => {
@@ -158,16 +158,16 @@ export default function UserList() {
             { name: 'Tutor', href: PATH_DASHBOARD.tutor.list },
             { name: 'List' }
           ]}
-          // action={
-          //   <Button
-          //     variant="contained"
-          //     component={RouterLink}
-          //     to={PATH_DASHBOARD.user.newUser}
-          //     startIcon={<Icon icon={plusFill} />}
-          //   >
-          //     New User
-          //   </Button>
-          // }
+        // action={
+        //   <Button
+        //     variant="contained"
+        //     component={RouterLink}
+        //     to={PATH_DASHBOARD.user.newUser}
+        //     startIcon={<Icon icon={plusFill} />}
+        //   >
+        //     New User
+        //   </Button>
+        // }
         />
 
         <Card>
@@ -187,8 +187,8 @@ export default function UserList() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, status, company, avatarUrl, isVerified } = row;
-                    const isItemSelected = selected.indexOf(name) !== -1;
+                    const { id, fullname, phone, email, district, province, enabled, deleted } = row;
+                    const isItemSelected = selected.indexOf(fullname) !== -1;
 
                     return (
                       <TableRow
@@ -200,30 +200,39 @@ export default function UserList() {
                         aria-checked={isItemSelected}
                       >
                         <TableCell padding="checkbox">
-                          <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, name)} />
+                          <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, fullname)} />
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={name} src={avatarUrl} />
+                            {/* <Avatar alt={name} src={avatarUrl} /> */}
                             <Typography variant="subtitle2" noWrap>
-                              {name}
+                              {fullname}
                             </Typography>
                           </Stack>
                         </TableCell>
-                        <TableCell align="left">{company}</TableCell>
-                        <TableCell align="left">{role}</TableCell>
-                        <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
+                        <TableCell align="left">{phone}</TableCell>
+                        <TableCell align="left">{email}</TableCell>
+                        <TableCell align="left">{district}, {province}</TableCell>
+                        {/* <TableCell align="left">{deleted ? 'Yes' : 'No'}</TableCell> */}
                         <TableCell align="left">
                           <Label
                             variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-                            color={(status === 'banned' && 'error') || 'success'}
+                            // color={(enabled === 'banned' && 'error') || 'success'}
                           >
-                            {sentenceCase(status)}
+                            {enabled ? 'Yes' : 'No'}
                           </Label>
                         </TableCell>
-
+                        <TableCell align="left">
+                          <Label
+                            variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
+                            // color={(enabled === 'banned' && 'error') || 'success'}
+                          >
+                            {deleted ? 'Yes' : 'No'}
+                          </Label>
+                        </TableCell>
+                        {/* <TableCell align="left">{enabled ? 'Yes' : 'No'}</TableCell> */}
                         <TableCell align="right">
-                          <UserMoreMenu onDelete={() => handleDeleteUser(id)} userName={name} />
+                          <UserMoreMenu onDelete={() => handleDeleteUser(id)} userName={fullname} />
                         </TableCell>
                       </TableRow>
                     );

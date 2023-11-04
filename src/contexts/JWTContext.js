@@ -2,8 +2,8 @@ import { createContext, useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 // utils
 import axios from '../utils/axios';
-import { isValidToken, setSession } from '../utils/jwt';
-
+import { isValidToken, setSession,sign } from '../utils/jwt';
+// import { verify, sign } from '../utils/jwt';
 // ----------------------------------------------------------------------
 
 const initialState = {
@@ -72,8 +72,23 @@ function AuthProvider({ children }) {
         if (accessToken && isValidToken(accessToken)) {
           setSession(accessToken);
 
-          const response = await axios.get('/api/account/my-account');
-          const { user } = response.data;
+          // const response = await axios.get('/api/account/my-account');
+          const user ={
+            id: '8864c717-587d-472a-929a-8e5f298024da-0',
+            displayName: 'Jaydon Frankie',
+            email: 'demo@minimals.cc',
+            password: 'demo1234',
+            photoURL: '/static/mock-images/avatars/avatar_default.jpg',
+            phoneNumber: '+40 777666555',
+            country: 'United States',
+            address: '90210 Broadway Blvd',
+            state: 'California',
+            city: 'San Francisco',
+            zipCode: '94116',
+            about: 'Praesent turpis. Phasellus viverra nulla ut metus varius laoreet. Phasellus tempus.',
+            role: 'admin',
+            isPublic: true
+          }
 
           dispatch({
             type: 'INITIALIZE',
@@ -107,12 +122,33 @@ function AuthProvider({ children }) {
   }, []);
 
   const login = async (email, password) => {
-    const response = await axios.post('/api/account/login', {
-      email,
-      password
-    });
-    const { accessToken, user } = response.data;
+    // const response = await axios.post('/api/account/login', {
+    //   email,
+    //   password
+    // });
+    // const { accessToken, user } = response.data;
 
+    const user ={
+      id: '8864c717-587d-472a-929a-8e5f298024da-0',
+      displayName: 'Jaydon Frankie',
+      email: 'demo@minimals.cc',
+      password: '1',
+      photoURL: '/static/mock-images/avatars/avatar_default.jpg',
+      phoneNumber: '+40 777666555',
+      country: 'United States',
+      address: '90210 Broadway Blvd',
+      state: 'California',
+      city: 'San Francisco',
+      zipCode: '94116',
+      about: 'Praesent turpis. Phasellus viverra nulla ut metus varius laoreet. Phasellus tempus.',
+      role: 'manager',
+      isPublic: true
+    }
+    const JWT_SECRET = 'minimal-secret-key';
+    const JWT_EXPIRES_IN = '5 days';
+    const accessToken=sign({ userId: user.id }, JWT_SECRET, {
+      expiresIn: JWT_EXPIRES_IN
+    });
     setSession(accessToken);
     dispatch({
       type: 'LOGIN',

@@ -217,8 +217,25 @@ export function getProducts() {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get('/api/products');
+      // const response = await axios.get('/api/products');
+      const response = await axios.get('/request');
+      // console.log('res', response);
       dispatch(slice.actions.getProductsSuccess(response.data.products));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function getParentsRequestList() {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axios.get('/request');
+      console.log('response', response);
+      dispatch(slice.actions.getProductsSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
@@ -237,6 +254,22 @@ export function getProduct(name) {
       dispatch(slice.actions.getProductSuccess(response.data.product));
     } catch (error) {
       console.error(error);
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function getParentsRequest(id) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const url = '/request/';
+      const response = await axios.get(url.concat(id));
+      console.log('response', response);
+      dispatch(slice.actions.getProductsSuccess(response.data));
+    } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
   };

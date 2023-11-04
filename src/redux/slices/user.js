@@ -209,8 +209,39 @@ export function getUserList() {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get('/api/user/manage-users');
-      dispatch(slice.actions.getUserListSuccess(response.data.users));
+      const response = await axios.get('/api/parent');
+      console.log('response', response);
+      dispatch(slice.actions.getUserListSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function getParentsList() {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axios.get('/api/parent');
+      // console.log('response', response);
+      dispatch(slice.actions.getUserListSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function getTutorList() {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axios.get('/api/tutor');
+      // console.log('response', response);
+      dispatch(slice.actions.getUserListSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

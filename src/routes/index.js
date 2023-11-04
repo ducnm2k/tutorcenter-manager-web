@@ -144,22 +144,27 @@ export default function Router() {
           path: 'parents',
           children: [
             { path: 'list', element: <ParentsList /> },
+            { path: 'edit/:id', element: <ParentsById /> },
             { path: 'request', element: <ParentsRequestList /> },
-            { path: 'class', element: <ParentsClassList /> }
+            { path: 'request/edit/:id', element: <ParentsRequestById /> },
+            { path: 'class', element: <ParentsClassList /> },
+            { path: 'class/edit/:id', element: <ParentsClassById /> }
           ]
         },
         {
           path: 'tutor',
           children: [
             { path: 'list', element: <TutorList /> },
-            { path: 'verification', element: <TutorVerifyList /> }
+            { path: 'edit/:id', element: <TutorById /> },
+            { path: 'verification', element: <TutorVerifyList /> },
+            { path: 'verification/edit/:id', element: <TutorVerifyById /> }
           ]
         },
         {
           path: 'transaction',
           children: [
             { path: '/', element: <TransactionList /> },
-            { path: 'detail', element: <TutorVerifyList /> }
+            { path: ':id', element: <TransactionDetail /> }
           ]
         }
       ]
@@ -283,14 +288,19 @@ const Kanban = Loadable(lazy(() => import('../pages/dashboard/Kanban')));
 // Manager
 // Parents
 const ParentsList = Loadable(lazy(() => import('../pages/dashboard/ParentsList')));
+const ParentsById = Loadable(lazy(() => import('../pages/dashboard/ParentsDetail')));
 const ParentsRequestList = Loadable(lazy(() => import('../pages/dashboard/ParentsRequestList')));
+const ParentsRequestById = Loadable(lazy(() => import('../pages/dashboard/ParentsRequestDetail')));
 const ParentsClassList = Loadable(lazy(() => import('../pages/dashboard/ParentsClassList')));
+const ParentsClassById = Loadable(lazy(() => import('../pages/dashboard/ParentsClassDetail')));
 // Tutor
 const TutorList = Loadable(lazy(() => import('../pages/dashboard/TutorList')));
+const TutorById = Loadable(lazy(() => import('../pages/dashboard/TutorDetail')));
 const TutorVerifyList = Loadable(lazy(() => import('../pages/dashboard/TutorVerifyList')));
+const TutorVerifyById = Loadable(lazy(() => import('../pages/dashboard/TutorVerifyDetail')));
 // Transaction
 const TransactionList = Loadable(lazy(() => import('../pages/dashboard/TransactionList')));
-const TransactionDetail = Loadable(lazy(() => import('../pages/dashboard/TransactionList')));
+const TransactionDetail = Loadable(lazy(() => import('../pages/dashboard/TransactionDetail')));
 // Main
 const LandingPage = Loadable(lazy(() => import('../pages/LandingPage')));
 const About = Loadable(lazy(() => import('../pages/About')));
