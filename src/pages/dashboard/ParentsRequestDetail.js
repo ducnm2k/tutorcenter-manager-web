@@ -26,8 +26,7 @@ export default function EcommerceProductCreate() {
   const { products } = useSelector((state) => state.product);
   const isEdit = pathname.includes('edit');
   const parentRequestID = pathname.split('/').pop().trim();
-  const currentProduct = products.find((product) => paramCase(product.name) === name);
-
+  // const currentProduct = products.find((product) => paramCase(product.name) === name);
   useEffect(() => {
     dispatch(getParentsRequest(parentRequestID));
   }, [dispatch]);
@@ -49,7 +48,7 @@ export default function EcommerceProductCreate() {
           ]}
         />
 
-        <ParentsRequestForm isEdit={isEdit} currentProduct={currentProduct} />
+        <ParentsRequestForm isEdit={isEdit} currentProduct={products} />
       </Container>
     </Page>
   );

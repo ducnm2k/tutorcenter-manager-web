@@ -7,6 +7,7 @@ import { Form, FormikProvider, useFormik } from 'formik';
 // material
 import { styled } from '@material-ui/core/styles';
 import { DatePicker, LoadingButton } from '@material-ui/lab';
+// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import {
   Card,
   Chip,
@@ -25,13 +26,21 @@ import {
   FormHelperText,
   FormControlLabel
 } from '@material-ui/core';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import moment from 'moment/moment';
+import { useDispatch } from 'react-redux';
+import { setParentsRequest } from '../../../redux/slices/product';
 // utils
-import fakeRequest from '../../../utils/fakeRequest';
+// import fakeRequest from '../../../utils/fakeRequest';
 // routes
 import { PATH_DASHBOARD } from '../../../routes/paths';
 //
 import { QuillEditor } from '../../editor';
 import { UploadMultiFile } from '../../upload';
+
+
+
 
 // ----------------------------------------------------------------------
 
@@ -74,39 +83,60 @@ ParentsRequestForm.propTypes = {
 
 export default function ParentsRequestForm({ isEdit, currentProduct }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
   const { enqueueSnackbar } = useSnackbar();
+  // console.log('currentProduct', currentProduct);
 
   const NewProductSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
-    description: Yup.string().required('Description is required'),
-    images: Yup.array().min(1, 'Images is required'),
-    price: Yup.number().required('Price is required')
+    status: Yup.number().required('Status is required'),
+    // parent: Yup.string().required('Name is required'),
+    // description: Yup.string().required('Description is required'),
+    // images: Yup.array().min(1, 'Images is required'),
+    // price: Yup.number().required('Price is required'),
+    // dateStart: Yup.string().required('date is required'),
+    // dateEnd: Yup.string().required('date is required')
   });
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: currentProduct?.name || '',
-      description: currentProduct?.description || '',
-      images: currentProduct?.images || [],
-      code: currentProduct?.code || '',
-      sku: currentProduct?.sku || '',
-      price: currentProduct?.price || '',
-      priceSale: currentProduct?.priceSale || '',
-      tags: currentProduct?.tags || [TAGS_OPTION[0]],
-      inStock: Boolean(currentProduct?.inventoryType !== 'out_of_stock'),
-      taxes: true,
-      gender: currentProduct?.gender || GENDER_OPTION[2],
-      category: currentProduct?.category || CATEGORY_OPTION[0].classify[1]
+      parentId: currentProduct?.parent?.id || '',
+      fullname: currentProduct?.parent?.fullname || '',
+      email: currentProduct?.parent?.email || '',
+      phone: currentProduct?.phone || '',
+      address: currentProduct?.address || '',
+      slot: currentProduct?.slots || '',
+      slotLength: currentProduct?.slotsLength || '',
+      tuition: currentProduct?.tuition || '',
+      status: currentProduct?.status || '0',
+      reject: currentProduct?.rejectReason || '',
+      managerId: currentProduct?.manager?.id || '',
+      dateStart: currentProduct?.dateStart || '',
+      // dateEnd: currentProduct?.dateEnd || ''
+      // name: currentProduct?.name || '',
+      // description: currentProduct?.description || '',
+      // images: currentProduct?.images || [],
+      // code: currentProduct?.code || '',
+      // sku: currentProduct?.sku || '',
+      // price: currentProduct?.price || '',
+      // priceSale: currentProduct?.priceSale || '',
+      // tags: currentProduct?.tags || [TAGS_OPTION[0]],
+      // inStock: Boolean(currentProduct?.inventoryType !== 'out_of_stock'),
+      // taxes: true,
+      // gender: currentProduct?.gender || GENDER_OPTION[2],
+      // category: currentProduct?.category || CATEGORY_OPTION[0].classify[1]
     },
     validationSchema: NewProductSchema,
     onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
       try {
-        await fakeRequest(500);
+        // await fakeRequest(500);
+        // dispatch(setParentsRequest(values));
+        console.log("Update data", values);
         resetForm();
         setSubmitting(false);
         enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
-        navigate(PATH_DASHBOARD.eCommerce.list);
+        // navigate(PATH_DASHBOARD.eCommerce.list);
       } catch (error) {
         console.error(error);
         setSubmitting(false);
@@ -147,18 +177,79 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
           <Grid item xs={12} md={8}>
             <Card sx={{ p: 3 }}>
               <Stack spacing={3}>
+                <LabelStyle>Un-editable</LabelStyle>
                 <TextField
                   fullWidth
-                  label="Tutor Name"
-                  {...getFieldProps('name')}
-                  error={Boolean(touched.name && errors.name)}
-                  helperText={touched.name && errors.name}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  label="Parent Name"
+                  {...getFieldProps('fullname')}
+                  error={Boolean(touched.parent && errors.parent)}
+                  helperText={touched.parent && errors.parent}
+                />
+
+                <TextField
+                  fullWidth
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  label="Phone"
+                  {...getFieldProps('phone')}
+                  error={Boolean(touched.parent && errors.parent)}
+                  helperText={touched.parent && errors.parent}
+                />
+
+                <TextField
+                  fullWidth
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  label="Email"
+                  {...getFieldProps('email')}
+                  error={Boolean(touched.parent && errors.parent)}
+                  helperText={touched.parent && errors.parent}
+                />
+
+                <TextField
+                  fullWidth
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  label="Slot"
+                  {...getFieldProps('slot')}
+                  error={Boolean(touched.parent && errors.parent)}
+                  helperText={touched.parent && errors.parent}
+                />
+
+                <TextField
+                  fullWidth
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  label="Slot length"
+                  {...getFieldProps('slotLength')}
+                  error={Boolean(touched.parent && errors.parent)}
+                  helperText={touched.parent && errors.parent}
+                />
+
+                <TextField
+                  fullWidth
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  label="Tuition"
+                  {...getFieldProps('tuition')}
+                  error={Boolean(touched.parent && errors.parent)}
+                  helperText={touched.parent && errors.parent}
                 />
 
                 <div>
-                  <LabelStyle>Subject</LabelStyle>
-                  <Select label="Subject" native {...getFieldProps('')} value={values.category} fullWidth>
-                    {/* {CATEGORY_OPTION.map((category) => (
+                  {/* <LabelStyle>Subject</LabelStyle>
+                  <Select label="Subject" native {...getFieldProps('')} value={values.category} fullWidth> */}
+
+
+                  {/* {CATEGORY_OPTION.map((category) => (
                     <optgroup key={category.group} label={category.group}>
                       {category.classify.map((classify) => (
                         <option key={classify} value={classify}>
@@ -167,13 +258,17 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                       ))}
                     </optgroup>
                   ))} */}
-                  </Select>
+
+
+                  {/* </Select> */}
                 </div>
 
                 <div>
-                  <LabelStyle>Level</LabelStyle>
-                  <Select label="Level" native {...getFieldProps('')} value={values.category} fullWidth>
-                    {/* {CATEGORY_OPTION.map((category) => (
+                  {/* <LabelStyle>Level</LabelStyle>
+                  <Select label="Level" native {...getFieldProps('')} value={values.category} fullWidth> */}
+
+
+                  {/* {CATEGORY_OPTION.map((category) => (
                     <optgroup key={category.group} label={category.group}>
                       {category.classify.map((classify) => (
                         <option key={classify} value={classify}>
@@ -182,10 +277,12 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                       ))}
                     </optgroup>
                   ))} */}
-                  </Select>
+
+
+                  {/* </Select> */}
                 </div>
 
-                <TextField
+                {/* <TextField
                   fullWidth
                   placeholder="Number of slots"
                   label="Slot"
@@ -195,9 +292,9 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                   }}
                   error={Boolean(touched.price && errors.price)}
                   helperText={touched.price && errors.price}
-                />
+                /> */}
 
-                <TextField
+                {/* <TextField
                   fullWidth
                   placeholder="Hour(s)"
                   label="Slot length"
@@ -207,9 +304,9 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                   }}
                   error={Boolean(touched.price && errors.price)}
                   helperText={touched.price && errors.price}
-                />
+                /> */}
 
-                <div>
+                {/* <div>
                   <LabelStyle>Notes</LabelStyle>
                   <QuillEditor
                     simple
@@ -223,9 +320,9 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                       {touched.description && errors.description}
                     </FormHelperText>
                   )}
-                </div>
+                </div> */}
 
-                <div>
+                {/* <div>
                   <LabelStyle>Reject reasons</LabelStyle>
                   <QuillEditor
                     simple
@@ -239,7 +336,7 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                       {touched.description && errors.description}
                     </FormHelperText>
                   )}
-                </div>
+                </div> */}
 
                 {/* <div>
                   <LabelStyle>Add Images</LabelStyle>
@@ -273,14 +370,30 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                 /> */}
 
                 <Stack spacing={3}>
-                  <LabelStyle>Parents Infos</LabelStyle>
-                  <TextField fullWidth label="Parents name" {...getFieldProps('sku')} />
-                  <TextField fullWidth label="Phone" {...getFieldProps('code')} />
-                  <TextField fullWidth label="Address" {...getFieldProps('sku')} />
-                  <TextField fullWidth label="District" {...getFieldProps('sku')} />
-                  <TextField fullWidth label="Province/ city" {...getFieldProps('sku')} />
+                  <LabelStyle>Editable</LabelStyle>
+                  {/* <TextField fullWidth label="Slot" {...getFieldProps('slot')} />
+                  <TextField fullWidth label="Slot length" {...getFieldProps('slotLength')} />
+                  <TextField fullWidth label="Tuition" {...getFieldProps('tuition')} />
+                  <TextField fullWidth label="Status" {...getFieldProps('status')} />
+                  <TextField fullWidth label="Reject reason" {...getFieldProps('reject')} /> */}
 
-                  <div>
+                  <TextField
+                    fullWidth
+                    label="Status"
+                    {...getFieldProps('status')}
+                    error={Boolean(touched.status && errors.status)}
+                    helperText={touched.status && errors.status}
+                  />
+
+                  <TextField
+                    fullWidth
+                    label="Reject reason"
+                    {...getFieldProps('reject')}
+                    error={Boolean(touched.parent && errors.parent)}
+                    helperText={touched.parent && errors.parent}
+                  />
+
+                  {/* <div>
                     <LabelStyle>Gender</LabelStyle>
                     <RadioGroup {...getFieldProps('gender')} row>
                       <Stack spacing={1} direction="row">
@@ -289,7 +402,7 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                         ))}
                       </Stack>
                     </RadioGroup>
-                  </div>
+                  </div> */}
 
                   {/* <FormControl fullWidth>
                     <InputLabel>Category</InputLabel>
@@ -325,31 +438,47 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
 
               <Card sx={{ p: 3 }}>
                 <Stack spacing={3}>
-                  <TextField
+                  {/* <TextField
                     fullWidth
                     placeholder="dd-MM-yyyy"
                     label="Start date"
-                    {...getFieldProps('price')}
-                    InputProps={{
-                      type: 'number'
-                    }}
-                    error={Boolean(touched.price && errors.price)}
-                    helperText={touched.price && errors.price}
+                    {...getFieldProps('dateStart')}
+                    // InputProps={{
+                    //   type: 'number'
+                    // }}
+                    error={Boolean(touched.dateStart && errors.dateStart)}
+                    helperText={touched.dateStart && errors.dateStart}
                   />
 
                   <TextField
                     fullWidth
                     placeholder="dd-MM-yyyy"
                     label="End date"
-                    {...getFieldProps('price')}
-                    InputProps={{
-                      type: 'number'
+                    {...getFieldProps('dateEnd')}
+                    // InputProps={{
+                    //   type: 'number'
+                    // }}
+                    error={Boolean(touched.dateEnd && errors.dateEnd)}
+                    helperText={touched.dateEnd && errors.dateEnd}
+                  /> */}
+
+                  <DatePicker
+                    // disabled={!isAdmin}
+                    // disableFuture
+                    inputFormat='dd/MM/yyyy'
+                    label="Date Start"
+                    openTo="year"
+                    views={['year', 'month', 'day']}
+                    value={moment(values.dateStart, "DD/MM/YYYY")}
+                    {...getFieldProps('dateStart')}
+                    onChange={(newValue) => {
+                      setFieldValue('dateStart', newValue);
                     }}
-                    error={Boolean(touched.price && errors.price)}
-                    helperText={touched.price && errors.price}
+                    renderInput={(params) => <TextField {...params} error={Boolean(touched.dateStart && errors.dateStart)}
+                      helperText={touched.dateStart && errors.dateStart} />}
                   />
 
-                  <TextField
+                  {/* <TextField
                     fullWidth
                     placeholder="dd-MM-yyyy"
                     label="Create date"
@@ -359,9 +488,9 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                     }}
                     error={Boolean(touched.price && errors.price)}
                     helperText={touched.price && errors.price}
-                  />
+                  /> */}
 
-                  <TextField
+                  {/* <TextField
                     fullWidth
                     placeholder="dd-MM-yyyy"
                     label="Modified date"
@@ -371,10 +500,12 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                     }}
                     error={Boolean(touched.price && errors.price)}
                     helperText={touched.price && errors.price}
-                  />
+                  /> */}
 
-                  <Select label="Status" native {...getFieldProps('')} value={values.category} fullWidth>
-                    {/* {CATEGORY_OPTION.map((category) => (
+                  {/* <Select label="Status" native {...getFieldProps('')} value={values.category} fullWidth> */}
+
+
+                  {/* {CATEGORY_OPTION.map((category) => (
                     <optgroup key={category.group} label={category.group}>
                       {category.classify.map((classify) => (
                         <option key={classify} value={classify}>
@@ -383,7 +514,9 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                       ))}
                     </optgroup>
                   ))} */}
-                  </Select>
+
+
+                  {/* </Select> */}
 
                   {/* <TextField
                     fullWidth

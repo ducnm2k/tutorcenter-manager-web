@@ -47,8 +47,6 @@ import {
 const TABLE_HEAD = [
   { id: 'parent', label: 'Parents', alignRight: false },
   { id: 'address', label: 'Address', alignRight: false },
-  { id: 'subject', label: 'Subject', alignRight: false },
-  { id: 'classNo', label: 'Level', alignRight: false },
   { id: 'dateCreate', label: 'Create at', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: '' }
@@ -179,16 +177,16 @@ export default function EcommerceProductList() {
             },
             { name: 'Request List' }
           ]}
-          // action={
-          //   <Button
-          //     variant="contained"
-          //     component={RouterLink}
-          //     to={PATH_DASHBOARD.eCommerce.newProduct}
-          //     startIcon={<Icon icon={plusFill} />}
-          //   >
-          //     New Product
-          //   </Button>
-          // }
+        // action={
+        //   <Button
+        //     variant="contained"
+        //     component={RouterLink}
+        //     to={PATH_DASHBOARD.eCommerce.newProduct}
+        //     startIcon={<Icon icon={plusFill} />}
+        //   >
+        //     New Product
+        //   </Button>
+        // }
         />
 
         <Card>
@@ -204,25 +202,28 @@ export default function EcommerceProductList() {
                   rowCount={products.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
+                  // onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {filteredProducts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { _id, parent, address, major, classNo, dateStart, status } = row;
+                    const { id, parent, address, dateCreate, status } = row;
 
-                    const isItemSelected = selected.indexOf(parent.fullname) !== -1;
+                    const isItemSelected = selected.indexOf(id) !== -1;
 
                     return (
                       <TableRow
                         hover
-                        key={_id}
+                        key={id}
                         tabIndex={-1}
-                        role="checkbox"
-                        selected={isItemSelected}
-                        aria-checked={isItemSelected}
+                        // role="checkbox"
+                        // selected={isItemSelected}
+                        // aria-checked={isItemSelected}
+                        component={RouterLink}
+                        to={`${PATH_DASHBOARD.parents.root}/request/edit/${id}`}
+                        sx={{textDecoration: 'none'}}
                       >
                         <TableCell padding="checkbox">
-                          <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, parent.fullname)} />
+                          {/* <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, parent.fullname)} /> */}
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Box
@@ -234,29 +235,27 @@ export default function EcommerceProductList() {
                           >
                             {/* <ThumbImgStyle alt={name} src={cover} /> */}
                             <Typography variant="subtitle2" noWrap>
-                              {parent}
+                              {(parent == null) ? 'parent' : parent.fullname}
                             </Typography>
                           </Box>
                         </TableCell>
                         <TableCell style={{ minWidth: 160 }}>{address}</TableCell>
-                        <TableCell style={{ minWidth: 160 }}>{major}</TableCell>
-                        <TableCell style={{ minWidth: 160 }}>{classNo}</TableCell>
-                        <TableCell style={{ minWidth: 160 }}>{dateStart}</TableCell>
+                        <TableCell style={{ minWidth: 160 }}>{dateCreate}</TableCell>
                         <TableCell style={{ minWidth: 160 }}>
                           <Label
                             variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-                            // color={
-                            //   (inventoryType === 'out_of_stock' && 'error') ||
-                            //   (inventoryType === 'low_stock' && 'warning') ||
-                            //   'success'
-                            // }
+                          // color={
+                          //   (inventoryType === 'out_of_stock' && 'error') ||
+                          //   (inventoryType === 'low_stock' && 'warning') ||
+                          //   'success'
+                          // }
                           >
                             {status}
                           </Label>
                         </TableCell>
                         {/* <TableCell align="right">{fCurrency(price)}</TableCell> */}
                         <TableCell align="right">
-                          <ProductMoreMenu onDelete={() => handleDeleteProduct(_id)} productName={_id} />
+                          {/* <ProductMoreMenu onDelete={() => handleDeleteProduct(id)} productName={id} /> */}
                         </TableCell>
                       </TableRow>
                     );

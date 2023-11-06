@@ -233,9 +233,9 @@ export function getParentsRequestList() {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get('/request');
-      console.log('response', response);
-      dispatch(slice.actions.getProductsSuccess(response.data));
+      const response = await axios.get('/api/request');
+      console.log('response.data.data', response.data.data);
+      dispatch(slice.actions.getProductsSuccess(response.data.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
@@ -265,9 +265,25 @@ export function getParentsRequest(id) {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      const url = '/request/';
-      const response = await axios.get(url.concat(id));
-      console.log('response', response);
+      const url = `/api/request/${id}`;
+      const response = await axios.get(url);
+      // console.log('response', response);
+      dispatch(slice.actions.getProductsSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function setParentsRequest(data) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const url = `/request/update/${data.id}`;
+      const response = await axios.put(url, data);
+      // console.log('response', response);
       dispatch(slice.actions.getProductsSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));

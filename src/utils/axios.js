@@ -2,7 +2,8 @@ import axios from 'axios';
 
 // ----------------------------------------------------------------------
 // export const DOMAIN = 'https://tc-837o.onrender.com'
-export const DOMAIN = 'https://tutor-center.onrender.com'
+export const DOMAIN = 'http://localhost:9000'
+// export const DOMAIN = 'https://tutor-center.onrender.com'
 export const USER_LOGIN = 'userLogin'
 export const ACCESSTOKEN = 'accessToken'
 const axiosInstance = axios.create({
