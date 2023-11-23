@@ -22,7 +22,7 @@ import {
 } from '@material-ui/core';
 // redux
 import { useDispatch, useSelector } from '../../redux/store';
-import { getProducts, deleteProduct } from '../../redux/slices/product';
+import { getProducts, deleteProduct, getTutorVerificationList } from '../../redux/slices/product';
 // utils
 import { fDate } from '../../utils/formatTime';
 import { fCurrency } from '../../utils/formatNumber';
@@ -45,10 +45,10 @@ import {
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Tutor', alignRight: false },
-  { id: 'createdAt', label: 'Phone', alignRight: false },
-  { id: 'inventoryType', label: 'Status', alignRight: false },
-  { id: 'price', label: 'Create At', alignRight: true },
+  { id: 'tutorId', label: 'Id', alignRight: false },
+  { id: 'tutorName', label: 'Tutor', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false },
+  { id: 'dateCreate', label: 'Create At', alignRight: true },
   { id: '' }
 ];
 
@@ -108,7 +108,7 @@ export default function EcommerceProductList() {
   const [orderBy, setOrderBy] = useState('createdAt');
 
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(getTutorVerificationList());
   }, [dispatch]);
 
   const handleRequestSort = (event, property) => {
@@ -177,16 +177,16 @@ export default function EcommerceProductList() {
             },
             { name: 'Product List' }
           ]}
-          // action={
-          //   <Button
-          //     variant="contained"
-          //     component={RouterLink}
-          //     to={PATH_DASHBOARD.eCommerce.newProduct}
-          //     startIcon={<Icon icon={plusFill} />}
-          //   >
-          //     New Product
-          //   </Button>
-          // }
+        // action={
+        //   <Button
+        //     variant="contained"
+        //     component={RouterLink}
+        //     to={PATH_DASHBOARD.eCommerce.newProduct}
+        //     startIcon={<Icon icon={plusFill} />}
+        //   >
+        //     New Product
+        //   </Button>
+        // }
         />
 
         <Card>
@@ -206,9 +206,9 @@ export default function EcommerceProductList() {
                 />
                 <TableBody>
                   {filteredProducts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, cover, price, createdAt, inventoryType } = row;
+                    const { id, tutorId, tutorName, managerId, status, dateCreate } = row;
 
-                    const isItemSelected = selected.indexOf(name) !== -1;
+                    const isItemSelected = selected.indexOf(tutorName) !== -1;
 
                     return (
                       <TableRow
@@ -218,9 +218,12 @@ export default function EcommerceProductList() {
                         role="checkbox"
                         selected={isItemSelected}
                         aria-checked={isItemSelected}
+                        component={RouterLink}
+                        to={`${PATH_DASHBOARD.tutor.root}/verification/edit/${id}`}
+                        sx={{ textDecoration: 'none' }}
                       >
                         <TableCell padding="checkbox">
-                          <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, name)} />
+                          {/* <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, name)} /> */}
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Box
@@ -230,28 +233,31 @@ export default function EcommerceProductList() {
                               alignItems: 'center'
                             }}
                           >
-                            <ThumbImgStyle alt={name} src={cover} />
+                            {/* <ThumbImgStyle alt={name} src={cover} /> */}
                             <Typography variant="subtitle2" noWrap>
-                              {name}
+                              {tutorId}
                             </Typography>
                           </Box>
                         </TableCell>
-                        <TableCell style={{ minWidth: 160 }}>{fDate(createdAt)}</TableCell>
+                        <TableCell style={{ minWidth: 160 }}>{tutorName}</TableCell>
                         <TableCell style={{ minWidth: 160 }}>
                           <Label
                             variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-                            color={
-                              (inventoryType === 'out_of_stock' && 'error') ||
-                              (inventoryType === 'low_stock' && 'warning') ||
-                              'success'
-                            }
+                            // color={
+                            //   (inventoryType === 'out_of_stock' && 'error') ||
+                            //   (inventoryType === 'low_stock' && 'warning') ||
+                            //   'success'
+                            // }
+                            color={(status === 1) ? 'success' : 'error'}
                           >
-                            {sentenceCase(inventoryType)}
+                            {(status === 1) ? 'verified' : ''}
+                            {(status === 2) ? 'reject' : ''}
+                            {(status === 0) ? 'default' : ''}
                           </Label>
                         </TableCell>
-                        <TableCell align="right">{fCurrency(price)}</TableCell>
+                        <TableCell align="right">{(dateCreate == null) ? '' : dateCreate}</TableCell>
                         <TableCell align="right">
-                          <ProductMoreMenu onDelete={() => handleDeleteProduct(id)} productName={name} />
+                          {/* <ProductMoreMenu onDelete={() => handleDeleteProduct(id)} productName={name} /> */}
                         </TableCell>
                       </TableRow>
                     );

@@ -22,7 +22,7 @@ import {
 } from '@material-ui/core';
 // redux
 import { useDispatch, useSelector } from '../../redux/store';
-import { getProducts, deleteProduct } from '../../redux/slices/product';
+import { getProducts, deleteProduct, getParentClassList } from '../../redux/slices/product';
 // utils
 import { fDate } from '../../utils/formatTime';
 import { fCurrency } from '../../utils/formatNumber';
@@ -45,11 +45,11 @@ import {
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Parents', alignRight: false },
-  { id: 'name', label: 'Tutor', alignRight: false },
-  { id: 'name', label: 'Subject', alignRight: false },
-  { id: 'name', label: 'Level', alignRight: false },
-  { id: 'inventoryType', label: 'Status', alignRight: false },
+  { id: 'parentName', label: 'Parent', alignRight: false },
+  { id: 'subjects', label: 'Subjects', alignRight: false },
+  { id: 'tutorLevel', label: 'Tutor Level', alignRight: false },
+  { id: 'districtName', label: 'Location', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false },
   { id: '' }
 ];
 
@@ -109,7 +109,7 @@ export default function EcommerceProductList() {
   const [orderBy, setOrderBy] = useState('createdAt');
 
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(getParentClassList());
   }, [dispatch]);
 
   const handleRequestSort = (event, property) => {
@@ -207,9 +207,9 @@ export default function EcommerceProductList() {
                 />
                 <TableBody>
                   {filteredProducts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, cover, price, createdAt, inventoryType } = row;
+                    const { id, parentName, subjects, tutorLevel, districtName, provinceName, status } = row;
 
-                    const isItemSelected = selected.indexOf(name) !== -1;
+                    const isItemSelected = selected.indexOf(id) !== -1;
 
                     return (
                       <TableRow
@@ -219,9 +219,12 @@ export default function EcommerceProductList() {
                         role="checkbox"
                         selected={isItemSelected}
                         aria-checked={isItemSelected}
+                        component={RouterLink}
+                        to={`${PATH_DASHBOARD.parents.root}/class/edit/${id}`}
+                        sx={{ textDecoration: 'none' }}
                       >
                         <TableCell padding="checkbox">
-                          <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, name)} />
+                          {/* <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, id)} /> */}
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Box
@@ -231,28 +234,35 @@ export default function EcommerceProductList() {
                               alignItems: 'center'
                             }}
                           >
-                            <ThumbImgStyle alt={name} src={cover} />
+                            {/* <ThumbImgStyle alt={name} src={cover} /> */}
                             <Typography variant="subtitle2" noWrap>
-                              {name}
+                            {parentName}
                             </Typography>
                           </Box>
                         </TableCell>
-                        <TableCell style={{ minWidth: 160 }}>{fDate(createdAt)}</TableCell>
+                        <TableCell style={{ minWidth: 160 }}>{(subjects.length === 0 )? 'Chưa chọn môn' : `${subjects[0].name}  ${subjects[0].level}`}</TableCell>
+                        <TableCell style={{ minWidth: 160 }}>{tutorLevel}</TableCell>
+                        <TableCell style={{ minWidth: 160 }}>{districtName}, {provinceName}</TableCell>
+                        {/* <TableCell style={{ minWidth: 160 }}>{provinceName}</TableCell> */}
                         <TableCell style={{ minWidth: 160 }}>
                           <Label
                             variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-                            color={
-                              (inventoryType === 'out_of_stock' && 'error') ||
-                              (inventoryType === 'low_stock' && 'warning') ||
-                              'success'
-                            }
+                            // color={
+                            //   (inventoryType === 'out_of_stock' && 'error') ||
+                            //   (inventoryType === 'low_stock' && 'warning') ||
+                            //   'success'
+                            // }
+                            color={(status === 1) ? 'success' : 'error'}
                           >
-                            {sentenceCase(inventoryType)}
+                            {(status === 1) ? 'started' : ''}
+                            {(status === 2) ? 'ended' : ''}
+                            {(status === 3) ? 'paid' : ''}
+                            {(status === 4) ? 'overdue' : ''}
+                            {(status === 0) ? 'default' : ''}
                           </Label>
                         </TableCell>
-                        <TableCell align="right">{fCurrency(price)}</TableCell>
                         <TableCell align="right">
-                          <ProductMoreMenu onDelete={() => handleDeleteProduct(id)} productName={name} />
+                          {/* <ProductMoreMenu onDelete={() => handleDeleteProduct(id)} productName={id} /> */}
                         </TableCell>
                       </TableRow>
                     );

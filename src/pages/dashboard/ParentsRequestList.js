@@ -45,10 +45,10 @@ import {
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'parent', label: 'Parents', alignRight: false },
-  { id: 'address', label: 'Address', alignRight: false },
-  { id: 'dateCreate', label: 'Create at', alignRight: false },
+  { id: 'parentFulName', label: 'Parents', alignRight: false },
+  { id: 'subjects', label: 'Subjects', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
+  { id: 'dateCreate', label: 'Create at', alignRight: false },
   { id: '' }
 ];
 
@@ -202,14 +202,14 @@ export default function EcommerceProductList() {
                   rowCount={products.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
-                  // onSelectAllClick={handleSelectAllClick}
+                // onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {filteredProducts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, parent, address, dateCreate, status } = row;
+                    const { id, parentFulName, status, dateCreate, subjects } = row;
 
                     const isItemSelected = selected.indexOf(id) !== -1;
-
+                    
                     return (
                       <TableRow
                         hover
@@ -220,7 +220,7 @@ export default function EcommerceProductList() {
                         // aria-checked={isItemSelected}
                         component={RouterLink}
                         to={`${PATH_DASHBOARD.parents.root}/request/edit/${id}`}
-                        sx={{textDecoration: 'none'}}
+                        sx={{ textDecoration: 'none' }}
                       >
                         <TableCell padding="checkbox">
                           {/* <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, parent.fullname)} /> */}
@@ -235,28 +235,34 @@ export default function EcommerceProductList() {
                           >
                             {/* <ThumbImgStyle alt={name} src={cover} /> */}
                             <Typography variant="subtitle2" noWrap>
-                              {(parent == null) ? 'parent' : parent.fullname}
+                              {parentFulName}
                             </Typography>
                           </Box>
                         </TableCell>
-                        <TableCell style={{ minWidth: 160 }}>{address}</TableCell>
-                        <TableCell style={{ minWidth: 160 }}>{dateCreate}</TableCell>
+                        <TableCell style={{ minWidth: 160 }}>
+                          {(subjects.length === 0 )? 'Chưa chọn môn' : `${subjects[0].name}  ${subjects[0].level}`}
+                        </TableCell>
                         <TableCell style={{ minWidth: 160 }}>
                           <Label
                             variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-                          // color={
-                          //   (inventoryType === 'out_of_stock' && 'error') ||
-                          //   (inventoryType === 'low_stock' && 'warning') ||
-                          //   'success'
-                          // }
+                            // color={
+                            //   (inventoryType === 'out_of_stock' && 'error') ||
+                            //   (inventoryType === 'low_stock' && 'warning') ||
+                            //   'success'
+                            // }
+                            color={(status === 1) ? 'success' : 'error'}
                           >
-                            {status}
+                            {(status === 1) ? 'accept' : ''}
+                            {(status === 2) ? 'reject' : ''}
+                            {(status === 0) ? 'default' : ''}
                           </Label>
                         </TableCell>
+                        <TableCell style={{ minWidth: 160 }}>{(dateCreate == null) ? '' : dateCreate}</TableCell>
+                        <TableCell> </TableCell>
                         {/* <TableCell align="right">{fCurrency(price)}</TableCell> */}
-                        <TableCell align="right">
-                          {/* <ProductMoreMenu onDelete={() => handleDeleteProduct(id)} productName={id} /> */}
-                        </TableCell>
+                        {/* <TableCell align="right">
+                          <ProductMoreMenu onDelete={() => handleDeleteProduct(id)} productName={id} />
+                        </TableCell> */}
                       </TableRow>
                     );
                   })}

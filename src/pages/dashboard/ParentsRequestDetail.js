@@ -23,7 +23,7 @@ export default function EcommerceProductCreate() {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { name } = useParams();
-  const { products } = useSelector((state) => state.product);
+  const { product } = useSelector((state) => state.product);
   const isEdit = pathname.includes('edit');
   const parentRequestID = pathname.split('/').pop().trim();
   // const currentProduct = products.find((product) => paramCase(product.name) === name);
@@ -41,14 +41,14 @@ export default function EcommerceProductCreate() {
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
             {
-              name: 'Parents',
-              href: PATH_DASHBOARD.parents.list
+              name: 'Requests',
+              href: PATH_DASHBOARD.parents.request
             },
             { name: 'Request detail' }
           ]}
         />
 
-        <ParentsRequestForm isEdit={isEdit} currentProduct={products} />
+        <ParentsRequestForm isEdit={isEdit} currentProduct={product} />
       </Container>
     </Page>
   );

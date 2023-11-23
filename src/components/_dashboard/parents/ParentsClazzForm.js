@@ -30,7 +30,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import moment from 'moment/moment';
 import { useDispatch } from 'react-redux';
-import { createClazz, setParentsRequest } from '../../../redux/slices/product';
+import { createClazz, setParentsRequest, updateStatusParentsClass } from '../../../redux/slices/product';
 // utils
 // import fakeRequest from '../../../utils/fakeRequest';
 // routes
@@ -77,12 +77,12 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-ParentsRequestForm.propTypes = {
+ParentsClazzForm.propTypes = {
   isEdit: PropTypes.bool,
   currentProduct: PropTypes.object
 };
 
-export default function ParentsRequestForm({ isEdit, currentProduct }) {
+export default function ParentsClazzForm({ isEdit, currentProduct }) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -103,20 +103,13 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
     enableReinitialize: true,
     initialValues: {
       id: currentProduct?.id || '',
-      parentId: currentProduct?.parent?.id || '',
-      fullname: currentProduct?.parentName || '',
-      email: currentProduct?.email || '',
+      name: currentProduct?.parentName || '',
       phone: currentProduct?.phone || '',
       address: currentProduct?.address || '',
-      slot: currentProduct?.slots || '',
-      slotLength: currentProduct?.slotsLength || '',
-      tuition: currentProduct?.tuition || '',
-      status: currentProduct?.status || '0',
-      reject: currentProduct?.rejectReason || '',
-      managerId: currentProduct?.manager?.id || '',
-      dateStart: currentProduct?.dateStart || '',
+      districtName: currentProduct?.districtName || '',
+      provinceName: currentProduct?.provinceName || '',
+      status: currentProduct?.status || 0,
       subjects: currentProduct?.subjects || [],
-      // dateEnd: currentProduct?.dateEnd || ''
       // name: currentProduct?.name || '',
       // description: currentProduct?.description || '',
       // images: currentProduct?.images || [],
@@ -135,22 +128,18 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
       try {
         // await fakeRequest(500);
         console.log(values.status);
-        // if status = 1
-        if (values.status === '1') {
-          console.log('creating class');
-          dispatch(setParentsRequest(values));
-          dispatch(createClazz(values));
-        }
-        else
-        {
-          console.log('update class');
-          dispatch(setParentsRequest(values));
-        }
+        
+        // set status class
+        dispatch(updateStatusParentsClass(values));
+
+        // create order
+        // dispatch();
         // console.log("Update data", values);
+
         resetForm();
         setSubmitting(false);
         enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
-        // navigate(PATH_DASHBOARD.parents.request);
+        // navigate(PATH_DASHBOARD.parents.class);
       } catch (error) {
         console.error(error);
         setSubmitting(false);
@@ -219,30 +208,19 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                   InputProps={{
                     readOnly: true,
                   }}
-                  label="Email"
-                  {...getFieldProps('email')}
+                  label="Address"
+                  {...getFieldProps('address')}
                   error={Boolean(touched.parent && errors.parent)}
                   helperText={touched.parent && errors.parent}
                 />
 
                 <TextField
                   fullWidth
-                  label="Subject"
+                  label="District"
                   InputProps={{
                     readOnly: true,
                   }}
-                  {...getFieldProps('subjects')}
-                />
-
-                <TextField
-                  fullWidth
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  label="Slot"
-                  {...getFieldProps('slot')}
-                  error={Boolean(touched.parent && errors.parent)}
-                  helperText={touched.parent && errors.parent}
+                  {...getFieldProps('districtName')}
                 />
 
                 <TextField
@@ -250,10 +228,8 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                   InputProps={{
                     readOnly: true,
                   }}
-                  label="Slot length"
-                  {...getFieldProps('slotLength')}
-                  error={Boolean(touched.parent && errors.parent)}
-                  helperText={touched.parent && errors.parent}
+                  label="Province"
+                  {...getFieldProps('provinceName')}
                 />
 
                 <TextField
@@ -261,10 +237,8 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                   InputProps={{
                     readOnly: true,
                   }}
-                  label="Tuition"
-                  {...getFieldProps('tuition')}
-                  error={Boolean(touched.parent && errors.parent)}
-                  helperText={touched.parent && errors.parent}
+                  label="Status"
+                {...getFieldProps('status')}
                 />
 
                 <div>
@@ -386,20 +360,20 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
 
           <Grid item xs={12} md={4}>
             <Stack spacing={3}>
-              <Card sx={{ p: 3 }}>
-                {/* <FormControlLabel
+              {/* <Card sx={{ p: 3 }}>
+                <FormControlLabel
                   control={<Switch {...getFieldProps('inStock')} checked={values.inStock} />}
                   label="In stock"
                   sx={{ mb: 2 }}
-                /> */}
+                />
 
                 <Stack spacing={3}>
                   <LabelStyle>Editable</LabelStyle>
-                  {/* <TextField fullWidth label="Slot" {...getFieldProps('slot')} />
+                  <TextField fullWidth label="Slot" {...getFieldProps('slot')} />
                   <TextField fullWidth label="Slot length" {...getFieldProps('slotLength')} />
                   <TextField fullWidth label="Tuition" {...getFieldProps('tuition')} />
                   <TextField fullWidth label="Status" {...getFieldProps('status')} />
-                  <TextField fullWidth label="Reject reason" {...getFieldProps('reject')} /> */}
+                  <TextField fullWidth label="Reject reason" {...getFieldProps('reject')} />
                   <div>
                     <TextField
                       fullWidth
@@ -417,7 +391,7 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                     </RadioGroup>
                   </div>
 
-                  {/* <FormControl fullWidth>
+                  <FormControl fullWidth>
                     <InputLabel>Status</InputLabel>
                     <Select
                       label="Status"
@@ -432,7 +406,7 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                         </option>
                       ))}
                     </Select>
-                  </FormControl> */}
+                  </FormControl>
 
                   <TextField
                     fullWidth
@@ -442,7 +416,7 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                     helperText={touched.parent && errors.parent}
                   />
 
-                  {/* <Autocomplete
+                  <Autocomplete
                     multiple
                     freeSolo
                     value={values.tags}
@@ -456,13 +430,13 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                       ))
                     }
                     renderInput={(params) => <TextField label="Tags" {...params} />}
-                  /> */}
+                  />
                 </Stack>
-              </Card>
+              </Card> */}
 
-              <Card sx={{ p: 3 }}>
+              {/* <Card sx={{ p: 3 }}>
                 <Stack spacing={3}>
-                  {/* <TextField
+                  <TextField
                     fullWidth
                     placeholder="dd-MM-yyyy"
                     label="Start date"
@@ -484,7 +458,7 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                     // }}
                     error={Boolean(touched.dateEnd && errors.dateEnd)}
                     helperText={touched.dateEnd && errors.dateEnd}
-                  /> */}
+                  />
 
                   <DatePicker
                     // disabled={!isAdmin}
@@ -520,7 +494,7 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                       helperText={touched.dateStart && errors.dateStart} />}
                   />
 
-                  {/* <TextField
+                  <TextField
                     fullWidth
                     placeholder="dd-MM-yyyy"
                     label="Create date"
@@ -530,9 +504,9 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                     }}
                     error={Boolean(touched.price && errors.price)}
                     helperText={touched.price && errors.price}
-                  /> */}
+                  />
 
-                  {/* <TextField
+                  <TextField
                     fullWidth
                     placeholder="dd-MM-yyyy"
                     label="Modified date"
@@ -542,12 +516,12 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                     }}
                     error={Boolean(touched.price && errors.price)}
                     helperText={touched.price && errors.price}
-                  /> */}
+                  />
 
-                  {/* <Select label="Status" native {...getFieldProps('')} value={values.category} fullWidth> */}
+                  <Select label="Status" native {...getFieldProps('')} value={values.category} fullWidth>
 
 
-                  {/* {CATEGORY_OPTION.map((category) => (
+                  {CATEGORY_OPTION.map((category) => (
                     <optgroup key={category.group} label={category.group}>
                       {category.classify.map((classify) => (
                         <option key={classify} value={classify}>
@@ -555,12 +529,12 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                         </option>
                       ))}
                     </optgroup>
-                  ))} */}
+                  ))}
 
 
-                  {/* </Select> */}
+                  </Select>
 
-                  {/* <TextField
+                  <TextField
                     fullWidth
                     placeholder="0.00"
                     label="Sale Price"
@@ -569,19 +543,25 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                       startAdornment: <InputAdornment position="start">$</InputAdornment>,
                       type: 'number'
                     }}
-                  /> */}
+                  />
                 </Stack>
 
-                {/* <FormControlLabel
+                <FormControlLabel
                   control={<Switch {...getFieldProps('taxes')} checked={values.taxes} />}
                   label="Price includes taxes"
                   sx={{ mt: 2 }}
-                /> */}
-              </Card>
+                />
+              </Card> */}
 
-              <LoadingButton type="submit" fullWidth variant="contained" size="large" loading={isSubmitting}>
-                {!isEdit ? 'Create Product' : 'Save Changes'}
-              </LoadingButton>
+              {(values.status === 2) ?
+                <LoadingButton type="submit" fullWidth variant="contained" size="large" loading={isSubmitting} >
+                  {!isEdit ? 'Create Product' : 'End class'}
+                </LoadingButton>
+                :
+                <LoadingButton type="submit" fullWidth variant="contained" size="large" loading={isSubmitting} disabled>
+                  {!isEdit ? 'Create Product' : 'End class'}
+                </LoadingButton>
+              }
             </Stack>
           </Grid>
         </Grid>

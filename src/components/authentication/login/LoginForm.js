@@ -19,10 +19,13 @@ import {
   FormControlLabel
 } from '@material-ui/core';
 import { LoadingButton } from '@material-ui/lab';
+import { useDispatch } from 'react-redux';
+import { postAuth } from '../../../redux/slices/user';
 // routes
 import { PATH_AUTH } from '../../../routes/paths';
 // hooks
 import useAuth from '../../../hooks/useAuth';
+
 import useIsMountedRef from '../../../hooks/useIsMountedRef';
 //
 import { MIconButton } from '../../@material-extend';
@@ -31,6 +34,7 @@ import { MIconButton } from '../../@material-extend';
 
 export default function LoginForm() {
   const { login } = useAuth();
+  const dispatch = useDispatch();
   const isMountedRef = useIsMountedRef();
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
   const [showPassword, setShowPassword] = useState(false);
@@ -50,6 +54,7 @@ export default function LoginForm() {
     onSubmit: async (values, { setErrors, setSubmitting, resetForm }) => {
       try {
         await login(values.email, values.password);
+        // dispatch(postAuth(values.email, values.password));
         enqueueSnackbar('Login success', {
           variant: 'success',
           action: (key) => (

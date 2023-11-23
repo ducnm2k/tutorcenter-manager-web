@@ -2,7 +2,7 @@ import { createContext, useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 // utils
 import axios from '../utils/axios';
-import { isValidToken, setSession,sign } from '../utils/jwt';
+import { isValidToken, setSession, sign } from '../utils/jwt';
 // import { verify, sign } from '../utils/jwt';
 // ----------------------------------------------------------------------
 
@@ -73,20 +73,22 @@ function AuthProvider({ children }) {
           setSession(accessToken);
 
           // const response = await axios.get('/api/account/my-account');
-          const user ={
-            id: '8864c717-587d-472a-929a-8e5f298024da-0',
-            displayName: 'Jaydon Frankie',
+          const authProfile = await axios.get('/api/user/authProfile');
+          const dataUser = authProfile.data.data;
+          const user = {
+            id: dataUser.id,
+            displayName: dataUser.fullname,
             email: 'demo@minimals.cc',
-            password: 'demo1234',
-            photoURL: '/static/mock-images/avatars/avatar_default.jpg',
-            phoneNumber: '+40 777666555',
-            country: 'United States',
-            address: '90210 Broadway Blvd',
-            state: 'California',
-            city: 'San Francisco',
-            zipCode: '94116',
-            about: 'Praesent turpis. Phasellus viverra nulla ut metus varius laoreet. Phasellus tempus.',
-            role: 'admin',
+            // password: 'demo1234',
+            // photoURL: '/static/mock-images/avatars/avatar_default.jpg',
+            // phoneNumber: '+40 777666555',
+            // country: 'United States',
+            // address: '90210 Broadway Blvd',
+            // state: 'California',
+            // city: 'San Francisco',
+            // zipCode: '94116',
+            // about: 'Praesent turpis. Phasellus viverra nulla ut metus varius laoreet. Phasellus tempus.',
+            role: dataUser.role,
             isPublic: true
           }
 
@@ -122,34 +124,39 @@ function AuthProvider({ children }) {
   }, []);
 
   const login = async (email, password) => {
-    // const response = await axios.post('/api/account/login', {
-    //   email,
-    //   password
-    // });
+    const response = await axios.post('/api/auth/authenticate', {
+      email,
+      password
+    });
     // const { accessToken, user } = response.data;
+    const accessToken = response.data.data.access_token;
+    const refreshToken = response.data.data.refresh_token;
+    setSession(accessToken, refreshToken);
 
-    const user ={
-      id: '8864c717-587d-472a-929a-8e5f298024da-0',
-      displayName: 'Jaydon Frankie',
-      email: 'demo@minimals.cc',
-      password: '1',
-      photoURL: '/static/mock-images/avatars/avatar_default.jpg',
-      phoneNumber: '+40 777666555',
-      country: 'United States',
-      address: '90210 Broadway Blvd',
-      state: 'California',
-      city: 'San Francisco',
-      zipCode: '94116',
-      about: 'Praesent turpis. Phasellus viverra nulla ut metus varius laoreet. Phasellus tempus.',
-      role: 'manager',
+    const authProfile = await axios.get('/api/user/authProfile');
+    const dataUser = authProfile.data.data;
+    const user = {
+      id: dataUser.id,
+      displayName: dataUser.fullname,
+      email,
+      // password: '1',
+      // photoURL: '/static/mock-images/avatars/avatar_default.jpg',
+      // phoneNumber: '+40 777666555',
+      // country: 'United States',
+      // address: '90210 Broadway Blvd',
+      // state: 'California',
+      // city: 'San Francisco',
+      // zipCode: '94116',
+      // about: 'Praesent turpis. Phasellus viverra nulla ut metus varius laoreet. Phasellus tempus.',
+      role: dataUser.role,
       isPublic: true
     }
     const JWT_SECRET = 'minimal-secret-key';
     const JWT_EXPIRES_IN = '5 days';
-    const accessToken=sign({ userId: user.id }, JWT_SECRET, {
-      expiresIn: JWT_EXPIRES_IN
-    });
-    setSession(accessToken);
+    // const accessToken=sign({ userId: user.id }, JWT_SECRET, {
+    //   expiresIn: JWT_EXPIRES_IN
+    // });
+    // setSession(accessToken);
     dispatch({
       type: 'LOGIN',
       payload: {
@@ -181,9 +188,9 @@ function AuthProvider({ children }) {
     dispatch({ type: 'LOGOUT' });
   };
 
-  const resetPassword = () => {};
+  const resetPassword = () => { };
 
-  const updateProfile = () => {};
+  const updateProfile = () => { };
 
   return (
     <AuthContext.Provider

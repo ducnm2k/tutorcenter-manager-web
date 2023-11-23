@@ -39,10 +39,8 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../../components/_d
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'fullname', label: 'Name', alignRight: false },
-  { id: 'phone', label: 'Phone', alignRight: false },
+  { id: 'tutorName', label: 'Name', alignRight: false },
   { id: 'email', label: 'Email', alignRight: false },
-  { id: 'district', label: 'Location', alignRight: false },
   { id: 'enabled', label: 'Status', alignRight: false },
   { id: 'deleted', label: 'Deleted', alignRight: false },
   { id: '' }
@@ -187,7 +185,7 @@ export default function UserList() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, fullname, phone, email, district, province, enabled, deleted } = row;
+                    const { id, fullname, email, enabled, deleted } = row;
                     const isItemSelected = selected.indexOf(fullname) !== -1;
 
                     return (
@@ -200,7 +198,7 @@ export default function UserList() {
                         aria-checked={isItemSelected}
                       >
                         <TableCell padding="checkbox">
-                          <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, fullname)} />
+                          {/* <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, fullname)} /> */}
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
@@ -210,9 +208,9 @@ export default function UserList() {
                             </Typography>
                           </Stack>
                         </TableCell>
-                        <TableCell align="left">{phone}</TableCell>
+                        {/* <TableCell align="left">{phone}</TableCell> */}
                         <TableCell align="left">{email}</TableCell>
-                        <TableCell align="left">{district}, {province}</TableCell>
+                        {/* <TableCell align="left">{district}, {province}</TableCell> */}
                         {/* <TableCell align="left">{deleted ? 'Yes' : 'No'}</TableCell> */}
                         <TableCell align="left">
                           <Label
@@ -232,7 +230,7 @@ export default function UserList() {
                         </TableCell>
                         {/* <TableCell align="left">{enabled ? 'Yes' : 'No'}</TableCell> */}
                         <TableCell align="right">
-                          <UserMoreMenu onDelete={() => handleDeleteUser(id)} userName={fullname} />
+                          {/* <UserMoreMenu onDelete={() => handleDeleteUser(id)} userName={fullname} /> */}
                         </TableCell>
                       </TableRow>
                     );

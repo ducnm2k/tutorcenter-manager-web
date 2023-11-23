@@ -54,6 +54,12 @@ const slice = createSlice({
       state.users = action.payload;
     },
 
+    // GET USERS
+    loginSuccess(state, action) {
+      state.isLoading = false;
+      state.users = action.payload;
+    },
+
     // DELETE USERS
     deleteUser(state, action) {
       const deleteUser = filter(state.userList, (user) => user.id !== action.payload);
@@ -225,7 +231,7 @@ export function getParentsList() {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.get('/api/parent');
-      // console.log('response', response);
+      console.log('response', response);
       dispatch(slice.actions.getUserListSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -240,7 +246,7 @@ export function getTutorList() {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.get('/api/tutor');
-      // console.log('response', response);
+      console.log('response', response);
       dispatch(slice.actions.getUserListSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -312,6 +318,44 @@ export function getUsers() {
     try {
       const response = await axios.get('/api/user/all');
       dispatch(slice.actions.getUsersSuccess(response.data.users));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function postAuth(email, password) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      // const response = await axios({
+      //   method: 'post',
+      //   url: '/api/auth/authenticate',
+      //   data: {
+      //     "email": email,
+      //     "password": password
+      //   }
+      // });
+      // console.log('access_token', response.data.access_token);
+      // dispatch(slice.actions.loginSuccess(response.data));
+      const resEmailExist = await axios({
+        method:'GET',
+        url: `/api/auth/emailExist/${email}`,
+      });
+      if(resEmailExist.data === true){
+        const resAuthen = await axios({
+          method: 'post',
+          url: '/api/auth/authenticate',
+          data: {
+            "email": email,
+            "password": password
+          }
+        });
+        console.log('access_token', resAuthen.data.access_token);
+        dispatch(slice.actions.loginSuccess(resAuthen.data));
+      }
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

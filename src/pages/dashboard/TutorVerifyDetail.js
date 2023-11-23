@@ -5,7 +5,7 @@ import { useParams, useLocation } from 'react-router-dom';
 import { Container } from '@material-ui/core';
 // redux
 import { useDispatch, useSelector } from '../../redux/store';
-import { getProducts } from '../../redux/slices/product';
+import { getProducts, getRequestVerification } from '../../redux/slices/product';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // hooks
@@ -22,12 +22,14 @@ export default function EcommerceProductCreate() {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
   const { name } = useParams();
-  const { products } = useSelector((state) => state.product);
+  const { product } = useSelector((state) => state.product);
   const isEdit = pathname.includes('edit');
-  const currentProduct = products.find((product) => paramCase(product.name) === name);
+  const tutorRequestID = pathname.split('/').pop().trim();
+  // console.log(tutorRequestID);
+  // const currentProduct = products.find((product) => paramCase(product.name) === name);
 
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(getRequestVerification(tutorRequestID));
   }, [dispatch]);
 
   return (
@@ -45,7 +47,7 @@ export default function EcommerceProductCreate() {
           ]}
         />
 
-        <ProductNewForm isEdit={isEdit} currentProduct={currentProduct} />
+        <ProductNewForm isEdit={isEdit} currentProduct={product} />
       </Container>
     </Page>
   );

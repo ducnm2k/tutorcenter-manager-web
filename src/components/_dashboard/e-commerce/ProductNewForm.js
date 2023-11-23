@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { useSnackbar } from 'notistack5';
 import { useNavigate } from 'react-router-dom';
 import { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import { Form, FormikProvider, useFormik } from 'formik';
 // material
 import { styled } from '@material-ui/core/styles';
@@ -25,6 +26,7 @@ import {
   FormHelperText,
   FormControlLabel
 } from '@material-ui/core';
+import { updateStatusRequestVerification } from '../../../redux/slices/product';
 // utils
 import fakeRequest from '../../../utils/fakeRequest';
 // routes
@@ -74,39 +76,57 @@ ProductNewForm.propTypes = {
 
 export default function ProductNewForm({ isEdit, currentProduct }) {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
   const NewProductSchema = Yup.object().shape({
-    name: Yup.string().required('Name is required'),
-    description: Yup.string().required('Description is required'),
-    images: Yup.array().min(1, 'Images is required'),
-    price: Yup.number().required('Price is required')
+    // name: Yup.string().required('Name is required'),
+    // description: Yup.string().required('Description is required'),
+    // images: Yup.array().min(1, 'Images is required'),
+    // price: Yup.number().required('Price is required')
   });
 
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      name: currentProduct?.name || '',
-      description: currentProduct?.description || '',
-      images: currentProduct?.images || [],
-      code: currentProduct?.code || '',
-      sku: currentProduct?.sku || '',
-      price: currentProduct?.price || '',
-      priceSale: currentProduct?.priceSale || '',
-      tags: currentProduct?.tags || [TAGS_OPTION[0]],
-      inStock: Boolean(currentProduct?.inventoryType !== 'out_of_stock'),
-      taxes: true,
-      gender: currentProduct?.gender || GENDER_OPTION[2],
-      category: currentProduct?.category || CATEGORY_OPTION[0].classify[1]
+      id: currentProduct?.id || '',
+      tutorId: currentProduct?.tutorId || '',
+      phone: currentProduct?.phone || '',
+      idNumber: currentProduct?.idNumber || '',
+      imgCertificate: currentProduct?.imgCertificate || '',
+      imgId: currentProduct?.imgId || '',
+      university: currentProduct?.university || '',
+      major: currentProduct?.major || '',
+      subjects: currentProduct?.subjects || '',
+      tutorName: currentProduct?.tutorName || '',
+      managerId: currentProduct?.managerId || '',
+      status: currentProduct?.status || '',
+      rejectReason: currentProduct?.rejectReason || '',
+      dateCreate: currentProduct?.dateCreate || '',
+
+      // name: currentProduct?.name || '',
+      // description: currentProduct?.description || '',
+      // images: currentProduct?.images || [],
+      // code: currentProduct?.code || '',
+      // sku: currentProduct?.sku || '',
+      // price: currentProduct?.price || '',
+      // priceSale: currentProduct?.priceSale || '',
+      // tags: currentProduct?.tags || [TAGS_OPTION[0]],
+      // inStock: Boolean(currentProduct?.inventoryType !== 'out_of_stock'),
+      // taxes: true,
+      // gender: currentProduct?.gender || GENDER_OPTION[2],
+      // category: currentProduct?.category || CATEGORY_OPTION[0].classify[1]
     },
     validationSchema: NewProductSchema,
     onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
       try {
-        await fakeRequest(500);
+        // await fakeRequest(500);
+        // console.log(values);
+        dispatch(updateStatusRequestVerification(values));
         resetForm();
         setSubmitting(false);
         enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
-        navigate(PATH_DASHBOARD.eCommerce.list);
+        // navigate(PATH_DASHBOARD.tutor.verification);
       } catch (error) {
         console.error(error);
         setSubmitting(false);
@@ -147,15 +167,89 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
           <Grid item xs={12} md={8}>
             <Card sx={{ p: 3 }}>
               <Stack spacing={3}>
+                <LabelStyle>Un-editable</LabelStyle>
                 <TextField
                   fullWidth
-                  label="Product Name"
-                  {...getFieldProps('name')}
-                  error={Boolean(touched.name && errors.name)}
-                  helperText={touched.name && errors.name}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  label="Tutor Id"
+                  {...getFieldProps('tutorId')}
                 />
 
-                <div>
+                <TextField
+                  fullWidth
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  label="Tutor Name"
+                  {...getFieldProps('tutorName')}
+                />
+
+                <TextField
+                  fullWidth
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  label="Phone"
+                  {...getFieldProps('phone')}
+                />
+
+                <TextField
+                  fullWidth
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  label="ID Number"
+                  {...getFieldProps('idNumber')}
+                />
+
+                <TextField
+                  fullWidth
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  label="University"
+                  {...getFieldProps('university')}
+                />
+
+                <TextField
+                  fullWidth
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  label="Major"
+                  {...getFieldProps('major')}
+                />
+
+                <TextField
+                  fullWidth
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  label="Certificate"
+                  {...getFieldProps('imgCertificate')}
+                />
+
+                <TextField
+                  fullWidth
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  label="IdCard"
+                  {...getFieldProps('imgId')}
+                />
+
+                <TextField
+                  fullWidth
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  label="Subjects"
+                  {...getFieldProps('subjects')}
+                />
+
+                {/* <div>
                   <LabelStyle>Description</LabelStyle>
                   <QuillEditor
                     simple
@@ -169,9 +263,9 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
                       {touched.description && errors.description}
                     </FormHelperText>
                   )}
-                </div>
+                </div> */}
 
-                <div>
+                {/* <div>
                   <LabelStyle>Add Images</LabelStyle>
                   <UploadMultiFile
                     showPreview
@@ -188,7 +282,7 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
                       {touched.images && errors.images}
                     </FormHelperText>
                   )}
-                </div>
+                </div> */}
               </Stack>
             </Card>
           </Grid>
@@ -196,13 +290,38 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
           <Grid item xs={12} md={4}>
             <Stack spacing={3}>
               <Card sx={{ p: 3 }}>
-                <FormControlLabel
+                <LabelStyle>Editable</LabelStyle>
+
+                <div>
+                  <TextField
+                    fullWidth
+                    label="Status"
+                    {...getFieldProps('status')}
+                    error={Boolean(touched.status && errors.status)}
+                    helperText={touched.status && errors.status}
+                  />
+                  <RadioGroup {...getFieldProps('status')} row>
+                    <Stack spacing={1} direction="row">
+                      <FormControlLabel value="0" control={<Radio />} label="Default" />
+                      <FormControlLabel value="1" control={<Radio />} label="Accept" />
+                      <FormControlLabel value="2" control={<Radio />} label="Reject" />
+                    </Stack>
+                  </RadioGroup>
+                </div>
+
+                <TextField
+                  fullWidth
+                  label="Reject reason"
+                  {...getFieldProps('rejectReason')}
+                />
+
+                {/* <FormControlLabel
                   control={<Switch {...getFieldProps('inStock')} checked={values.inStock} />}
                   label="In stock"
                   sx={{ mb: 2 }}
-                />
+                /> */}
 
-                <Stack spacing={3}>
+                {/* <Stack spacing={3}>
                   <TextField fullWidth label="Product Code" {...getFieldProps('code')} />
                   <TextField fullWidth label="Product SKU" {...getFieldProps('sku')} />
 
@@ -246,10 +365,10 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
                     }
                     renderInput={(params) => <TextField label="Tags" {...params} />}
                   />
-                </Stack>
+                </Stack> */}
               </Card>
 
-              <Card sx={{ p: 3 }}>
+              {/* <Card sx={{ p: 3 }}>
                 <Stack spacing={3}>
                   <TextField
                     fullWidth
@@ -281,7 +400,7 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
                   label="Price includes taxes"
                   sx={{ mt: 2 }}
                 />
-              </Card>
+              </Card> */}
 
               <LoadingButton type="submit" fullWidth variant="contained" size="large" loading={isSubmitting}>
                 {!isEdit ? 'Create Product' : 'Save Changes'}

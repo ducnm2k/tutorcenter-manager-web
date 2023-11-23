@@ -229,6 +229,22 @@ export function getProducts() {
 
 // ----------------------------------------------------------------------
 
+export function getParentClassList() {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      // const response = await axios.get('/api/products');
+      const response = await axios.get('/api/clazz');
+      console.log('response.data.data', response.data.data);
+      dispatch(slice.actions.getProductsSuccess(response.data.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
 export function getParentsRequestList() {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
@@ -267,8 +283,40 @@ export function getParentsRequest(id) {
     try {
       const url = `/api/request/${id}`;
       const response = await axios.get(url);
-      // console.log('response', response);
+      console.log('getParentsRequest', response);
+      dispatch(slice.actions.getProductSuccess(response.data.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function createClazz(data) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const url = `/api/clazz/create?requestId=${data.id}`;
+      const response = await axios.post(url);
+      console.log('create class ', response);
       dispatch(slice.actions.getProductsSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function getParentsClazz(id) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const url = `/api/clazz/${id}`;
+      const response = await axios.get(url);
+      console.log('getParentsClazz', response);
+      dispatch(slice.actions.getProductSuccess(response.data.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
@@ -281,9 +329,86 @@ export function setParentsRequest(data) {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      const url = `/request/update/${data.id}`;
-      const response = await axios.put(url, data);
-      // console.log('response', response);
+      const url = `/api/request/updateStatus?requestId=${data.id}&status=${data.status}&rejectReason=${data.reject}`;
+      const response = await axios.put(
+        url
+      );
+      console.log('updated request', response);
+      dispatch(slice.actions.getProductsSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function getTutorVerificationList() {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const userId = 3;
+      const response = await axios.get(`api/requestVerification/manager/${userId}`);
+      console.log('response.data.data', response.data.data);
+      dispatch(slice.actions.getProductsSuccess(response.data.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function getRequestVerification(id) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const url = `/api/requestVerification/${id}`;
+      // console.log(url);
+      const response = await axios.get(url);
+      // console.log('getRequestVerification', response.data.data);
+      dispatch(slice.actions.getProductSuccess(response.data.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function updateStatusRequestVerification(data) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const url = `/api/requestVerification/updateStatus`;
+      const d = {
+        "tutorId": data.tutorId,
+        "status": data.status,
+        "rejectReason": data.rejectReason,
+      };
+      console.log(url);
+      console.log(data);
+      const response = await axios.put(url,d);
+      console.log('updateStatusRequestVerification', response);
+      dispatch(slice.actions.getProductsSuccess(response.data.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+      console.log('updateStatusRequestVerification ', error);
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function updateStatusParentsClass(data) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const url = `/api/clazz/updateStatus?clazzId=${data.id}&status=3`;
+      const response = await axios.put(
+        url
+      );
+      console.log('updateStatusParentsClass ', response);
       dispatch(slice.actions.getProductsSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
