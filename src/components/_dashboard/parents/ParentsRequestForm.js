@@ -115,7 +115,8 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
       reject: currentProduct?.rejectReason || '',
       managerId: currentProduct?.manager?.id || '',
       dateStart: currentProduct?.dateStart || '',
-      subjects: currentProduct?.subjects || [],
+      subject: currentProduct?.subjects?.[0].name || [],
+      level: currentProduct?.subjects?.[0].level || [],
       // dateEnd: currentProduct?.dateEnd || ''
       // name: currentProduct?.name || '',
       // description: currentProduct?.description || '',
@@ -141,8 +142,7 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
           dispatch(setParentsRequest(values));
           dispatch(createClazz(values));
         }
-        else
-        {
+        else {
           console.log('update class');
           dispatch(setParentsRequest(values));
         }
@@ -150,7 +150,7 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
         resetForm();
         setSubmitting(false);
         enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
-        // navigate(PATH_DASHBOARD.parents.request);
+        navigate(PATH_DASHBOARD.parents.request);
       } catch (error) {
         console.error(error);
         setSubmitting(false);
@@ -231,7 +231,16 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                   InputProps={{
                     readOnly: true,
                   }}
-                  {...getFieldProps('subjects')}
+                  {...getFieldProps('subject')}
+                />
+
+                <TextField
+                  fullWidth
+                  label="Level"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  {...getFieldProps('level')}
                 />
 
                 <TextField
@@ -578,10 +587,17 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                   sx={{ mt: 2 }}
                 /> */}
               </Card>
+              {(values.status === 1)
+                ?
+                <LoadingButton type="submit" fullWidth variant="contained" size="large" loading={isSubmitting} disabled>
+                  {!isEdit ? 'Create Product' : 'Save Changes'}
+                </LoadingButton>
+                :
+                <LoadingButton type="submit" fullWidth variant="contained" size="large" loading={isSubmitting}>
+                  {!isEdit ? 'Create Product' : 'Save Changes'}
+                </LoadingButton>
+              }
 
-              <LoadingButton type="submit" fullWidth variant="contained" size="large" loading={isSubmitting}>
-                {!isEdit ? 'Create Product' : 'Save Changes'}
-              </LoadingButton>
             </Stack>
           </Grid>
         </Grid>

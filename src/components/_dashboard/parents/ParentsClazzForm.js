@@ -30,7 +30,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import moment from 'moment/moment';
 import { useDispatch } from 'react-redux';
-import { createClazz, setParentsRequest, updateStatusParentsClass } from '../../../redux/slices/product';
+import { createOrder, updateStatusParentsClass } from '../../../redux/slices/product';
 // utils
 // import fakeRequest from '../../../utils/fakeRequest';
 // routes
@@ -110,6 +110,11 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
       provinceName: currentProduct?.provinceName || '',
       status: currentProduct?.status || 0,
       subjects: currentProduct?.subjects || [],
+      tuition: currentProduct?.tuition || 0,
+      slots: currentProduct?.slots || 0,
+      attendances: currentProduct?.attendances || 0,
+      feedback: currentProduct?.feedback || '',
+      rating: currentProduct?.rating || 0,
       // name: currentProduct?.name || '',
       // description: currentProduct?.description || '',
       // images: currentProduct?.images || [],
@@ -128,18 +133,20 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
       try {
         // await fakeRequest(500);
         console.log(values.status);
-        
-        // set status class
-        dispatch(updateStatusParentsClass(values));
+        if (values.status === 2) {
+          // set status class
+          dispatch(updateStatusParentsClass(values));
+          console.log("Update data", values);
+          // create order
+          dispatch(createOrder(values));
+          console.log("create order", values);
 
-        // create order
-        // dispatch();
-        // console.log("Update data", values);
+          resetForm();
+          setSubmitting(false);
+          enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
+          navigate(PATH_DASHBOARD.parents.class);
+        }
 
-        resetForm();
-        setSubmitting(false);
-        enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
-        // navigate(PATH_DASHBOARD.parents.class);
       } catch (error) {
         console.error(error);
         setSubmitting(false);
@@ -187,7 +194,7 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
                     readOnly: true,
                   }}
                   label="Parent Name"
-                  {...getFieldProps('fullname')}
+                  {...getFieldProps('name')}
                   error={Boolean(touched.parent && errors.parent)}
                   helperText={touched.parent && errors.parent}
                 />
@@ -237,8 +244,26 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
                   InputProps={{
                     readOnly: true,
                   }}
-                  label="Status"
-                {...getFieldProps('status')}
+                  label="Tuition"
+                  {...getFieldProps('tuition')}
+                />
+
+                <TextField
+                  fullWidth
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  label="Rating"
+                  {...getFieldProps('rating')}
+                />
+
+                <TextField
+                  fullWidth
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  label="Feedback"
+                  {...getFieldProps('feedback')}
                 />
 
                 <div>
@@ -360,8 +385,8 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
 
           <Grid item xs={12} md={4}>
             <Stack spacing={3}>
-              {/* <Card sx={{ p: 3 }}>
-                <FormControlLabel
+              <Card sx={{ p: 3 }}>
+                {/* <FormControlLabel
                   control={<Switch {...getFieldProps('inStock')} checked={values.inStock} />}
                   label="In stock"
                   sx={{ mb: 2 }}
@@ -431,8 +456,18 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
                     }
                     renderInput={(params) => <TextField label="Tags" {...params} />}
                   />
-                </Stack>
-              </Card> */}
+                </Stack> */}
+                <InputLabel>
+                  Status: {(values.status === 0) ? 'Default' : ''}
+                  {(values.status === 1) ? 'Start' : ''}
+                  {(values.status === 2) ? 'End' : ''}
+                  {(values.status === 3) ? 'Paid' : ''}
+                  {(values.status === 4) ? 'Overdue' : ''}
+                </InputLabel>
+                <InputLabel>
+                  Attendances: {values.attendances} / {values.slots}
+                </InputLabel>
+              </Card>
 
               {/* <Card sx={{ p: 3 }}>
                 <Stack spacing={3}>

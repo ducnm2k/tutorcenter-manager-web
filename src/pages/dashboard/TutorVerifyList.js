@@ -87,7 +87,7 @@ function applySortFilter(array, comparator, query) {
   });
 
   if (query) {
-    return filter(array, (_product) => _product.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_product) => _product.tutorName.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
 
   return stabilizedThis.map((el) => el[0]);
@@ -175,7 +175,7 @@ export default function EcommerceProductList() {
               name: 'Tutor',
               href: PATH_DASHBOARD.tutor.list
             },
-            { name: 'Product List' }
+            { name: 'Verification Request List' }
           ]}
         // action={
         //   <Button

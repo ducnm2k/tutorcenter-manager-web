@@ -88,7 +88,7 @@ function applySortFilter(array, comparator, query) {
   });
 
   if (query) {
-    return filter(array, (_product) => _product.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_product) => _product.parentName.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
 
   return stabilizedThis.map((el) => el[0]);
@@ -252,7 +252,7 @@ export default function EcommerceProductList() {
                             //   (inventoryType === 'low_stock' && 'warning') ||
                             //   'success'
                             // }
-                            color={(status === 1) ? 'success' : 'error'}
+                            color={(status === 2) ? 'success' : 'error'}
                           >
                             {(status === 1) ? 'started' : ''}
                             {(status === 2) ? 'ended' : ''}

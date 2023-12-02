@@ -300,7 +300,7 @@ export function createClazz(data) {
       const url = `/api/clazz/create?requestId=${data.id}`;
       const response = await axios.post(url);
       console.log('create class ', response);
-      dispatch(slice.actions.getProductsSuccess(response.data));
+      dispatch(slice.actions.getProductSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
@@ -334,7 +334,7 @@ export function setParentsRequest(data) {
         url
       );
       console.log('updated request', response);
-      dispatch(slice.actions.getProductsSuccess(response.data));
+      dispatch(slice.actions.getProductSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }
@@ -386,11 +386,11 @@ export function updateStatusRequestVerification(data) {
         "status": data.status,
         "rejectReason": data.rejectReason,
       };
-      console.log(url);
-      console.log(data);
+      // console.log(url);
+      // console.log(data);
       const response = await axios.put(url,d);
       console.log('updateStatusRequestVerification', response);
-      dispatch(slice.actions.getProductsSuccess(response.data.data));
+      dispatch(slice.actions.getProductSuccess(response.data.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
       console.log('updateStatusRequestVerification ', error);
@@ -409,7 +409,28 @@ export function updateStatusParentsClass(data) {
         url
       );
       console.log('updateStatusParentsClass ', response);
-      dispatch(slice.actions.getProductsSuccess(response.data));
+      dispatch(slice.actions.getProductSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function createOrder(data) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const url = `/api/order/create`;
+      const d = {
+        "clazzId": data.id,
+        "amount": data.tuition,
+        "type": 2
+      };
+      const response = await axios.post(url, d);
+      console.log('createOrder ', response);
+      dispatch(slice.actions.getProductSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

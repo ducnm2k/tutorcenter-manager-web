@@ -24,7 +24,8 @@ import {
   Autocomplete,
   InputAdornment,
   FormHelperText,
-  FormControlLabel
+  FormControlLabel,
+  Box
 } from '@material-ui/core';
 import { updateStatusRequestVerification } from '../../../redux/slices/product';
 // utils
@@ -168,14 +169,14 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
             <Card sx={{ p: 3 }}>
               <Stack spacing={3}>
                 <LabelStyle>Un-editable</LabelStyle>
-                <TextField
+                {/* <TextField
                   fullWidth
                   InputProps={{
                     readOnly: true,
                   }}
                   label="Tutor Id"
                   {...getFieldProps('tutorId')}
-                />
+                /> */}
 
                 <TextField
                   fullWidth
@@ -222,32 +223,48 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
                   {...getFieldProps('major')}
                 />
 
-                <TextField
+                {/* <TextField
                   fullWidth
                   InputProps={{
                     readOnly: true,
                   }}
                   label="Certificate"
                   {...getFieldProps('imgCertificate')}
+                /> */}
+
+                <LabelStyle>Certificate</LabelStyle>
+                <Box
+                  fullWidth
+                  component="img"
+                  alt="Certificate image"
+                  src=''
                 />
 
-                <TextField
+                {/* <TextField
                   fullWidth
                   InputProps={{
                     readOnly: true,
                   }}
                   label="IdCard"
                   {...getFieldProps('imgId')}
+                /> */}
+
+                <LabelStyle>ID card</LabelStyle>
+                <Box
+                  fullWidth
+                  component="img"
+                  alt="ID card image"
+                  src=''
                 />
 
-                <TextField
+                {/* <TextField
                   fullWidth
                   InputProps={{
                     readOnly: true,
                   }}
                   label="Subjects"
                   {...getFieldProps('subjects')}
-                />
+                /> */}
 
                 {/* <div>
                   <LabelStyle>Description</LabelStyle>

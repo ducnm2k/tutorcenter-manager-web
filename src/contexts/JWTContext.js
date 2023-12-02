@@ -75,12 +75,13 @@ function AuthProvider({ children }) {
           // const response = await axios.get('/api/account/my-account');
           const authProfile = await axios.get('/api/user/authProfile');
           const dataUser = authProfile.data.data;
+          // console.log(dataUser);
           const user = {
             id: dataUser.id,
-            displayName: dataUser.fullname,
+            displayName: dataUser.fullName,
             email: 'demo@minimals.cc',
             // password: 'demo1234',
-            // photoURL: '/static/mock-images/avatars/avatar_default.jpg',
+            photoURL: '/static/mock-images/avatars/avatar_default.jpg',
             // phoneNumber: '+40 777666555',
             // country: 'United States',
             // address: '90210 Broadway Blvd',

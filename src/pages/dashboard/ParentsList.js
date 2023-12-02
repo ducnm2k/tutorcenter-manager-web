@@ -39,9 +39,10 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../../components/_d
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'fullname', label: 'Name', alignRight: false },
+  { id: 'fullName', label: 'Full name', alignRight: false },
+  { id: 'phone', label: 'Phone', alignRight: false },
   { id: 'email', label: 'Email', alignRight: false },
-  { id: 'enabled', label: 'Status', alignRight: false },
+  { id: 'provinceName', label: 'Lacation', alignRight: false },
   { id: '' }
 ];
 
@@ -71,7 +72,7 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user) => _user.fullName.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -84,7 +85,7 @@ export default function UserList() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
-  const [orderBy, setOrderBy] = useState('name');
+  const [orderBy, setOrderBy] = useState('fullName');
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
 
@@ -184,13 +185,13 @@ export default function UserList() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, fullname, email , enabled} = row;
-                    const isItemSelected = selected.indexOf(fullname) !== -1;
+                    const { fullName, email, phone, districtName, provinceName} = row;
+                    const isItemSelected = selected.indexOf(fullName) !== -1;
 
                     return (
                       <TableRow
                         hover
-                        key={id}
+                        key={fullName}
                         tabIndex={-1}
                         role="checkbox"
                         selected={isItemSelected}
@@ -203,21 +204,23 @@ export default function UserList() {
                           <Stack direction="row" alignItems="center" spacing={2}>
                             {/* <Avatar alt={fullname} src={avatarUrl} /> */}
                             <Typography variant="subtitle2" noWrap>
-                              {fullname}
+                              {fullName}
                             </Typography>
                           </Stack>
                         </TableCell>
                         {/* <TableCell align="left">{phone}</TableCell> */}
+                        <TableCell align="left">{phone}</TableCell>
                         <TableCell align="left">{email}</TableCell>
+                        <TableCell align="left">{districtName}, {provinceName}</TableCell>
                         {/* <TableCell align="left">{enabled ? 'Yes' : 'No'}</TableCell> */}
-                        <TableCell align="left">
+                        {/* <TableCell align="left">
                           <Label
                             variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
                             // color={enabled=== true ? 'banned' : 'success'}
                           >
-                            {enabled ? 'Yes' : 'No'}
+                            {status ? 'Yes' : 'No'}
                           </Label>
-                        </TableCell>
+                        </TableCell> */}
 
                         <TableCell align="right">
                           {/* <UserMoreMenu onDelete={() => handleDeleteUser(id)} userName={fullname} /> */}

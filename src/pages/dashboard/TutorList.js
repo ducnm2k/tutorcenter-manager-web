@@ -40,9 +40,9 @@ import { UserListHead, UserListToolbar, UserMoreMenu } from '../../components/_d
 
 const TABLE_HEAD = [
   { id: 'tutorName', label: 'Name', alignRight: false },
+  { id: 'phone', label: 'Phone', alignRight: false },
   { id: 'email', label: 'Email', alignRight: false },
-  { id: 'enabled', label: 'Status', alignRight: false },
-  { id: 'deleted', label: 'Deleted', alignRight: false },
+  { id: 'provinceName', label: 'Location', alignRight: false },
   { id: '' }
 ];
 
@@ -72,7 +72,7 @@ function applySortFilter(array, comparator, query) {
     return a[1] - b[1];
   });
   if (query) {
-    return filter(array, (_user) => _user.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_user) => _user.tutorName.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
   return stabilizedThis.map((el) => el[0]);
 }
@@ -185,8 +185,8 @@ export default function UserList() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, fullname, email, enabled, deleted } = row;
-                    const isItemSelected = selected.indexOf(fullname) !== -1;
+                    const { id, imgAvatar, tutorName, major, university, provinceName, districtName, email, phone } = row;
+                    const isItemSelected = selected.indexOf(tutorName) !== -1;
 
                     return (
                       <TableRow
@@ -202,32 +202,33 @@ export default function UserList() {
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            {/* <Avatar alt={name} src={avatarUrl} /> */}
+                            <Avatar alt={tutorName} src={imgAvatar} />
                             <Typography variant="subtitle2" noWrap>
-                              {fullname}
+                              {tutorName}
                             </Typography>
                           </Stack>
                         </TableCell>
                         {/* <TableCell align="left">{phone}</TableCell> */}
+                        <TableCell align="left">{phone}</TableCell>
                         <TableCell align="left">{email}</TableCell>
-                        {/* <TableCell align="left">{district}, {province}</TableCell> */}
+                        <TableCell align="left">{districtName}, {provinceName}</TableCell>
                         {/* <TableCell align="left">{deleted ? 'Yes' : 'No'}</TableCell> */}
-                        <TableCell align="left">
+                        {/* <TableCell align="left">
                           <Label
                             variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
                             // color={(enabled === 'banned' && 'error') || 'success'}
                           >
                             {enabled ? 'Yes' : 'No'}
                           </Label>
-                        </TableCell>
-                        <TableCell align="left">
+                        </TableCell> */}
+                        {/* <TableCell align="left">
                           <Label
                             variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
                             // color={(enabled === 'banned' && 'error') || 'success'}
                           >
                             {deleted ? 'Yes' : 'No'}
                           </Label>
-                        </TableCell>
+                        </TableCell> */}
                         {/* <TableCell align="left">{enabled ? 'Yes' : 'No'}</TableCell> */}
                         <TableCell align="right">
                           {/* <UserMoreMenu onDelete={() => handleDeleteUser(id)} userName={fullname} /> */}
