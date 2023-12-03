@@ -18,6 +18,9 @@ import {
   FormHelperText,
   FormControlLabel
 } from '@material-ui/core';
+import { useNavigate } from 'react-router';
+import { useDispatch } from 'react-redux';
+import { createBlog } from '../../../redux/slices/product';
 // utils
 import fakeRequest from '../../../utils/fakeRequest';
 //
@@ -25,6 +28,7 @@ import { QuillEditor } from '../../editor';
 import { UploadSingleFile } from '../../upload';
 //
 import BlogNewPostPreview from './BlogNewPostPreview';
+
 
 // ----------------------------------------------------------------------
 
@@ -55,6 +59,8 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
 export default function BlogNewPostForm() {
   const { enqueueSnackbar } = useSnackbar();
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleOpenPreview = () => {
     setOpen(true);
@@ -66,28 +72,34 @@ export default function BlogNewPostForm() {
 
   const NewBlogSchema = Yup.object().shape({
     title: Yup.string().required('Title is required'),
-    description: Yup.string().required('Description is required'),
-    content: Yup.string().min(1000).required('Content is required'),
-    cover: Yup.mixed().required('Cover is required')
+    category: Yup.string().required('Category is required'),
+    content: Yup.string().min(10).required('Content is required')
   });
 
   const formik = useFormik({
     initialValues: {
+      // title: '',
+      // description: '',
+      // content: '',
+      // cover: null,
+      // tags: ['Logan'],
+      // publish: true,
+      // comments: true,
+      // metaTitle: '',
+      // metaDescription: '',
+      // metaKeywords: ['Logan']
       title: '',
-      description: '',
       content: '',
-      cover: null,
-      tags: ['Logan'],
-      publish: true,
-      comments: true,
-      metaTitle: '',
-      metaDescription: '',
-      metaKeywords: ['Logan']
+      category: '',
+      thumbnail: '',
     },
     validationSchema: NewBlogSchema,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
       try {
-        await fakeRequest(500);
+        // await fakeRequest(500);
+        console.log('Post');
+        // call api create
+        dispatch(createBlog(values));
         resetForm();
         handleClosePreview();
         setSubmitting(false);
@@ -135,13 +147,13 @@ export default function BlogNewPostForm() {
                     multiline
                     minRows={3}
                     maxRows={5}
-                    label="Description"
-                    {...getFieldProps('description')}
-                    error={Boolean(touched.description && errors.description)}
-                    helperText={touched.description && errors.description}
+                    label="Content"
+                    {...getFieldProps('content')}
+                    error={Boolean(touched.content && errors.content)}
+                    helperText={touched.content && errors.content}
                   />
 
-                  <div>
+                  {/* <div>
                     <LabelStyle>Content</LabelStyle>
                     <QuillEditor
                       id="post-content"
@@ -154,22 +166,22 @@ export default function BlogNewPostForm() {
                         {touched.content && errors.content}
                       </FormHelperText>
                     )}
-                  </div>
+                  </div> */}
 
                   <div>
-                    <LabelStyle>Cover</LabelStyle>
+                    <LabelStyle>Thumbnail</LabelStyle>
                     <UploadSingleFile
                       maxSize={3145728}
                       accept="image/*"
-                      file={values.cover}
+                      file={values.thumbnail}
                       onDrop={handleDrop}
-                      error={Boolean(touched.cover && errors.cover)}
+                      // error={Boolean(touched.cover && errors.cover)}
                     />
-                    {touched.cover && errors.cover && (
+                    {/* {touched.cover && errors.cover && (
                       <FormHelperText error sx={{ px: 2 }}>
                         {touched.cover && errors.cover}
                       </FormHelperText>
-                    )}
+                    )} */}
                   </div>
                 </Stack>
               </Card>
@@ -179,22 +191,29 @@ export default function BlogNewPostForm() {
               <Card sx={{ p: 3 }}>
                 <Stack spacing={3}>
                   <div>
-                    <FormControlLabel
+                    <TextField
+                      fullWidth
+                      label="Category"
+                      {...getFieldProps('category')}
+                      error={Boolean(touched.title && errors.title)}
+                      helperText={touched.title && errors.title}
+                    />
+                    {/* <FormControlLabel
                       control={<Switch {...getFieldProps('publish')} checked={values.publish} />}
                       label="Publish"
                       labelPlacement="start"
                       sx={{ mb: 1, mx: 0, width: '100%', justifyContent: 'space-between' }}
-                    />
+                    /> */}
 
-                    <FormControlLabel
+                    {/* <FormControlLabel
                       control={<Switch {...getFieldProps('comments')} checked={values.comments} />}
                       label="Enable comments"
                       labelPlacement="start"
                       sx={{ mx: 0, width: '100%', justifyContent: 'space-between' }}
-                    />
+                    /> */}
                   </div>
 
-                  <Autocomplete
+                  {/* <Autocomplete
                     multiple
                     freeSolo
                     value={values.tags}
@@ -208,20 +227,20 @@ export default function BlogNewPostForm() {
                       ))
                     }
                     renderInput={(params) => <TextField {...params} label="Tags" />}
-                  />
+                  /> */}
 
-                  <TextField fullWidth label="Meta title" {...getFieldProps('metaTitle')} />
+                  {/* <TextField fullWidth label="Meta title" {...getFieldProps('metaTitle')} /> */}
 
-                  <TextField
+                  {/* <TextField
                     fullWidth
                     multiline
                     minRows={3}
                     maxRows={5}
                     label="Meta description"
                     {...getFieldProps('metaDescription')}
-                  />
+                  /> */}
 
-                  <Autocomplete
+                  {/* <Autocomplete
                     multiple
                     freeSolo
                     value={values.tags}
@@ -235,7 +254,7 @@ export default function BlogNewPostForm() {
                       ))
                     }
                     renderInput={(params) => <TextField {...params} label="Meta keywords" />}
-                  />
+                  /> */}
                 </Stack>
               </Card>
 

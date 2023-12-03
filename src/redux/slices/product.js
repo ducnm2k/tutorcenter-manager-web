@@ -229,6 +229,22 @@ export function getProducts() {
 
 // ----------------------------------------------------------------------
 
+export function getBlogList() {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      // const response = await axios.get('/api/products');
+      const response = await axios.get('/api/blog');
+      console.log('response.data.data', response.data.data);
+      dispatch(slice.actions.getProductsSuccess(response.data.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
 export function getParentClassList() {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
@@ -285,6 +301,22 @@ export function getParentsRequest(id) {
       const response = await axios.get(url);
       console.log('getParentsRequest', response);
       dispatch(slice.actions.getProductSuccess(response.data.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function createBlog(data) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const url = `/api/blog/create?thumbnail=${data.thumbnail}&category=${data.category}&title=${data.title}&content=${data.content}`;
+      const response = await axios.post(url);
+      console.log('create blog ', response);
+      dispatch(slice.actions.getProductSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

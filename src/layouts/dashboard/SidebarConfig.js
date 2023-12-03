@@ -152,20 +152,20 @@ const sidebarConfig = [
       },
 
       // REVENUE: Transaction History
-      {
-        title: 'Transaction History',
-        path: PATH_DASHBOARD.transaction.root,
-        icon: ICONS.banking
-        // children: [
-        //   { title: 'shop', path: PATH_DASHBOARD.eCommerce.shop },
-        //   { title: 'product', path: PATH_DASHBOARD.eCommerce.productById },
-        //   { title: 'list', path: PATH_DASHBOARD.eCommerce.list },
-        //   { title: 'create', path: PATH_DASHBOARD.eCommerce.newProduct },
-        //   { title: 'edit', path: PATH_DASHBOARD.eCommerce.editById },
-        //   { title: 'checkout', path: PATH_DASHBOARD.eCommerce.checkout },
-        //   { title: 'invoice', path: PATH_DASHBOARD.eCommerce.invoice }
-        // ]
-      }
+      // {
+      //   title: 'Transaction History',
+      //   path: PATH_DASHBOARD.transaction.root,
+      //   icon: ICONS.banking
+      //   // children: [
+      //   //   { title: 'shop', path: PATH_DASHBOARD.eCommerce.shop },
+      //   //   { title: 'product', path: PATH_DASHBOARD.eCommerce.productById },
+      //   //   { title: 'list', path: PATH_DASHBOARD.eCommerce.list },
+      //   //   { title: 'create', path: PATH_DASHBOARD.eCommerce.newProduct },
+      //   //   { title: 'edit', path: PATH_DASHBOARD.eCommerce.editById },
+      //   //   { title: 'checkout', path: PATH_DASHBOARD.eCommerce.checkout },
+      //   //   { title: 'invoice', path: PATH_DASHBOARD.eCommerce.invoice }
+      //   // ]
+      // }
     ]
   },
   // SYSTEM
@@ -179,7 +179,7 @@ const sidebarConfig = [
         path: PATH_DASHBOARD.blog.root,
         icon: ICONS.blog,
         children: [
-          { title: 'posts', path: PATH_DASHBOARD.blog.posts },
+          // { title: 'posts', path: PATH_DASHBOARD.blog.posts },
           { title: 'list', path: PATH_DASHBOARD.blog.list },
           { title: 'new post', path: PATH_DASHBOARD.blog.newPost }
         ]

@@ -22,7 +22,7 @@ import {
 } from '@material-ui/core';
 // redux
 import { useDispatch, useSelector } from '../../redux/store';
-import { getProducts, deleteProduct } from '../../redux/slices/product';
+import { getProducts, deleteProduct, getBlogList } from '../../redux/slices/product';
 // utils
 import { fDate } from '../../utils/formatTime';
 import { fCurrency } from '../../utils/formatNumber';
@@ -45,10 +45,10 @@ import {
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Auther', alignRight: false },
-  { id: 'name', label: 'Title', alignRight: false },
-  { id: 'name', label: 'Create At', alignRight: false },
-  { id: 'inventoryType', label: 'Status', alignRight: false },
+  { id: 'title', label: 'Title', alignRight: false },
+  { id: 'category', label: 'Category', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false },
+  { id: 'dateModified', label: 'Modified at', alignRight: false },
   { id: '' }
 ];
 
@@ -108,7 +108,7 @@ export default function EcommerceProductList() {
   const [orderBy, setOrderBy] = useState('createdAt');
 
   useEffect(() => {
-    dispatch(getProducts());
+    dispatch(getBlogList());
   }, [dispatch]);
 
   const handleRequestSort = (event, property) => {
@@ -172,21 +172,21 @@ export default function EcommerceProductList() {
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
             {
-              name: 'Parents',
-              href: PATH_DASHBOARD.parents.list
+              name: 'Blog',
+              href: PATH_DASHBOARD.blog.list
             },
             { name: 'Class List' }
           ]}
-          // action={
-          //   <Button
-          //     variant="contained"
-          //     component={RouterLink}
-          //     to={PATH_DASHBOARD.eCommerce.newProduct}
-          //     startIcon={<Icon icon={plusFill} />}
-          //   >
-          //     New Product
-          //   </Button>
-          // }
+        // action={
+        //   <Button
+        //     variant="contained"
+        //     component={RouterLink}
+        //     to={PATH_DASHBOARD.eCommerce.newProduct}
+        //     startIcon={<Icon icon={plusFill} />}
+        //   >
+        //     New Product
+        //   </Button>
+        // }
         />
 
         <Card>
@@ -206,9 +206,9 @@ export default function EcommerceProductList() {
                 />
                 <TableBody>
                   {filteredProducts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, cover, price, createdAt, inventoryType } = row;
+                    const { id, thumbnail, category, title, status, dateCreate, dateModified } = row;
 
-                    const isItemSelected = selected.indexOf(name) !== -1;
+                    const isItemSelected = selected.indexOf(title) !== -1;
 
                     return (
                       <TableRow
@@ -220,7 +220,7 @@ export default function EcommerceProductList() {
                         aria-checked={isItemSelected}
                       >
                         <TableCell padding="checkbox">
-                          <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, name)} />
+                          {/* <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, name)} /> */}
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Box
@@ -230,28 +230,31 @@ export default function EcommerceProductList() {
                               alignItems: 'center'
                             }}
                           >
-                            <ThumbImgStyle alt={name} src={cover} />
+                            <ThumbImgStyle alt={title} src={thumbnail} />
                             <Typography variant="subtitle2" noWrap>
-                              {name}
+                              {title}
                             </Typography>
                           </Box>
                         </TableCell>
-                        <TableCell style={{ minWidth: 160 }}>{fDate(createdAt)}</TableCell>
+                        <TableCell align="right">{category}</TableCell>
+                        <TableCell style={{ minWidth: 160 }}>{dateModified}</TableCell>
                         <TableCell style={{ minWidth: 160 }}>
-                          <Label
+                        <Label
                             variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-                            color={
-                              (inventoryType === 'out_of_stock' && 'error') ||
-                              (inventoryType === 'low_stock' && 'warning') ||
-                              'success'
-                            }
+                            // color={
+                            //   (inventoryType === 'out_of_stock' && 'error') ||
+                            //   (inventoryType === 'low_stock' && 'warning') ||
+                            //   'success'
+                            // }
+                            color={(status === 1) ? 'success' : 'error'}
                           >
-                            {sentenceCase(inventoryType)}
+                            {(status === 1) ? '1' : ''}
+                            {(status === 2) ? '2' : ''}
+                            {(status === 0) ? '0' : ''}
                           </Label>
                         </TableCell>
-                        <TableCell align="right">{fCurrency(price)}</TableCell>
                         <TableCell align="right">
-                          <ProductMoreMenu onDelete={() => handleDeleteProduct(id)} productName={name} />
+                          {/* <ProductMoreMenu onDelete={() => handleDeleteProduct(id)} productName={name} /> */}
                         </TableCell>
                       </TableRow>
                     );

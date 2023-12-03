@@ -67,7 +67,12 @@ export default function ProductListToolbar({ numSelected, filterName, onFilterNa
         />
       )}
 
-      {numSelected > 0 ? (
+      <Tooltip title="Filter list">
+        <IconButton>
+          <Icon icon={roundFilterList} />
+        </IconButton>
+      </Tooltip>
+      {/* {numSelected > 0 ? (
         <Tooltip title="Delete">
           <IconButton>
             <Icon icon={trash2Fill} />
@@ -79,7 +84,7 @@ export default function ProductListToolbar({ numSelected, filterName, onFilterNa
             <Icon icon={roundFilterList} />
           </IconButton>
         </Tooltip>
-      )}
+      )} */}
     </RootStyle>
   );
 }
