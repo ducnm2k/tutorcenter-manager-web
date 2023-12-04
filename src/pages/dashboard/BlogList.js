@@ -206,7 +206,7 @@ export default function EcommerceProductList() {
                 />
                 <TableBody>
                   {filteredProducts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, thumbnail, category, title, status, dateCreate, dateModified } = row;
+                    const { id, thumbnail, category, title, status, dateModified } = row;
 
                     const isItemSelected = selected.indexOf(title) !== -1;
 

@@ -379,8 +379,7 @@ export function getTutorVerificationList() {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      const userId = 3;
-      const response = await axios.get(`api/requestVerification/manager/${userId}`);
+      const response = await axios.get(`api/requestVerification/manager`);
       console.log('response.data.data', response.data.data);
       dispatch(slice.actions.getProductsSuccess(response.data.data));
     } catch (error) {
