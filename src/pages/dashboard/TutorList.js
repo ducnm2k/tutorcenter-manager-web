@@ -202,7 +202,7 @@ export default function UserList() {
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={tutorName} src={imgAvatar} />
+                            <Avatar alt={tutorName} src={"http://localhost:9000/api/user/image/".concat(imgAvatar)} />
                             <Typography variant="subtitle2" noWrap>
                               {tutorName}
                             </Typography>

@@ -250,11 +250,11 @@ export function getParentClassList() {
     dispatch(slice.actions.startLoading());
     try {
       // const response = await axios.get('/api/products');
-      const response = await axios.get('/api/clazz');
+      const response = await axios.get('/api/clazz/manager');
       console.log('response.data.data', response.data.data);
       dispatch(slice.actions.getProductsSuccess(response.data.data));
     } catch (error) {
-      dispatch(slice.actions.hasError(error));
+      // dispatch(slice.actions.hasError(error));
     }
   };
 }
@@ -265,7 +265,7 @@ export function getParentsRequestList() {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      const response = await axios.get('/api/request');
+      const response = await axios.get('/api/request/manager');
       console.log('response.data.data', response.data.data);
       dispatch(slice.actions.getProductsSuccess(response.data.data));
     } catch (error) {
@@ -313,8 +313,14 @@ export function createBlog(data) {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
-      const url = `/api/blog/create?thumbnail=${data.thumbnail}&category=${data.category}&title=${data.title}&content=${data.content}`;
-      const response = await axios.post(url);
+      const url = `/api/blog/create`;
+      const d = {
+        "thumbnail": data.thumbnail,
+        "category": data.category,
+        "title": data.title,
+        "content": data.content
+      };
+      const response = await axios.post(url, d);
       console.log('create blog ', response);
       dispatch(slice.actions.getProductSuccess(response.data));
     } catch (error) {
@@ -399,6 +405,9 @@ export function getRequestVerification(id) {
       const response = await axios.get(url);
       // console.log('getRequestVerification', response.data.data);
       dispatch(slice.actions.getProductSuccess(response.data.data));
+      // if(response.status !== 200){
+      //   //tra ve kieu ..
+      // }  
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

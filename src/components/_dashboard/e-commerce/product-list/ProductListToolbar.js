@@ -5,7 +5,7 @@ import trash2Fill from '@iconify/icons-eva/trash-2-fill';
 import roundFilterList from '@iconify/icons-ic/round-filter-list';
 // material
 import { useTheme, styled } from '@material-ui/core/styles';
-import { Box, Toolbar, Tooltip, IconButton, Typography, OutlinedInput, InputAdornment } from '@material-ui/core';
+import { Box, Toolbar, Tooltip, IconButton, Typography, OutlinedInput, InputAdornment, ButtonGroup, Button } from '@material-ui/core';
 
 // ----------------------------------------------------------------------
 
@@ -67,11 +67,15 @@ export default function ProductListToolbar({ numSelected, filterName, onFilterNa
         />
       )}
 
-      <Tooltip title="Filter list">
+      {/* <Tooltip title="Filter list">
         <IconButton>
           <Icon icon={roundFilterList} />
         </IconButton>
-      </Tooltip>
+        <ButtonGroup>
+          <Button >Ended</Button>
+          <Button>All</Button>
+        </ButtonGroup>
+      </Tooltip> */}
       {/* {numSelected > 0 ? (
         <Tooltip title="Delete">
           <IconButton>

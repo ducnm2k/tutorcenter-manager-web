@@ -237,7 +237,7 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
                   fullWidth
                   component="img"
                   alt="Certificate image"
-                  src=''
+                  src={"http://localhost:9000/api/user/image/".concat(values.imgCertificate)}
                 />
 
                 {/* <TextField
@@ -254,7 +254,7 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
                   fullWidth
                   component="img"
                   alt="ID card image"
-                  src=''
+                  src={"http://localhost:9000/api/user/image/".concat(values.imgId)}
                 />
 
                 {/* <TextField

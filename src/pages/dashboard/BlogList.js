@@ -165,17 +165,17 @@ export default function EcommerceProductList() {
   const isProductNotFound = filteredProducts.length === 0;
 
   return (
-    <Page title="Parents: Class List | Minimal-UI">
+    <Page title="Parents: Blog List | Minimal-UI">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Class List"
+          heading="Blog List"
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
             {
               name: 'Blog',
               href: PATH_DASHBOARD.blog.list
             },
-            { name: 'Class List' }
+            { name: 'Blog List' }
           ]}
         // action={
         //   <Button
@@ -206,7 +206,7 @@ export default function EcommerceProductList() {
                 />
                 <TableBody>
                   {filteredProducts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, thumbnail, category, title, status, dateModified } = row;
+                    const { id, thumbnail, category, title, status, dateCreate, dateModified } = row;
 
                     const isItemSelected = selected.indexOf(title) !== -1;
 

@@ -112,11 +112,13 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
       slotLength: currentProduct?.slotsLength || '',
       tuition: currentProduct?.tuition || '',
       status: currentProduct?.status || '0',
+      daysOfWeek: currentProduct?.daysOfWeek || '0',
       reject: currentProduct?.rejectReason || '',
       managerId: currentProduct?.manager?.id || '',
       dateStart: currentProduct?.dateStart || '',
-      subject: currentProduct?.subjects?.[0].name || [],
-      level: currentProduct?.subjects?.[0].level || [],
+      subjects: currentProduct?.subjects || [],
+      // subject: currentProduct?.subjects?.[0].name || [],
+      // level: currentProduct?.subjects?.[0].level || [],
       // dateEnd: currentProduct?.dateEnd || ''
       // name: currentProduct?.name || '',
       // description: currentProduct?.description || '',
@@ -184,6 +186,25 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
     setFieldValue('images', filteredItems);
   };
 
+  function getSubjectFromSubjects() {
+    let rs = ' ';
+    if(values.subjects.length === 0) rs = 'Chưa chọn môn';
+    if(values.subjects.length === 1)
+    {
+      // console.log(values.subject.concat(' ').concat(values.level));
+      rs = rs.concat(values.subjects[0].name).concat(' ').concat(values.subjects[0].level);
+    }
+    if(values.subjects.length > 1)
+    {
+      for (let index = 0; index < values.subjects.length; index += 1) {
+        rs = rs.concat(values.subjects[index].name).concat(' ').concat(values.subjects[index].level).concat(' | ');
+      }
+      // console.log(rs);
+    }
+    
+    return rs;
+  }
+
   return (
     <FormikProvider value={formik}>
       <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
@@ -227,20 +248,30 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
 
                 <TextField
                   fullWidth
-                  label="Subject"
+                  label="Subjects"
                   InputProps={{
                     readOnly: true,
                   }}
-                  {...getFieldProps('subject')}
+                  // {...getFieldProps('subject')}
+                  value={getSubjectFromSubjects()}
                 />
 
-                <TextField
+                {/* <TextField
                   fullWidth
                   label="Level"
                   InputProps={{
                     readOnly: true,
                   }}
                   {...getFieldProps('level')}
+                /> */}
+
+                <TextField
+                  fullWidth
+                  label="Days of week"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  value={(values.daysOfWeek === 1) ? 'thứ 2, thứ 4, thứ 6' : 'thứ 3, thứ 5, thứ 7'}
                 />
 
                 <TextField
@@ -413,7 +444,8 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                     <TextField
                       fullWidth
                       label="Status"
-                      {...getFieldProps('status')}
+                      disabled
+                      value={STATUS_OPTION[values.status]}
                       error={Boolean(touched.status && errors.status)}
                       helperText={touched.status && errors.status}
                     />

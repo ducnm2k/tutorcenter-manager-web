@@ -88,10 +88,10 @@ export default function BlogNewPostForm() {
       // metaTitle: '',
       // metaDescription: '',
       // metaKeywords: ['Logan']
-      title: '',
-      content: '',
-      category: '',
-      thumbnail: '',
+      title: ' ',
+      content: ' ',
+      category: ' ',
+      thumbnail: ' ',
     },
     validationSchema: NewBlogSchema,
     onSubmit: async (values, { setSubmitting, resetForm }) => {
@@ -100,7 +100,7 @@ export default function BlogNewPostForm() {
         console.log('Post');
         // call api create
         dispatch(createBlog(values));
-        resetForm();
+        // resetForm();
         handleClosePreview();
         setSubmitting(false);
         enqueueSnackbar('Post success', { variant: 'success' });
