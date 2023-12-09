@@ -590,11 +590,11 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
 
               {(values.status === 2) ?
                 <LoadingButton type="submit" fullWidth variant="contained" size="large" loading={isSubmitting} >
-                  {!isEdit ? 'Create Product' : 'End class'}
+                  {!isEdit ? 'Create Product' : 'Pay Tutor'}
                 </LoadingButton>
                 :
                 <LoadingButton type="submit" fullWidth variant="contained" size="large" loading={isSubmitting} disabled>
-                  {!isEdit ? 'Create Product' : 'End class'}
+                  {!isEdit ? 'Create Product' : 'Class Must End To Pay Tutor'}
                 </LoadingButton>
               }
             </Stack>

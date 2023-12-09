@@ -87,7 +87,7 @@ function applySortFilter(array, comparator, query) {
   });
 
   if (query) {
-    return filter(array, (_product) => _product.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_product) => _product.title.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
 
   return stabilizedThis.map((el) => el[0]);
@@ -230,7 +230,7 @@ export default function EcommerceProductList() {
                               alignItems: 'center'
                             }}
                           >
-                            <ThumbImgStyle alt={title} src={thumbnail} />
+                            <ThumbImgStyle alt={thumbnail} src={"http://localhost:9000/api/user/image/".concat(thumbnail)} />
                             <Typography variant="subtitle2" noWrap>
                               {title}
                             </Typography>

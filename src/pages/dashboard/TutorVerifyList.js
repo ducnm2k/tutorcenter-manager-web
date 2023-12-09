@@ -242,13 +242,15 @@ export default function EcommerceProductList() {
                         <TableCell style={{ minWidth: 160 }}>{tutorName}</TableCell>
                         <TableCell style={{ minWidth: 160 }}>
                           <Label
-                            variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
+                            // variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
                             // color={
                             //   (inventoryType === 'out_of_stock' && 'error') ||
                             //   (inventoryType === 'low_stock' && 'warning') ||
                             //   'success'
                             // }
-                            color={(status === 1) ? 'success' : 'error'}
+                            // color={(status === 1) ? 'success' : 'error'}
+                            color={(status === 0) ? 'primary' : 'default'}
+                            variant={(status === 0) ? 'filled' : 'outlined'}
                           >
                             {(status === 1) ? 'verified' : ''}
                             {(status === 2) ? 'reject' : ''}
