@@ -40,8 +40,8 @@ export default function EcommerceProductCreate() {
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
             {
-              name: 'Tutor',
-              href: PATH_DASHBOARD.tutor.list
+              name: 'Verification Request List',
+              href: PATH_DASHBOARD.tutor.verification
             },
             { name: 'Verification request' }
           ]}

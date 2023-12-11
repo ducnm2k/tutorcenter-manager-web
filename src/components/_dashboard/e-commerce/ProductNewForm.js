@@ -124,7 +124,7 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
         // await fakeRequest(500);
         // console.log(values);
         dispatch(updateStatusRequestVerification(values));
-        resetForm();
+        // resetForm();
         setSubmitting(false);
         enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
         // navigate(PATH_DASHBOARD.tutor.verification);
@@ -160,6 +160,23 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
     const filteredItems = values.images.filter((_file) => _file !== file);
     setFieldValue('images', filteredItems);
   };
+
+  function getSubjectFromSubjects() {
+    let rs = ' ';
+    if (values.subjects.length === 0) rs = 'Chưa chọn môn';
+    if (values.subjects.length === 1) {
+      // console.log(values.subject.concat(' ').concat(values.level));
+      rs = rs.concat(values.subjects[0].name).concat(' ').concat(values.subjects[0].level);
+    }
+    if (values.subjects.length > 1) {
+      for (let index = 0; index < values.subjects.length; index += 1) {
+        rs = rs.concat(values.subjects[index].name).concat(' ').concat(values.subjects[index].level).concat(' | ');
+      }
+      // console.log(rs);
+    }
+
+    return rs;
+  }
 
   return (
     <FormikProvider value={formik}>
@@ -221,6 +238,16 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
                   }}
                   label="Major"
                   {...getFieldProps('major')}
+                />
+
+                <TextField
+                  fullWidth
+                  label="Subjects"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  // {...getFieldProps('subject')}
+                  value={getSubjectFromSubjects()}
                 />
 
                 {/* <TextField
@@ -419,7 +446,7 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
                 />
               </Card> */}
 
-              <LoadingButton type="submit" fullWidth variant="contained" size="large" loading={isSubmitting}>
+              <LoadingButton type="submit" fullWidth variant="contained" size="large" loading={isSubmitting} >
                 {!isEdit ? 'Create Product' : 'Save Changes'}
               </LoadingButton>
             </Stack>

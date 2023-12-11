@@ -53,6 +53,12 @@ const CATEGORY_OPTION = [
   { group: 'Accessories', classify: ['Shoes', 'Backpacks and bags', 'Bracelets', 'Face masks'] }
 ];
 
+const DAYS_OF_WEEK_OPTION = [
+  'none ',
+  'Thứ 2, thứ 4, thứ 6',
+  'Thứ 3, thứ 5, thứ 7',
+];
+
 const TAGS_OPTION = [
   'Toy Story 3',
   'Logan',
@@ -108,11 +114,12 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
       email: currentProduct?.email || '',
       phone: currentProduct?.phone || '',
       address: currentProduct?.address || '',
-      slot: currentProduct?.slots || '',
-      slotLength: currentProduct?.slotsLength || '',
+      slot: currentProduct?.slots || '0',
+      slotLength: currentProduct?.slotsLength || '0',
       tuition: currentProduct?.tuition || '',
       status: currentProduct?.status || '0',
-      daysOfWeek: currentProduct?.daysOfWeek || '0',
+      daysOfWeek: currentProduct?.daysOfWeek || ' ',
+      time: currentProduct?.time || ' ',
       reject: currentProduct?.rejectReason || '',
       managerId: currentProduct?.manager?.id || '',
       dateStart: currentProduct?.dateStart || '',
@@ -188,20 +195,18 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
 
   function getSubjectFromSubjects() {
     let rs = ' ';
-    if(values.subjects.length === 0) rs = 'Chưa chọn môn';
-    if(values.subjects.length === 1)
-    {
+    if (values.subjects.length === 0) rs = 'Chưa chọn môn';
+    if (values.subjects.length === 1) {
       // console.log(values.subject.concat(' ').concat(values.level));
       rs = rs.concat(values.subjects[0].name).concat(' ').concat(values.subjects[0].level);
     }
-    if(values.subjects.length > 1)
-    {
+    if (values.subjects.length > 1) {
       for (let index = 0; index < values.subjects.length; index += 1) {
         rs = rs.concat(values.subjects[index].name).concat(' ').concat(values.subjects[index].level).concat(' | ');
       }
       // console.log(rs);
     }
-    
+
     return rs;
   }
 
@@ -271,7 +276,16 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                   InputProps={{
                     readOnly: true,
                   }}
-                  value={(values.daysOfWeek === 1) ? 'thứ 2, thứ 4, thứ 6' : 'thứ 3, thứ 5, thứ 7'}
+                  value={(values.daysOfWeek.length === 1) ? DAYS_OF_WEEK_OPTION[parseInt(values.daysOfWeek,10)] : values.daysOfWeek}
+                />
+
+                <TextField
+                  fullWidth
+                  label="Time"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  {...getFieldProps('time')}
                 />
 
                 <TextField

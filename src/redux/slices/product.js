@@ -403,7 +403,7 @@ export function getRequestVerification(id) {
       const url = `/api/requestVerification/${id}`;
       // console.log(url);
       const response = await axios.get(url);
-      // console.log('getRequestVerification', response.data.data);
+      console.log('getRequestVerification', response.data.data);
       dispatch(slice.actions.getProductSuccess(response.data.data));
       // if(response.status !== 200){
       //   //tra ve kieu ..
