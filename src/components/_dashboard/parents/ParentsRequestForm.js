@@ -1,5 +1,6 @@
 import * as Yup from 'yup';
 import PropTypes from 'prop-types';
+import { NumericFormat } from 'react-number-format';
 import { useSnackbar } from 'notistack5';
 import { useNavigate } from 'react-router-dom';
 import { useCallback } from 'react';
@@ -81,6 +82,8 @@ const LabelStyle = styled(Typography)(({ theme }) => ({
   marginBottom: theme.spacing(1)
 }));
 
+
+
 // ----------------------------------------------------------------------
 
 ParentsRequestForm.propTypes = {
@@ -118,8 +121,8 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
       slotLength: currentProduct?.slotsLength || '0',
       tuition: currentProduct?.tuition || '',
       status: currentProduct?.status || '0',
-      daysOfWeek: currentProduct?.daysOfWeek || ' ',
-      time: currentProduct?.time || ' ',
+      daysOfWeek: currentProduct?.daysOfWeek || '',
+      time: currentProduct?.time || '',
       reject: currentProduct?.rejectReason || '',
       managerId: currentProduct?.manager?.id || '',
       dateStart: currentProduct?.dateStart || '',
@@ -292,6 +295,7 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                   fullWidth
                   InputProps={{
                     readOnly: true,
+                    endAdornment:<InputAdornment position="end">slot(s)</InputAdornment>
                   }}
                   label="Slot"
                   {...getFieldProps('slot')}
@@ -303,6 +307,7 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                   fullWidth
                   InputProps={{
                     readOnly: true,
+                    endAdornment:<InputAdornment position="end">hour(s)</InputAdornment>
                   }}
                   label="Slot length"
                   {...getFieldProps('slotLength')}
@@ -314,6 +319,7 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                   fullWidth
                   InputProps={{
                     readOnly: true,
+                    startAdornment:<InputAdornment position="start">VND</InputAdornment>
                   }}
                   label="Tuition"
                   {...getFieldProps('tuition')}

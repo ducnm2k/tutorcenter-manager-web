@@ -134,16 +134,21 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
         // await fakeRequest(500);
         console.log(values.status);
         if (values.status === 2) {
-          // set status class
-          dispatch(updateStatusParentsClass(values));
-          console.log("Update data", values);
-          // create order
-          dispatch(createOrder(values));
-          console.log("create order", values);
+          if (window.confirm("Press a button!")) {
+            // set status class
+            dispatch(updateStatusParentsClass(values));
+            console.log("Update data", values);
+            // create order
+            dispatch(createOrder(values));
+            console.log("create order", values);
+            enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
+          } else {
+            enqueueSnackbar(!isEdit ? 'Transaction Canceled!' : 'Transaction Canceled!', { variant: 'error' });
+            console.log('Transaction Canceled!');
+          }
 
           resetForm();
           setSubmitting(false);
-          enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
           navigate(PATH_DASHBOARD.parents.class);
         }
 
@@ -178,6 +183,16 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
   const handleRemove = (file) => {
     const filteredItems = values.images.filter((_file) => _file !== file);
     setFieldValue('images', filteredItems);
+  };
+
+  function myFunction() {
+    let txt;
+    if (window.confirm("Press a button!")) {
+      txt = "You pressed OK!";
+    } else {
+      txt = "You pressed Cancel!";
+    }
+    console.log(txt);
   };
 
   return (
@@ -243,6 +258,7 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
                   fullWidth
                   InputProps={{
                     readOnly: true,
+                    startAdornment: <InputAdornment position="start">VND</InputAdornment>
                   }}
                   label="Tuition"
                   {...getFieldProps('tuition')}

@@ -101,11 +101,11 @@ export default function EcommerceProductList() {
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.product);
   const [page, setPage] = useState(0);
-  const [order, setOrder] = useState('asc');
+  const [order, setOrder] = useState('desc');
   const [selected, setSelected] = useState([]);
   const [filterName, setFilterName] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [orderBy, setOrderBy] = useState('createdAt');
+  const [orderBy, setOrderBy] = useState('dateCreate');
 
   useEffect(() => {
     dispatch(getTutorVerificationList());

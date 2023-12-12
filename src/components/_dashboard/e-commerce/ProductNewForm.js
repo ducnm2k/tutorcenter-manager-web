@@ -161,6 +161,8 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
     setFieldValue('images', filteredItems);
   };
 
+  const IMG_ID = values.imgId.split("~");
+
   function getSubjectFromSubjects() {
     let rs = ' ';
     if (values.subjects.length === 0) rs = 'Chưa chọn môn';
@@ -280,8 +282,14 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
                 <Box
                   fullWidth
                   component="img"
-                  alt="ID card image"
-                  src={"http://localhost:9000/api/user/image/".concat(values.imgId)}
+                  alt="ID card image 1"
+                  src={"http://localhost:9000/api/user/image/".concat(IMG_ID[0])}
+                />
+                <Box
+                  fullWidth
+                  component="img"
+                  alt="ID card image 2"
+                  src={"http://localhost:9000/api/user/image/".concat(IMG_ID[1])}
                 />
 
                 {/* <TextField
@@ -339,12 +347,16 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
                 <div>
                   <TextField
                     fullWidth
+                    InputProps={{
+                      readOnly: true,
+                    }}
                     label="Status"
                     {...getFieldProps('status')}
                     error={Boolean(touched.status && errors.status)}
                     helperText={touched.status && errors.status}
                   />
-                  <RadioGroup {...getFieldProps('status')} row>
+
+                  <RadioGroup {...getFieldProps('status')} value={values.status} row>
                     <Stack spacing={1} direction="row">
                       <FormControlLabel value="0" control={<Radio />} label="Default" />
                       <FormControlLabel value="1" control={<Radio />} label="Accept" />
@@ -352,7 +364,7 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
                     </Stack>
                   </RadioGroup>
                 </div>
-
+                
                 <TextField
                   fullWidth
                   label="Reject reason"
