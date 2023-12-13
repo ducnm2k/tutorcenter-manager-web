@@ -123,6 +123,7 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
       status: currentProduct?.status || '0',
       daysOfWeek: currentProduct?.daysOfWeek || '',
       time: currentProduct?.time || '',
+      notes: currentProduct?.notes || '',
       reject: currentProduct?.rejectReason || '',
       managerId: currentProduct?.manager?.id || '',
       dateStart: currentProduct?.dateStart || '',
@@ -279,7 +280,7 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                   InputProps={{
                     readOnly: true,
                   }}
-                  value={(values.daysOfWeek.length === 1) ? DAYS_OF_WEEK_OPTION[parseInt(values.daysOfWeek,10)] : values.daysOfWeek}
+                  value={(values.daysOfWeek.length === 1) ? DAYS_OF_WEEK_OPTION[parseInt(values.daysOfWeek, 10)] : values.daysOfWeek}
                 />
 
                 <TextField
@@ -295,7 +296,7 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                   fullWidth
                   InputProps={{
                     readOnly: true,
-                    endAdornment:<InputAdornment position="end">slot(s)</InputAdornment>
+                    endAdornment: <InputAdornment position="end">slot(s)</InputAdornment>
                   }}
                   label="Slot"
                   {...getFieldProps('slot')}
@@ -307,7 +308,7 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                   fullWidth
                   InputProps={{
                     readOnly: true,
-                    endAdornment:<InputAdornment position="end">hour(s)</InputAdornment>
+                    endAdornment: <InputAdornment position="end">hour(s)</InputAdornment>
                   }}
                   label="Slot length"
                   {...getFieldProps('slotLength')}
@@ -319,13 +320,22 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                   fullWidth
                   InputProps={{
                     readOnly: true,
-                    startAdornment:<InputAdornment position="start">VND</InputAdornment>
+                    startAdornment: <InputAdornment position="start">VND</InputAdornment>
                   }}
                   label="Tuition"
-                  value={Intl.NumberFormat({style: 'currency'}).format(values.tuition)}
+                  value={Intl.NumberFormat({ style: 'currency' }).format(values.tuition)}
                   // {...getFieldProps('tuition')}
                   error={Boolean(touched.parent && errors.parent)}
                   helperText={touched.parent && errors.parent}
+                />
+
+                <TextField
+                  fullWidth
+                  label="Notes"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  {...getFieldProps('notes')}
                 />
 
                 <div>
