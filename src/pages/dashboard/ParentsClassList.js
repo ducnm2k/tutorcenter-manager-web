@@ -94,6 +94,22 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+function applyStatusFilter(array, comparator, query) {
+  const stabilizedThis = array.map((el, index) => [el, index]);
+  console.log(query);
+  stabilizedThis.sort((a, b) => {
+    const order = comparator(a[0], b[0]);
+    if (order !== 0) return order;
+    return a[1] - b[1];
+  });
+
+  if (query) {
+    return filter(array, (_product) => _product.status===2);
+  }
+
+  return stabilizedThis.map((el) => el[0]);
+}
+
 // ----------------------------------------------------------------------
 
 export default function EcommerceProductList() {
@@ -105,6 +121,7 @@ export default function EcommerceProductList() {
   const [order, setOrder] = useState('desc');
   const [selected, setSelected] = useState([]);
   const [filterName, setFilterName] = useState('');
+  const [filterStatus, setFilterStatus] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [orderBy, setOrderBy] = useState('status');
 
@@ -162,8 +179,19 @@ export default function EcommerceProductList() {
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - products.length) : 0;
 
   const filteredProducts = applySortFilter(products, getComparator(order, orderBy), filterName);
+  const filteredProductsByStatus = applyStatusFilter(filteredProducts, getComparator(order, orderBy), filterStatus);
 
   const isProductNotFound = filteredProducts.length === 0;
+
+  const handleStatusAllClick = (e) => {
+    setFilterStatus('');
+    // console.log('filterStatus', filterStatus);
+  };
+
+  const handleStatusNeedHandleClick = (e) => {
+    setFilterStatus('2');
+    console.log('filterStatus', filterStatus);
+  };
 
   return (
     <Page title="Parents: Class List | Minimal-UI">
@@ -192,7 +220,8 @@ export default function EcommerceProductList() {
 
         <Card>
           <ProductListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
-
+          <Button onClick={handleStatusAllClick}>All</Button>
+          <Button onClick={handleStatusNeedHandleClick}>Need Handle</Button>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -206,7 +235,7 @@ export default function EcommerceProductList() {
                   onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
-                  {filteredProducts.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
+                  {filteredProductsByStatus.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
                     const { id, parentName, subjects, tutorLevel, districtName, provinceName, status } = row;
 
                     const isItemSelected = selected.indexOf(id) !== -1;

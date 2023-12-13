@@ -152,6 +152,11 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
                 </Typography>
               </Box>
             </AccountStyle>
+            <Box sx={{ ml: 2 }}>
+              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
+                System Balance:  {Intl.NumberFormat({ style: 'currency' }).format(user?.systemWallet)} VND
+              </Typography>
+            </Box>
           </Link>
         )}
       </Stack>

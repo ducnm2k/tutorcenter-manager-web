@@ -322,7 +322,8 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                     startAdornment:<InputAdornment position="start">VND</InputAdornment>
                   }}
                   label="Tuition"
-                  {...getFieldProps('tuition')}
+                  value={Intl.NumberFormat({style: 'currency'}).format(values.tuition)}
+                  // {...getFieldProps('tuition')}
                   error={Boolean(touched.parent && errors.parent)}
                   helperText={touched.parent && errors.parent}
                 />

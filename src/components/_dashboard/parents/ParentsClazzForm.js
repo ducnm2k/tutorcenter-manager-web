@@ -134,7 +134,7 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
         // await fakeRequest(500);
         console.log(values.status);
         if (values.status === 2) {
-          if (window.confirm("Press a button!")) {
+          if (window.confirm("Confirm your transaction!")) {
             // set status class
             dispatch(updateStatusParentsClass(values));
             console.log("Update data", values);
@@ -261,7 +261,8 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
                     startAdornment: <InputAdornment position="start">VND</InputAdornment>
                   }}
                   label="Tuition"
-                  {...getFieldProps('tuition')}
+                  value={Intl.NumberFormat({style: 'currency'}).format(values.tuition)}
+                  // {...getFieldProps('tuition')}
                 />
 
                 <TextField

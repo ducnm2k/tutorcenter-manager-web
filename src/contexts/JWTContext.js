@@ -75,11 +75,15 @@ function AuthProvider({ children }) {
           // const response = await axios.get('/api/account/my-account');
           const authProfile = await axios.get('/api/user/authProfile');
           const dataUser = authProfile.data.data;
+
+          const sysWallet = await axios.get('/api/sysWallet');
+          const walletBalance = sysWallet.data.data;
           // console.log(dataUser);
           const user = {
             id: dataUser.id,
             displayName: dataUser.fullName,
             email: 'demo@minimals.cc',
+            systemWallet: walletBalance,
             // password: 'demo1234',
             photoURL: '/static/mock-images/avatars/avatar_default.jpg',
             // phoneNumber: '+40 777666555',
