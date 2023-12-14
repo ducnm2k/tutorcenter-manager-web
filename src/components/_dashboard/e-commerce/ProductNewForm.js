@@ -39,6 +39,8 @@ import { UploadMultiFile } from '../../upload';
 // ----------------------------------------------------------------------
 
 const GENDER_OPTION = ['Men', 'Women', 'Kids'];
+const STATUS_OPTION = ['Default', 'Accept', 'Reject'];
+
 
 const CATEGORY_OPTION = [
   { group: 'Clothing', classify: ['Shirts', 'T-shirts', 'Jeans', 'Leather'] },
@@ -345,16 +347,17 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
                 <LabelStyle>Editable</LabelStyle>
 
                 <div>
-                  <TextField
+                  {/* <TextField
                     fullWidth
                     InputProps={{
                       readOnly: true,
                     }}
                     label="Status"
-                    {...getFieldProps('status')}
+                    value={STATUS_OPTION[values.status]}
+                    // {...getFieldProps('status')}
                     error={Boolean(touched.status && errors.status)}
                     helperText={touched.status && errors.status}
-                  />
+                  /> */}
 
                   <RadioGroup {...getFieldProps('status')} value={values.status} row>
                     <Stack spacing={1} direction="row">

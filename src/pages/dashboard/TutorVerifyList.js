@@ -45,10 +45,10 @@ import {
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'tutorId', label: 'Id', alignRight: false },
+  { id: 'dateCreate', label: 'Create At', alignRight: false },
+  // { id: 'tutorId', label: 'Id', alignRight: false },
   { id: 'tutorName', label: 'Tutor', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
-  { id: 'dateCreate', label: 'Create At', alignRight: true },
+  { id: 'status', label: 'Status', alignRight: true },
   { id: '' }
 ];
 
@@ -254,7 +254,8 @@ export default function EcommerceProductList() {
                         <TableCell padding="checkbox">
                           {/* <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, name)} /> */}
                         </TableCell>
-                        <TableCell component="th" scope="row" padding="none">
+                        <TableCell align="left">{(dateCreate == null) ? '' : dateCreate}</TableCell>
+                        {/* <TableCell component="th" scope="row" padding="none">
                           <Box
                             sx={{
                               py: 2,
@@ -262,14 +263,14 @@ export default function EcommerceProductList() {
                               alignItems: 'center'
                             }}
                           >
-                            {/* <ThumbImgStyle alt={name} src={cover} /> */}
+                            <ThumbImgStyle alt={name} src={cover} />
                             <Typography variant="subtitle2" noWrap>
                               {tutorId}
                             </Typography>
                           </Box>
-                        </TableCell>
+                        </TableCell> */}
                         <TableCell style={{ minWidth: 160 }}>{tutorName}</TableCell>
-                        <TableCell style={{ minWidth: 160 }}>
+                        <TableCell align="right" style={{ minWidth: 160 }}>
                           <Label
                             // variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
                             // color={
@@ -286,7 +287,7 @@ export default function EcommerceProductList() {
                             {(status === 0) ? 'default' : ''}
                           </Label>
                         </TableCell>
-                        <TableCell align="right">{(dateCreate == null) ? '' : dateCreate}</TableCell>
+                        
                         <TableCell align="right">
                           {/* <ProductMoreMenu onDelete={() => handleDeleteProduct(id)} productName={name} /> */}
                         </TableCell>

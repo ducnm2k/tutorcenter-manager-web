@@ -45,10 +45,10 @@ import {
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
+  { id: 'dateCreate', label: 'Create at', alignRight: false },
   { id: 'parentFulName', label: 'Parents', alignRight: false },
   { id: 'subjects', label: 'Subjects', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
-  { id: 'dateCreate', label: 'Create at', alignRight: false },
   { id: '' }
 ];
 
@@ -254,6 +254,7 @@ export default function EcommerceProductList() {
                         <TableCell padding="checkbox">
                           {/* <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, parent.fullname)} /> */}
                         </TableCell>
+                        <TableCell style={{ minWidth: 160 }}>{(dateCreate == null) ? '' : dateCreate}</TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Box
                             sx={{
@@ -287,7 +288,7 @@ export default function EcommerceProductList() {
                             {(status === 0) ? 'default' : ''}
                           </Label>
                         </TableCell>
-                        <TableCell style={{ minWidth: 160 }}>{(dateCreate == null) ? '' : dateCreate}</TableCell>
+                        
                         <TableCell> </TableCell>
                         {/* <TableCell align="right">{fCurrency(price)}</TableCell> */}
                         {/* <TableCell align="right">
