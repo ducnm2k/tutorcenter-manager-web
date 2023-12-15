@@ -188,4 +188,64 @@ const sidebarConfig = [
   }
 ];
 
+export const sidebarConfigManager = [
+  // ACCOUNT
+  // ----------------------------------------------------------------------
+  {
+    subheader: 'Account',
+    items: [
+      // ACCOUNT : PARENTS
+      {
+        title: 'Parents',
+        path: PATH_DASHBOARD.user.root,
+        icon: ICONS.user,
+        children: [
+          { title: 'Parents list', path: PATH_DASHBOARD.parents.list },
+          { title: 'Request list', path: PATH_DASHBOARD.parents.request },
+          { title: 'Class list', path: PATH_DASHBOARD.parents.class }
+        ]
+      },
+      // ACCOUNT : TUTOR
+      {
+        title: 'Tutor',
+        path: PATH_DASHBOARD.user.root,
+        icon: ICONS.user,
+        children: [
+          { title: 'Tutor list', path: PATH_DASHBOARD.tutor.list },
+          { title: 'Verify request list', path: PATH_DASHBOARD.tutor.verification }
+        ]
+      },
+    ]
+  },
+  // SYSTEM
+  // ----------------------------------------------------------------------
+  {
+    subheader: 'System',
+    items: [
+      // MANAGEMENT : BLOG
+      {
+        title: 'blog',
+        path: PATH_DASHBOARD.blog.root,
+        icon: ICONS.blog,
+        children: [
+          { title: 'list', path: PATH_DASHBOARD.blog.list },
+          { title: 'new post', path: PATH_DASHBOARD.blog.newPost }
+        ]
+      }
+    ]
+  }
+];
+
+export const sidebarConfigAdmin = [
+  // SYSTEM
+  // ----------------------------------------------------------------------
+  {
+    subheader: 'System',
+    items: [
+      { title: 'Auto Assign', path: PATH_DASHBOARD.assign, icon: ICONS.booking },
+      { title: 'Statistic', path: PATH_DASHBOARD.statistic, icon: ICONS.analytics }
+    ]
+  }
+];
+
 export default sidebarConfig;

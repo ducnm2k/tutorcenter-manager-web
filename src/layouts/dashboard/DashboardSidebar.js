@@ -4,6 +4,7 @@ import { Link as RouterLink, useLocation } from 'react-router-dom';
 // material
 import { alpha, styled } from '@material-ui/core/styles';
 import { Box, Link, Stack, Button, Drawer, Tooltip, Typography, CardActionArea } from '@material-ui/core';
+import sidebarConfig, { sidebarConfigAdmin, sidebarConfigManager } from './SidebarConfig';
 // hooks
 import useAuth from '../../hooks/useAuth';
 import useCollapseDrawer from '../../hooks/useCollapseDrawer';
@@ -16,7 +17,7 @@ import Scrollbar from '../../components/Scrollbar';
 import NavSection from '../../components/NavSection';
 import { MHidden } from '../../components/@material-extend';
 //
-import sidebarConfig from './SidebarConfig';
+
 import { DocIllustration } from '../../assets';
 
 // ----------------------------------------------------------------------
@@ -160,8 +161,15 @@ export default function DashboardSidebar({ isOpenSidebar, onCloseSidebar }) {
           </Link>
         )}
       </Stack>
+      {/* {console.log(user?.role === 'ADMIN')} */}
+      {/* <NavSection navConfig={sidebarConfigAdmin} isShow={!isCollapse} /> */}
+      {/* <NavSection navConfig={sidebarConfigManager} isShow={!isCollapse} /> */}
+      {(user?.role === 'ADMIN') ?
+        <NavSection navConfig={sidebarConfigAdmin} isShow={!isCollapse} />
+        :
+        <NavSection navConfig={sidebarConfigManager} isShow={!isCollapse} />
+      }
 
-      <NavSection navConfig={sidebarConfig} isShow={!isCollapse} />
 
       <Box sx={{ flexGrow: 1 }} />
 

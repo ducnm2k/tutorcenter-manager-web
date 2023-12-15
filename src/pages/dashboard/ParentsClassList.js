@@ -45,6 +45,7 @@ import {
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
+  { id: 'id' },
   { id: 'parentName', label: 'Parent', alignRight: false },
   { id: 'subjects', label: 'Subjects', alignRight: false },
   { id: 'tutorLevel', label: 'Tutor Level', alignRight: false },
@@ -123,7 +124,7 @@ export default function EcommerceProductList() {
   const [filterName, setFilterName] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [orderBy, setOrderBy] = useState('status');
+  const [orderBy, setOrderBy] = useState('id');
 
   useEffect(() => {
     dispatch(getParentClassList());
@@ -254,6 +255,9 @@ export default function EcommerceProductList() {
                       >
                         <TableCell padding="checkbox">
                           {/* <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, id)} /> */}
+                        </TableCell>
+                        <TableCell padding="checkbox">
+                          {}
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Box
