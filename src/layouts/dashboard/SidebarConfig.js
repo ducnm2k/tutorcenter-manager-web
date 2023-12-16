@@ -242,7 +242,8 @@ export const sidebarConfigAdmin = [
   {
     subheader: 'System',
     items: [
-      { title: 'Auto Assign', path: PATH_DASHBOARD.assign, icon: ICONS.booking },
+      { title: 'Tasks', path: PATH_DASHBOARD.assign, icon: ICONS.booking },
+      { title: 'System Variables', path: PATH_DASHBOARD.variables, icon: ICONS.banking },
       { title: 'Statistic', path: PATH_DASHBOARD.statistic, icon: ICONS.analytics }
     ]
   }

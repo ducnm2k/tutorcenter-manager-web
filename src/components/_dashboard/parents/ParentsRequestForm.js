@@ -472,17 +472,17 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                   <TextField fullWidth label="Status" {...getFieldProps('status')} />
                   <TextField fullWidth label="Reject reason" {...getFieldProps('reject')} /> */}
                   <div>
-                    <TextField
+                    {/* <TextField
                       fullWidth
                       label="Status"
                       disabled
                       value={STATUS_OPTION[values.status]}
                       error={Boolean(touched.status && errors.status)}
                       helperText={touched.status && errors.status}
-                    />
+                    /> */}
                     <RadioGroup {...getFieldProps('status')} row>
                       <Stack spacing={1} direction="row">
-                        <FormControlLabel value="0" control={<Radio />} label="Default" />
+                        {/* <FormControlLabel value="0" control={<Radio />} label="Default" /> */}
                         <FormControlLabel value="1" control={<Radio />} label="Accept" />
                         <FormControlLabel value="2" control={<Radio />} label="Reject" />
                       </Stack>

@@ -167,7 +167,9 @@ export default function Router() {
             { path: ':id', element: <TransactionDetail /> }
           ]
         },
+        // ADMIN
         { path: 'assign', element: <AutoAssign /> },
+        { path: 'system-variables', element: <SystemVariable /> },
         { path: 'statistic', element: <Statistic /> },
       ]
     },
@@ -304,7 +306,8 @@ const TutorVerifyById = Loadable(lazy(() => import('../pages/dashboard/TutorVeri
 const TransactionList = Loadable(lazy(() => import('../pages/dashboard/TransactionList')));
 const TransactionDetail = Loadable(lazy(() => import('../pages/dashboard/TransactionDetail')));
 // Admin
-const AutoAssign = Loadable(lazy(() => import('../pages/dashboard/AutoAssign')));
+const AutoAssign = Loadable(lazy(() => import('../pages/dashboard/AdminTaskList')));
+const SystemVariable = Loadable(lazy(() => import('../pages/dashboard/AdminSystemVariables')));
 const Statistic = Loadable(lazy(() => import('../pages/dashboard/GeneralEcommerce')));
 // Main
 const LandingPage = Loadable(lazy(() => import('../pages/LandingPage')));

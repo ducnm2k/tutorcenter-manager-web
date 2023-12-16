@@ -490,3 +490,35 @@ export function putAutoAssign() {
     }
   };
 }
+
+// ----------------------------------------------------------------------
+
+export function getAdminTaskList() {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      // const response = await axios.get('/api/products');
+      const response = await axios.get('/api/task/');
+      console.log('tasks', response.data.data);
+      dispatch(slice.actions.getProductsSuccess(response.data.data));
+    } catch (error) {
+      // dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function getAdminVariableList() {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      // const response = await axios.get('/api/products');
+      const response = await axios.get('/api/systemVariable/');
+      console.log('tasks', response.data.data);
+      dispatch(slice.actions.getProductsSuccess(response.data.data));
+    } catch (error) {
+      // dispatch(slice.actions.hasError(error));
+    }
+  };
+}

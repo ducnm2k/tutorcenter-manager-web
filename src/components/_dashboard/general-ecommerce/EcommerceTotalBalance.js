@@ -10,6 +10,8 @@ import { Box, Card, Typography, Stack } from '@material-ui/core';
 import { fNumber, fPercent } from '../../../utils/formatNumber';
 //
 import { BaseOptionChart } from '../../charts';
+import useAuth from '../../../hooks/useAuth';
+
 
 // ----------------------------------------------------------------------
 
@@ -33,6 +35,8 @@ const CHART_DATA = [{ data: [56, 47, 40, 62, 73, 30, 23, 54, 67, 68] }];
 
 export default function EcommerceTotalBalance() {
   const theme = useTheme();
+  const { user } = useAuth();
+
   const chartOptions = merge(BaseOptionChart(), {
     colors: [theme.palette.chart.green[0]],
     chart: { animations: { enabled: true }, sparkline: { enabled: true } },
@@ -56,10 +60,10 @@ export default function EcommerceTotalBalance() {
           Total Balance
         </Typography>
         <Typography variant="h3" gutterBottom>
-          {fNumber(TOTAL_BALANCE)}
+          {fNumber(Intl.NumberFormat({ style: 'currency' }).format(user?.systemWallet))} VND
         </Typography>
 
-        <Stack direction="row" alignItems="center" flexWrap="wrap">
+        {/* <Stack direction="row" alignItems="center" flexWrap="wrap">
           <IconWrapperStyle
             sx={{
               ...(PERCENT < 0 && {
@@ -78,10 +82,9 @@ export default function EcommerceTotalBalance() {
           <Typography variant="body2" component="span" sx={{ color: 'text.secondary' }}>
             &nbsp;than last week
           </Typography>
-        </Stack>
+        </Stack> */}
       </Box>
-
-      <ReactApexChart type="line" series={CHART_DATA} options={chartOptions} width={120} height={80} />
+      {/* <ReactApexChart type="line" series={CHART_DATA} options={chartOptions} width={120} height={80} /> */}
     </Card>
   );
 }

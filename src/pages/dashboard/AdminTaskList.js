@@ -6,6 +6,7 @@ import plusFill from '@iconify/icons-eva/plus-fill';
 import { Link as RouterLink } from 'react-router-dom';
 // material
 import { useTheme, styled } from '@material-ui/core/styles';
+import { useSnackbar } from 'notistack5';
 import {
   Box,
   Card,
@@ -22,7 +23,7 @@ import {
 } from '@material-ui/core';
 // redux
 import { useDispatch, useSelector } from '../../redux/store';
-import { getProducts, deleteProduct, getParentsRequestList } from '../../redux/slices/product';
+import { getProducts, deleteProduct, getParentClassList, putAutoAssign, getAdminTaskList } from '../../redux/slices/product';
 // utils
 import { fDate } from '../../utils/formatTime';
 import { fCurrency } from '../../utils/formatNumber';
@@ -45,10 +46,10 @@ import {
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'parentFulName', label: 'Parents', alignRight: false },
-  { id: 'subjects', label: 'Subjects', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
-  { id: 'dateCreate', label: 'Create at', alignRight: false },
+  { id: 'name', label: 'Type', alignRight: false },
+  { id: 'requestId', label: 'Request Id', alignRight: false },
+  { id: 'managerId', label: 'Manager Id', alignRight: false },
   { id: '' }
 ];
 
@@ -87,7 +88,7 @@ function applySortFilter(array, comparator, query) {
   });
 
   if (query) {
-    return filter(array, (_product) => _product.parentFulName.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_product) => _product.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
 
   return stabilizedThis.map((el) => el[0]);
@@ -103,29 +104,32 @@ function applyStatusFilter(array, comparator, query) {
   });
 
   if (query) {
-    return filter(array, (_product) => _product.status===0);
+    return filter(array, (_product) => _product.status === 2);
   }
 
   return stabilizedThis.map((el) => el[0]);
 }
 
+
+
 // ----------------------------------------------------------------------
 
 export default function EcommerceProductList() {
   const { themeStretch } = useSettings();
+  const { enqueueSnackbar } = useSnackbar();
   const theme = useTheme();
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.product);
   const [page, setPage] = useState(0);
-  const [order, setOrder] = useState('desc');
+  const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
   const [filterName, setFilterName] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [orderBy, setOrderBy] = useState('dateCreate');
+  const [orderBy, setOrderBy] = useState('status');
 
   useEffect(() => {
-    dispatch(getParentsRequestList());
+    dispatch(getAdminTaskList());
   }, [dispatch]);
 
   const handleRequestSort = (event, property) => {
@@ -188,39 +192,51 @@ export default function EcommerceProductList() {
   };
 
   const handleStatusNeedHandleClick = (e) => {
-    setFilterStatus('0');
+    setFilterStatus('2');
     console.log('filterStatus', filterStatus);
   };
 
+  const handleAutoAssign = () => {
+    console.log('clicked');
+    dispatch(putAutoAssign());
+    // resetForm();
+    // setSubmitting(false);
+    enqueueSnackbar('Assign success', { variant: 'success' });
+  }
+
   return (
-    <Page title="Parents: Request List | Minimal-UI">
+    <Page title="Parents: Class List | Minimal-UI">
       <Container maxWidth={themeStretch ? false : 'lg'}>
-        <HeaderBreadcrumbs
-          heading="Request List"
-          links={[
-            { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            {
-              name: 'Parents',
-              href: PATH_DASHBOARD.parents.list
-            },
-            { name: 'Request List' }
-          ]}
-        // action={
-        //   <Button
-        //     variant="contained"
-        //     component={RouterLink}
-        //     to={PATH_DASHBOARD.eCommerce.newProduct}
-        //     startIcon={<Icon icon={plusFill} />}
-        //   >
-        //     New Product
-        //   </Button>
-        // }
-        />
+        <div>
+          <HeaderBreadcrumbs
+            heading="Class List"
+            links={[
+              { name: 'Dashboard', href: PATH_DASHBOARD.root },
+              {
+                name: 'Parents',
+                href: PATH_DASHBOARD.parents.list
+              },
+              { name: 'Class List' }
+            ]}
+          // action={
+          //   <Button
+          //     variant="contained"
+          //     onClick={handleAutoAssign}
+          //   >
+          //     Auto Assign
+          //   </Button>
+          // }
+          />
+          <Button
+            variant="contained"
+            onClick={handleAutoAssign}
+          >
+            Auto Assign
+          </Button>
+        </div>
 
         <Card>
           <ProductListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
-          <Button onClick={handleStatusAllClick}>All</Button>
-          <Button onClick={handleStatusNeedHandleClick}>Need Handle</Button>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -231,11 +247,11 @@ export default function EcommerceProductList() {
                   rowCount={products.length}
                   numSelected={selected.length}
                   onRequestSort={handleRequestSort}
-                // onSelectAllClick={handleSelectAllClick}
+                  onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {filteredProductsByStatus.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, parentFulName, status, dateCreate, subjects } = row;
+                    const { id, name, requestId, type, managerId, status } = row;
 
                     const isItemSelected = selected.indexOf(id) !== -1;
 
@@ -244,15 +260,35 @@ export default function EcommerceProductList() {
                         hover
                         key={id}
                         tabIndex={-1}
-                        // role="checkbox"
-                        // selected={isItemSelected}
-                        // aria-checked={isItemSelected}
-                        component={RouterLink}
-                        to={`${PATH_DASHBOARD.parents.root}/request/edit/${id}`}
+                        role="checkbox"
+                        selected={isItemSelected}
+                        aria-checked={isItemSelected}
+                        // component={RouterLink}
+                        // to={`${PATH_DASHBOARD.parents.root}/class/edit/${id}`}
                         sx={{ textDecoration: 'none' }}
                       >
                         <TableCell padding="checkbox">
-                          {/* <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, parent.fullname)} /> */}
+                          {/* <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, id)} /> */}
+                        </TableCell>
+                        {/* <TableCell padding="checkbox">
+                          { }
+                        </TableCell> */}
+                        <TableCell style={{ minWidth: 160 }}>
+                          <Label
+                            // variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
+                            // color={
+                            //   (inventoryType === 'out_of_stock' && 'error') ||
+                            //   (inventoryType === 'low_stock' && 'warning') ||
+                            //   'success'
+                            // }
+                            // color={(status === 2) ? 'success' : 'error'}
+                            color={(status === 2) ? 'success' : 'default'}
+                            variant={(status === 2) ? 'filled' : 'outlined'}
+                          >
+                            {(status === 1) ? 'assigned' : ''}
+                            {(status === 2) ? 'finished' : ''}
+                            {(status === 0) ? 'unassigned' : ''}
+                          </Label>
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Box
@@ -264,35 +300,17 @@ export default function EcommerceProductList() {
                           >
                             {/* <ThumbImgStyle alt={name} src={cover} /> */}
                             <Typography variant="subtitle2" noWrap>
-                              {parentFulName}
+                              {name}
                             </Typography>
                           </Box>
                         </TableCell>
-                        <TableCell style={{ minWidth: 160 }}>
-                          {(subjects.length === 0) ? 'Chưa chọn môn' : `${subjects[0].name}  ${subjects[0].level}`}
+                        <TableCell style={{ minWidth: 160 }}>{requestId}</TableCell>
+                        {/* <TableCell style={{ minWidth: 160 }}>{type}</TableCell> */}
+                        <TableCell style={{ minWidth: 160 }}>{managerId}</TableCell>
+                        {/* <TableCell style={{ minWidth: 160 }}>{provinceName}</TableCell> */}
+                        <TableCell align="right">
+                          {/* <ProductMoreMenu onDelete={() => handleDeleteProduct(id)} productName={id} /> */}
                         </TableCell>
-                        <TableCell style={{ minWidth: 160 }}>
-                          <Label
-                            // variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-                            // color={
-                            //   (inventoryType === 'out_of_stock' && 'error') ||
-                            //   (inventoryType === 'low_stock' && 'warning') ||
-                            //   'success'
-                            // }
-                            color={(status === 0) ? 'primary' : 'default'}
-                            variant={(status === 0) ? 'filled' : 'outlined'}
-                          >
-                            {(status === 1) ? 'accept' : ''}
-                            {(status === 2) ? 'reject' : ''}
-                            {(status === 0) ? 'default' : ''}
-                          </Label>
-                        </TableCell>
-                        <TableCell style={{ minWidth: 160 }}>{(dateCreate == null) ? '' : dateCreate}</TableCell>
-                        <TableCell> </TableCell>
-                        {/* <TableCell align="right">{fCurrency(price)}</TableCell> */}
-                        {/* <TableCell align="right">
-                          <ProductMoreMenu onDelete={() => handleDeleteProduct(id)} productName={id} />
-                        </TableCell> */}
                       </TableRow>
                     );
                   })}

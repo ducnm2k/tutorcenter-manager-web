@@ -103,6 +103,7 @@ export const PATH_DASHBOARD = {
   },
   // Admin
   assign: path(ROOTS_DASHBOARD, '/assign'),
+  variables: path(ROOTS_DASHBOARD, '/system-variables'),
   statistic: path(ROOTS_DASHBOARD, '/statistic'),
 };
 
