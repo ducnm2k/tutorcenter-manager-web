@@ -45,10 +45,10 @@ import {
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'id' },
+  // { id: 'id' },
   { id: 'parentName', label: 'Parent', alignRight: false },
-  { id: 'subjects', label: 'Subjects', alignRight: false },
-  { id: 'tutorLevel', label: 'Tutor Level', alignRight: false },
+  // { id: 'subjects', label: 'Subjects', alignRight: false },
+  { id: 'tuition', label: 'Tuition', alignRight: false },
   { id: 'districtName', label: 'Location', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: '' }
@@ -237,7 +237,7 @@ export default function EcommerceProductList() {
                 />
                 <TableBody>
                   {filteredProductsByStatus.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, parentName, subjects, tutorLevel, districtName, provinceName, status } = row;
+                    const { id, parentName, subjects, tuition, districtName, provinceName, status } = row;
 
                     const isItemSelected = selected.indexOf(id) !== -1;
 
@@ -256,9 +256,9 @@ export default function EcommerceProductList() {
                         <TableCell padding="checkbox">
                           {/* <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, id)} /> */}
                         </TableCell>
-                        <TableCell padding="checkbox">
+                        {/* <TableCell padding="checkbox">
                           {}
-                        </TableCell>
+                        </TableCell> */}
                         <TableCell component="th" scope="row" padding="none">
                           <Box
                             sx={{
@@ -273,8 +273,8 @@ export default function EcommerceProductList() {
                             </Typography>
                           </Box>
                         </TableCell>
-                        <TableCell style={{ minWidth: 160 }}>{(subjects.length === 0 )? 'Chưa chọn môn' : `${subjects[0].name}  ${subjects[0].level}`}</TableCell>
-                        <TableCell style={{ minWidth: 160 }}>{tutorLevel}</TableCell>
+                        {/* <TableCell style={{ minWidth: 160 }}>{(subjects.length === 0 )? 'Chưa chọn môn' : `${subjects[0].name}  ${subjects[0].level}`}</TableCell> */}
+                        <TableCell style={{ minWidth: 160 }}>{Intl.NumberFormat({ style: 'currency' }).format(tuition)} VNĐ</TableCell>
                         <TableCell style={{ minWidth: 160 }}>{districtName}, {provinceName}</TableCell>
                         {/* <TableCell style={{ minWidth: 160 }}>{provinceName}</TableCell> */}
                         <TableCell style={{ minWidth: 160 }}>

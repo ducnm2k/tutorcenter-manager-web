@@ -77,7 +77,7 @@ export default function Router() {
       ),
       children: [
         { path: '/', element: <Navigate to="/dashboard/app" replace /> },
-        { path: 'app', element: <GeneralApp /> },
+        { path: 'app', element: <AutoAssign /> },
         { path: 'ecommerce', element: <GeneralEcommerce /> },
         { path: 'banking', element: <GeneralBanking /> },
         { path: 'booking', element: <GeneralBooking /> },

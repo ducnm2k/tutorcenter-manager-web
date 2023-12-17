@@ -46,9 +46,9 @@ import {
 
 const TABLE_HEAD = [
   { id: 'parentFulName', label: 'Parents', alignRight: false },
-  { id: 'subjects', label: 'Subjects', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
-  { id: 'dateCreate', label: 'Create at', alignRight: false },
+  // { id: 'subjects', label: 'Subjects', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: true },
+  { id: 'dateCreate', label: 'Create at', alignRight: true },
   { id: '' }
 ];
 
@@ -268,10 +268,10 @@ export default function EcommerceProductList() {
                             </Typography>
                           </Box>
                         </TableCell>
-                        <TableCell style={{ minWidth: 160 }}>
-                          {(subjects.length === 0) ? 'Chưa chọn môn' : `${subjects[0].name}  ${subjects[0].level}`}
-                        </TableCell>
-                        <TableCell style={{ minWidth: 160 }}>
+                        {/* <TableCell style={{ minWidth: 160 }}>
+                          {(subjects?.length === 0) ? 'Chưa chọn môn' : `${subjects[0]?.name}  ${subjects[0]?.level}`}
+                        </TableCell> */}
+                        <TableCell align="right" style={{ minWidth: 160 }}>
                           <Label
                             // variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
                             // color={
@@ -287,7 +287,7 @@ export default function EcommerceProductList() {
                             {(status === 0) ? 'default' : ''}
                           </Label>
                         </TableCell>
-                        <TableCell style={{ minWidth: 160 }}>{(dateCreate == null) ? '' : dateCreate}</TableCell>
+                        <TableCell align="right" style={{ minWidth: 160 }}>{(dateCreate == null) ? '' : dateCreate}</TableCell>
                         <TableCell> </TableCell>
                         {/* <TableCell align="right">{fCurrency(price)}</TableCell> */}
                         {/* <TableCell align="right">

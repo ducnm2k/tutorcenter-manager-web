@@ -42,14 +42,15 @@ import {
   ProductListToolbar,
   ProductMoreMenu
 } from '../../components/_dashboard/e-commerce/product-list';
+import useAuth from '../../hooks/useAuth';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'status', label: 'Status', alignRight: false },
   { id: 'name', label: 'Type', alignRight: false },
   { id: 'requestId', label: 'Request Id', alignRight: false },
   { id: 'managerId', label: 'Manager Id', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false },
   { id: '' }
 ];
 
@@ -117,6 +118,7 @@ function applyStatusFilter(array, comparator, query) {
 export default function EcommerceProductList() {
   const { themeStretch } = useSettings();
   const { enqueueSnackbar } = useSnackbar();
+  const { user } = useAuth();
   const theme = useTheme();
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.product);
@@ -205,18 +207,14 @@ export default function EcommerceProductList() {
   }
 
   return (
-    <Page title="Parents: Class List | Minimal-UI">
+    <Page title="Task list | Minimal-UI">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <div>
           <HeaderBreadcrumbs
-            heading="Class List"
+            heading="Task list"
             links={[
-              { name: 'Dashboard', href: PATH_DASHBOARD.root },
-              {
-                name: 'Parents',
-                href: PATH_DASHBOARD.parents.list
-              },
-              { name: 'Class List' }
+              { name: 'Dashboard', href: PATH_DASHBOARD.assign },
+              { name: 'Task list' }
             ]}
           // action={
           //   <Button
@@ -227,12 +225,22 @@ export default function EcommerceProductList() {
           //   </Button>
           // }
           />
-          <Button
+          {(user?.role === 'ADMIN') ?
+            <Button
+              variant="contained"
+              onClick={handleAutoAssign}
+            >
+              Auto Assign
+            </Button>
+            :
+            <></>
+          }
+          {/* <Button
             variant="contained"
             onClick={handleAutoAssign}
           >
             Auto Assign
-          </Button>
+          </Button> */}
         </div>
 
         <Card>
@@ -273,23 +281,6 @@ export default function EcommerceProductList() {
                         {/* <TableCell padding="checkbox">
                           { }
                         </TableCell> */}
-                        <TableCell style={{ minWidth: 160 }}>
-                          <Label
-                            // variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-                            // color={
-                            //   (inventoryType === 'out_of_stock' && 'error') ||
-                            //   (inventoryType === 'low_stock' && 'warning') ||
-                            //   'success'
-                            // }
-                            // color={(status === 2) ? 'success' : 'error'}
-                            color={(status === 2) ? 'success' : 'default'}
-                            variant={(status === 2) ? 'filled' : 'outlined'}
-                          >
-                            {(status === 1) ? 'assigned' : ''}
-                            {(status === 2) ? 'finished' : ''}
-                            {(status === 0) ? 'unassigned' : ''}
-                          </Label>
-                        </TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Box
                             sx={{
@@ -307,6 +298,25 @@ export default function EcommerceProductList() {
                         <TableCell style={{ minWidth: 160 }}>{requestId}</TableCell>
                         {/* <TableCell style={{ minWidth: 160 }}>{type}</TableCell> */}
                         <TableCell style={{ minWidth: 160 }}>{managerId}</TableCell>
+                        <TableCell style={{ minWidth: 160 }}>
+                          <Label
+                            // variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
+                            // color={
+                            //   (inventoryType === 'out_of_stock' && 'error') ||
+                            //   (inventoryType === 'low_stock' && 'warning') ||
+                            //   'success'
+                            // }
+                            // color={(status === 2) ? 'success' : 'error'}
+                            color={(status === 2) ? 'success' : 'default'}
+                            variant={(status === 2) ? 'filled' : 'outlined'}
+                          >
+                            {(status === 1) ? 'assigned' : ''}
+                            {(status === 2) ? 'finished' : ''}
+                            {(status === 3) ? 'finished late' : ''}
+                            {(status === 4) ? 're-assigned' : ''}
+                            {(status === 0) ? 'unassigned' : ''}
+                          </Label>
+                        </TableCell>
                         {/* <TableCell style={{ minWidth: 160 }}>{provinceName}</TableCell> */}
                         <TableCell align="right">
                           {/* <ProductMoreMenu onDelete={() => handleDeleteProduct(id)} productName={id} /> */}

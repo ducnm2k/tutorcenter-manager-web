@@ -45,10 +45,10 @@ import {
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'dateCreate', label: 'Create At', alignRight: false },
   // { id: 'tutorId', label: 'Id', alignRight: false },
   { id: 'tutorName', label: 'Tutor', alignRight: false },
   { id: 'status', label: 'Status', alignRight: true },
+  { id: 'dateCreate', label: 'Create At', alignRight: true },
   { id: '' }
 ];
 
@@ -103,7 +103,7 @@ function applyStatusFilter(array, comparator, query) {
   });
 
   if (query) {
-    return filter(array, (_product) => _product.status===0);
+    return filter(array, (_product) => _product.status === 0);
   }
 
   return stabilizedThis.map((el) => el[0]);
@@ -254,7 +254,6 @@ export default function EcommerceProductList() {
                         <TableCell padding="checkbox">
                           {/* <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, name)} /> */}
                         </TableCell>
-                        <TableCell align="left">{(dateCreate == null) ? '' : dateCreate}</TableCell>
                         {/* <TableCell component="th" scope="row" padding="none">
                           <Box
                             sx={{
@@ -287,7 +286,7 @@ export default function EcommerceProductList() {
                             {(status === 0) ? 'default' : ''}
                           </Label>
                         </TableCell>
-                        
+                        <TableCell align="right">{(dateCreate == null) ? '' : dateCreate}</TableCell>
                         <TableCell align="right">
                           {/* <ProductMoreMenu onDelete={() => handleDeleteProduct(id)} productName={name} /> */}
                         </TableCell>
