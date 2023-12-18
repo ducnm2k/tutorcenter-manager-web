@@ -10,6 +10,7 @@ const initialState = {
   error: false,
   products: [],
   product: null,
+  totalSales: null,
   sortBy: null,
   filters: {
     gender: [],
@@ -54,6 +55,12 @@ const slice = createSlice({
     getProductSuccess(state, action) {
       state.isLoading = false;
       state.product = action.payload;
+    },
+
+    // GET PRODUCT
+    getTotalSalesSuccess(state, action) {
+      state.isLoading = false;
+      state.totalSales = action.payload;
     },
 
     // DELETE PRODUCT
@@ -331,6 +338,40 @@ export function createBlog(data) {
 
 // ----------------------------------------------------------------------
 
+export function getBlog(id) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const url = `/api/blog/${id}`;
+      // console.log('url ', url);
+      const response = await axios.get(url);
+      // console.log('create blog ', response.data.data);
+      dispatch(slice.actions.getProductSuccess(response.data.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function deleteBlog(id) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const url = `/api/blog/delete/${id}`;
+      // console.log('url ', url);
+      const response = await axios.put(url);
+      // console.log('create blog ', response.data.data);
+      dispatch(slice.actions.getProductSuccess(response.data.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
 export function createClazz(data) {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
@@ -517,6 +558,118 @@ export function getAdminVariableList() {
       const response = await axios.get('/api/systemVariable/');
       console.log('tasks', response.data.data);
       dispatch(slice.actions.getProductsSuccess(response.data.data));
+    } catch (error) {
+      // dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function getAdminVariableDetail(key) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const url = `/api/systemVariable/${key}`
+      // const response = await axios.get('/api/products');
+      const response = await axios.get(url);
+      console.log('tasks', response.data.data);
+      dispatch(slice.actions.getProductSuccess(response.data.data));
+    } catch (error) {
+      // dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function postAdminVariableUpdate(values) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const url = `/api/systemVariable/update?key=${values.varKey}&value=${values.value}`
+      // const response = await axios.get('/api/products');
+      const response = await axios.post(url);
+      console.log('tasks', response.data.data);
+      dispatch(slice.actions.getProductSuccess(response.data.data));
+    } catch (error) {
+      // dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+// export function getStatisticOngoingClass() {
+//   return async (dispatch) => {
+//     dispatch(slice.actions.startLoading());
+//     try {
+//       // const response = await axios.get('/api/products');
+//       const response = await axios.get('/api/admin/ongoingClazz');
+//       // console.log('ongoing class', response.data.data);
+//       dispatch(slice.actions.getProductSuccess(response.data.data));
+//     } catch (error) {
+//       // dispatch(slice.actions.hasError(error));
+//     }
+//   };
+// }
+
+
+// ----------------------------------------------------------------------
+
+// export function getStatisticTotalSales() {
+//   return async (dispatch) => {
+//     dispatch(slice.actions.startLoading());
+//     try {
+//       // const response = await axios.get('/api/products');
+//       const response = await axios.get('/api/admin/totalSale');
+//       console.log('total sales', response.data.data);
+//       dispatch(slice.actions.getProductSuccess(response.data.data));
+//     } catch (error) {
+//       // dispatch(slice.actions.hasError(error));
+//     }
+//   };
+// }
+
+// ----------------------------------------------------------------------
+
+// export function getStatisticYearlySales() {
+//   return async (dispatch) => {
+//     dispatch(slice.actions.startLoading());
+//     try {
+//       // const response = await axios.get('/api/products');
+//       const response = await axios.get('/api/admin/yearlySale');
+//       console.log('yearly sales', response.data.data);
+//       dispatch(slice.actions.getProductSuccess(response.data.data));
+//     } catch (error) {
+//       // dispatch(slice.actions.hasError(error));
+//     }
+//   };
+// }
+
+// ----------------------------------------------------------------------
+
+export function getStatistic() {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      // ONGOING CLASS
+      const response1 = await axios.get('/api/admin/ongoingClazz');
+      // TOTAL SALES
+      const response2 = await axios.get('/api/admin/totalSale');
+      // YEARLY SALES
+      const response3 = await axios.get('/api/admin/yearlySale');
+      console.log('response1', response1.data.data);
+      console.log('response2', response2.data.data);
+      console.log('response3', response3.data.data);
+
+      const statistic = [
+        response1.data.data,
+        response2.data.data,
+        response3.data.data
+      ];
+      console.log('statistic', statistic);
+      dispatch(slice.actions.getProductSuccess(statistic));
     } catch (error) {
       // dispatch(slice.actions.hasError(error));
     }

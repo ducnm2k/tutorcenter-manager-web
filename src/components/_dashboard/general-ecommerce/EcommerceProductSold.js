@@ -1,5 +1,6 @@
 import { merge } from 'lodash';
 import { Icon } from '@iconify/react';
+import { useSelector } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
 import trendingUpFill from '@iconify/icons-eva/trending-up-fill';
 import trendingDownFill from '@iconify/icons-eva/trending-down-fill';
@@ -32,6 +33,7 @@ const TOTAL_SOLD = 765;
 const CHART_DATA = [{ data: [22, 8, 35, 50, 82, 84, 77, 12, 87, 43] }];
 
 export default function EcommerceProductSold() {
+  const { product } = useSelector((state) => state.product);
   const chartOptions = merge(BaseOptionChart(), {
     chart: { animations: { enabled: true }, sparkline: { enabled: true } },
     stroke: { width: 2 },
@@ -47,6 +49,9 @@ export default function EcommerceProductSold() {
     }
   });
 
+  // console.log(product);
+  const ongoingClass = product?.[0];
+  // console.log(ongoingClass);
   return (
     <Card sx={{ display: 'flex', alignItems: 'center', p: 3 }}>
       <Box sx={{ flexGrow: 1 }}>
@@ -54,10 +59,10 @@ export default function EcommerceProductSold() {
           Ongoing Class
         </Typography>
         <Typography variant="h3" gutterBottom>
-          {fNumber(TOTAL_SOLD)}
+          {fNumber(ongoingClass)}
         </Typography>
 
-        <Stack direction="row" alignItems="center" flexWrap="wrap">
+        {/* <Stack direction="row" alignItems="center" flexWrap="wrap">
           <IconWrapperStyle
             sx={{
               ...(PERCENT < 0 && {
@@ -76,10 +81,10 @@ export default function EcommerceProductSold() {
           <Typography variant="body2" component="span" sx={{ color: 'text.secondary' }}>
             &nbsp;than last week
           </Typography>
-        </Stack>
+        </Stack> */}
       </Box>
 
-      <ReactApexChart type="line" series={CHART_DATA} options={chartOptions} width={120} height={80} />
+      {/* <ReactApexChart type="line" series={CHART_DATA} options={chartOptions} width={120} height={80} /> */}
     </Card>
   );
 }

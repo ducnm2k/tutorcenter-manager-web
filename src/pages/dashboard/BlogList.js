@@ -218,6 +218,9 @@ export default function EcommerceProductList() {
                         role="checkbox"
                         selected={isItemSelected}
                         aria-checked={isItemSelected}
+                        component={RouterLink}
+                        to={`${PATH_DASHBOARD.blog.root}/post/edit/${id}`}
+                        sx={{ textDecoration: 'none' }}
                       >
                         <TableCell padding="checkbox">
                           {/* <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, name)} /> */}

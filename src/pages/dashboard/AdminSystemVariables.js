@@ -45,7 +45,6 @@ import {
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'id', label: 'ID', alignRight: false },
   { id: 'varKey', label: 'Key', alignRight: false },
   { id: 'value', label: 'Value', alignRight: false },
   { id: 'dateModified', label: 'Date Modified', alignRight: false },
@@ -247,8 +246,8 @@ export default function EcommerceProductList() {
                         role="checkbox"
                         selected={isItemSelected}
                         aria-checked={isItemSelected}
-                        // component={RouterLink}
-                        // to={`${PATH_DASHBOARD.parents.root}/class/edit/${id}`}
+                        component={RouterLink}
+                        to={`${PATH_DASHBOARD.variables}/edit/${varKey}`}
                         sx={{ textDecoration: 'none' }}
                       >
                         <TableCell padding="checkbox">

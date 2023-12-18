@@ -1,5 +1,8 @@
 import { merge } from 'lodash';
 import { Icon } from '@iconify/react';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios';
 import ReactApexChart from 'react-apexcharts';
 import trendingUpFill from '@iconify/icons-eva/trending-up-fill';
 import trendingDownFill from '@iconify/icons-eva/trending-down-fill';
@@ -10,6 +13,8 @@ import { Box, Card, Typography, Stack } from '@material-ui/core';
 import { fNumber, fPercent } from '../../../utils/formatNumber';
 //
 import { BaseOptionChart } from '../../charts';
+
+
 
 // ----------------------------------------------------------------------
 
@@ -33,6 +38,11 @@ const CHART_DATA = [{ data: [40, 70, 75, 70, 50, 28, 7, 64, 38, 27] }];
 
 export default function EcommerceSalesProfit() {
   const theme = useTheme();
+  const { product } = useSelector((state) => state.product);
+
+  const salesProfit = product?.[1];
+  console.log(salesProfit);
+
   const chartOptions = merge(BaseOptionChart(), {
     colors: [theme.palette.chart.red[0]],
     chart: { animations: { enabled: true }, sparkline: { enabled: true } },
@@ -53,13 +63,13 @@ export default function EcommerceSalesProfit() {
     <Card sx={{ display: 'flex', alignItems: 'center', p: 3 }}>
       <Box sx={{ flexGrow: 1 }}>
         <Typography variant="subtitle2" paragraph>
-          Sales Profit
+          Total Revenue
         </Typography>
         <Typography variant="h3" gutterBottom>
-          {fNumber(TOTAL_SALES)}
+          {fNumber(salesProfit?.totalRevenue)} VND
         </Typography>
 
-        <Stack direction="row" alignItems="center" flexWrap="wrap">
+        {/* <Stack direction="row" alignItems="center" flexWrap="wrap">
           <IconWrapperStyle
             sx={{
               ...(PERCENT < 0 && {
@@ -78,10 +88,10 @@ export default function EcommerceSalesProfit() {
           <Typography variant="body2" component="span" sx={{ color: 'text.secondary' }}>
             &nbsp;than last week
           </Typography>
-        </Stack>
+        </Stack> */}
       </Box>
 
-      <ReactApexChart type="line" series={CHART_DATA} options={chartOptions} width={120} height={80} />
+      {/* <ReactApexChart type="line" series={CHART_DATA} options={chartOptions} width={120} height={80} /> */}
     </Card>
   );
 }

@@ -1,5 +1,6 @@
 import { merge } from 'lodash';
 import { Icon } from '@iconify/react';
+import { useSelector } from 'react-redux';
 import ReactApexChart from 'react-apexcharts';
 import trendingUpFill from '@iconify/icons-eva/trending-up-fill';
 import trendingDownFill from '@iconify/icons-eva/trending-down-fill';
@@ -35,7 +36,10 @@ const CHART_DATA = [{ data: [56, 47, 40, 62, 73, 30, 23, 54, 67, 68] }];
 
 export default function EcommerceTotalBalance() {
   const theme = useTheme();
-  const { user } = useAuth();
+  const { product } = useSelector((state) => state.product);
+
+  const salesProfit = product?.[1];
+  console.log(salesProfit);
 
   const chartOptions = merge(BaseOptionChart(), {
     colors: [theme.palette.chart.green[0]],
@@ -57,10 +61,10 @@ export default function EcommerceTotalBalance() {
     <Card sx={{ display: 'flex', alignItems: 'center', p: 3 }}>
       <Box sx={{ flexGrow: 1 }}>
         <Typography variant="subtitle2" paragraph>
-          Total Balance
+          Total Tuition
         </Typography>
         <Typography variant="h3" gutterBottom>
-          {fNumber(Intl.NumberFormat({ style: 'currency' }).format(user?.systemWallet))} VND
+          {fNumber(salesProfit?.totalTuition)} VND
         </Typography>
 
         {/* <Stack direction="row" alignItems="center" flexWrap="wrap">

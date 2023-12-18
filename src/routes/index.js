@@ -116,7 +116,7 @@ export default function Router() {
             { path: '/', element: <Navigate to="/dashboard/blog/posts" replace /> },
             { path: 'list', element: <BlogList /> },
             { path: 'posts', element: <BlogPosts /> },
-            { path: 'post/:title', element: <BlogPost /> },
+            { path: 'post/edit/:id', element: <BlogNewPost /> },
             { path: 'new-post', element: <BlogNewPost /> }
           ]
         },
@@ -170,6 +170,7 @@ export default function Router() {
         // ADMIN
         { path: 'assign', element: <AutoAssign /> },
         { path: 'system-variables', element: <SystemVariable /> },
+        { path: 'system-variables/edit/:id', element: <SystemVariableById /> },
         { path: 'statistic', element: <Statistic /> },
       ]
     },
@@ -308,6 +309,7 @@ const TransactionDetail = Loadable(lazy(() => import('../pages/dashboard/Transac
 // Admin
 const AutoAssign = Loadable(lazy(() => import('../pages/dashboard/AdminTaskList')));
 const SystemVariable = Loadable(lazy(() => import('../pages/dashboard/AdminSystemVariables')));
+const SystemVariableById = Loadable(lazy(() => import('../pages/dashboard/SystemVariablesDetail')));
 const Statistic = Loadable(lazy(() => import('../pages/dashboard/GeneralEcommerce')));
 // Main
 const LandingPage = Loadable(lazy(() => import('../pages/LandingPage')));
