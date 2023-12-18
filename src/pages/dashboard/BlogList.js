@@ -239,8 +239,7 @@ export default function EcommerceProductList() {
                             </Typography>
                           </Box>
                         </TableCell>
-                        <TableCell align="right">{category}</TableCell>
-                        <TableCell style={{ minWidth: 160 }}>{dateModified}</TableCell>
+                        <TableCell align="left">{category}</TableCell>
                         <TableCell style={{ minWidth: 160 }}>
                         <Label
                             variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
@@ -251,11 +250,12 @@ export default function EcommerceProductList() {
                             // }
                             color={(status === 1) ? 'success' : 'error'}
                           >
-                            {(status === 1) ? '1' : ''}
-                            {(status === 2) ? '2' : ''}
-                            {(status === 0) ? '0' : ''}
+                            {(status === 1) ? 'Posted' : ''}
+                            {(status === 2) ? 'Removed' : ''}
+                            {(status === 0) ? 'Default' : ''}
                           </Label>
                         </TableCell>
+                        <TableCell style={{ minWidth: 160 }}>{dateModified}</TableCell>
                         <TableCell align="right">
                           {/* <ProductMoreMenu onDelete={() => handleDeleteProduct(id)} productName={name} /> */}
                         </TableCell>
