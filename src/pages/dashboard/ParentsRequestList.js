@@ -122,7 +122,7 @@ export default function EcommerceProductList() {
   const [filterName, setFilterName] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [orderBy, setOrderBy] = useState('dateCreate');
+  const [orderBy, setOrderBy] = useState('id');
 
   useEffect(() => {
     dispatch(getParentsRequestList());

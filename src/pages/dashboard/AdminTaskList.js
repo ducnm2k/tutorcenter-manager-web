@@ -49,7 +49,7 @@ import useAuth from '../../hooks/useAuth';
 const TABLE_HEAD = [
   { id: 'name', label: 'Type', alignRight: false },
   { id: 'requestId', label: 'Request Id', alignRight: false },
-  { id: 'managerId', label: 'Manager Id', alignRight: false },
+  { id: 'managerEmail', label: 'Manager Email', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: '' }
 ];
@@ -123,12 +123,12 @@ export default function EcommerceProductList() {
   const dispatch = useDispatch();
   const { products } = useSelector((state) => state.product);
   const [page, setPage] = useState(0);
-  const [order, setOrder] = useState('asc');
+  const [order, setOrder] = useState('desc');
   const [selected, setSelected] = useState([]);
   const [filterName, setFilterName] = useState('');
   const [filterStatus, setFilterStatus] = useState('');
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [orderBy, setOrderBy] = useState('status');
+  const [orderBy, setOrderBy] = useState('id');
 
   useEffect(() => {
     dispatch(getAdminTaskList());
@@ -259,7 +259,7 @@ export default function EcommerceProductList() {
                 />
                 <TableBody>
                   {filteredProductsByStatus.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, requestId, type, managerId, status } = row;
+                    const { id, name, requestId, type, managerEmail, status } = row;
 
                     const isItemSelected = selected.indexOf(id) !== -1;
 
@@ -297,7 +297,7 @@ export default function EcommerceProductList() {
                         </TableCell>
                         <TableCell style={{ minWidth: 160 }}>{requestId}</TableCell>
                         {/* <TableCell style={{ minWidth: 160 }}>{type}</TableCell> */}
-                        <TableCell style={{ minWidth: 160 }}>{managerId}</TableCell>
+                        <TableCell style={{ minWidth: 160 }}>{managerEmail}</TableCell>
                         <TableCell style={{ minWidth: 160 }}>
                           <Label
                             // variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
