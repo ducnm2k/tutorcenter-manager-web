@@ -170,7 +170,7 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
           setSubmitting(false);
           navigate(PATH_DASHBOARD.parents.class);
         }
-        else {
+        if (values.status === 8 && values.payfee > values.tuition) {
           enqueueSnackbar(!isEdit ? 'Invalid pay fee!' : 'Invalid pay fee!', { variant: 'error' });
           console.log('Transaction Canceled!');
           resetForm();

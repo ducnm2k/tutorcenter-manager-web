@@ -293,6 +293,7 @@ export default function EcommerceProductList() {
                             {(status === 2) ? 'ended' : ''}
                             {(status === 3) ? 'paid' : ''}
                             {(status === 4) ? 'overdue' : ''}
+                            {(status === 7) ? 'wait for feedback' : ''}
                             {(status === 8) ? 'wait for consider' : ''}
                             {(status === 0) ? 'default' : ''}
                           </Label>

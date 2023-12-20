@@ -298,25 +298,49 @@ export default function EcommerceProductList() {
                         <TableCell style={{ minWidth: 160 }}>{requestId}</TableCell>
                         {/* <TableCell style={{ minWidth: 160 }}>{type}</TableCell> */}
                         <TableCell style={{ minWidth: 160 }}>{managerEmail}</TableCell>
-                        <TableCell style={{ minWidth: 160 }}>
-                          <Label
-                            // variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
-                            // color={
-                            //   (inventoryType === 'out_of_stock' && 'error') ||
-                            //   (inventoryType === 'low_stock' && 'warning') ||
-                            //   'success'
-                            // }
-                            // color={(status === 2) ? 'success' : 'error'}
-                            color={(status === 0) ? 'primary' : 'default'}
-                            variant={(status === 0) ? 'filled' : 'outlined'}
-                          >
-                            {(status === 1) ? 'assigned' : ''}
-                            {(status === 2) ? 'finished' : ''}
-                            {(status === 3) ? 'finished late' : ''}
-                            {(status === 4) ? 're-assigned' : ''}
-                            {(status === 0) ? 'unassigned' : ''}
-                          </Label>
-                        </TableCell>
+
+                        {(user?.role === 'ADMIN') ?
+                          <TableCell style={{ minWidth: 160 }}>
+                            <Label
+                              // variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
+                              // color={
+                              //   (inventoryType === 'out_of_stock' && 'error') ||
+                              //   (inventoryType === 'low_stock' && 'warning') ||
+                              //   'success'
+                              // }
+                              // color={(status === 2) ? 'success' : 'error'}
+                              color={(status === 0) ? 'primary' : 'default'}
+                              variant={(status === 0) ? 'filled' : 'outlined'}
+                            >
+                              {(status === 1) ? 'assigned' : ''}
+                              {(status === 2) ? 'finished' : ''}
+                              {(status === 3) ? 'finished late' : ''}
+                              {(status === 4) ? 're-assigned' : ''}
+                              {(status === 0) ? 'unassigned' : ''}
+                            </Label>
+                          </TableCell>
+                          :
+                          <TableCell style={{ minWidth: 160 }}>
+                            <Label
+                              // variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
+                              // color={
+                              //   (inventoryType === 'out_of_stock' && 'error') ||
+                              //   (inventoryType === 'low_stock' && 'warning') ||
+                              //   'success'
+                              // }
+                              // color={(status === 2) ? 'success' : 'error'}
+                              color={(status === 1) ? 'primary' : 'default'}
+                              variant={(status === 1) ? 'filled' : 'outlined'}
+                            >
+                              {(status === 1) ? 'assigned' : ''}
+                              {(status === 2) ? 'finished' : ''}
+                              {(status === 3) ? 'finished late' : ''}
+                              {(status === 4) ? 're-assigned' : ''}
+                              {(status === 0) ? 'unassigned' : ''}
+                            </Label>
+                          </TableCell>
+                        }
+
                         {/* <TableCell style={{ minWidth: 160 }}>{provinceName}</TableCell> */}
                         <TableCell align="right">
                           {/* <ProductMoreMenu onDelete={() => handleDeleteProduct(id)} productName={id} /> */}
