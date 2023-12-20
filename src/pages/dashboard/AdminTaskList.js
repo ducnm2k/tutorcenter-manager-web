@@ -47,10 +47,12 @@ import useAuth from '../../hooks/useAuth';
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
+  { id: 'id', label: 'Task Id', alignRight: false },
   { id: 'name', label: 'Type', alignRight: false },
   { id: 'requestId', label: 'Request Id', alignRight: false },
   { id: 'managerEmail', label: 'Manager Email', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
+  { id: 'dateCreate', label: 'Create At', alignRight: false },
   { id: '' }
 ];
 
@@ -206,6 +208,22 @@ export default function EcommerceProductList() {
     enqueueSnackbar('Assign success', { variant: 'success' });
   }
 
+  const adminStatusColor = (status) => {
+    if(status === 0) return 'primary';
+    if(status === 1) return 'default';
+    if(status === 2) return 'success';
+    if(status === 3) return 'error';
+    if(status === 4) return 'success';
+  }
+
+  const managerStatusColor = (status) => {
+    if(status === 0) return 'default';
+    if(status === 1) return 'primary';
+    if(status === 2) return 'success';
+    if(status === 3) return 'error';
+    if(status === 4) return 'primary';
+  }
+
   return (
     <Page title="Task list | Minimal-UI">
       <Container maxWidth={themeStretch ? false : 'lg'}>
@@ -259,7 +277,7 @@ export default function EcommerceProductList() {
                 />
                 <TableBody>
                   {filteredProductsByStatus.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, requestId, type, managerEmail, status } = row;
+                    const { id, name, requestId, type, managerEmail, status, dateCreate } = row;
 
                     const isItemSelected = selected.indexOf(id) !== -1;
 
@@ -276,7 +294,10 @@ export default function EcommerceProductList() {
                         sx={{ textDecoration: 'none' }}
                       >
                         <TableCell padding="checkbox">
-                          {/* <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, id)} /> */}
+                          {}
+                        </TableCell>
+                        <TableCell padding="checkbox">
+                          {id}
                         </TableCell>
                         {/* <TableCell padding="checkbox">
                           { }
@@ -309,7 +330,7 @@ export default function EcommerceProductList() {
                               //   'success'
                               // }
                               // color={(status === 2) ? 'success' : 'error'}
-                              color={(status === 0) ? 'primary' : 'default'}
+                              color={adminStatusColor(status)}
                               variant={(status === 0) ? 'filled' : 'outlined'}
                             >
                               {(status === 1) ? 'assigned' : ''}
@@ -329,7 +350,7 @@ export default function EcommerceProductList() {
                               //   'success'
                               // }
                               // color={(status === 2) ? 'success' : 'error'}
-                              color={(status === 1) ? 'primary' : 'default'}
+                              color={managerStatusColor(status)}
                               variant={(status === 1) ? 'filled' : 'outlined'}
                             >
                               {(status === 1) ? 'assigned' : ''}
@@ -341,7 +362,7 @@ export default function EcommerceProductList() {
                           </TableCell>
                         }
 
-                        {/* <TableCell style={{ minWidth: 160 }}>{provinceName}</TableCell> */}
+                        <TableCell style={{ minWidth: 160 }}>{dateCreate}</TableCell>
                         <TableCell align="right">
                           {/* <ProductMoreMenu onDelete={() => handleDeleteProduct(id)} productName={id} /> */}
                         </TableCell>
