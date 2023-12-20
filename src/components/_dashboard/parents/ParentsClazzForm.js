@@ -30,7 +30,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import moment from 'moment/moment';
 import { useDispatch } from 'react-redux';
-import { createOrder, updateStatusParentsClass } from '../../../redux/slices/product';
+import { createOrder, createOrderPartly, updateStatusParentsClass } from '../../../redux/slices/product';
 // utils
 // import fakeRequest from '../../../utils/fakeRequest';
 // routes
@@ -111,6 +111,7 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
       status: currentProduct?.status || 0,
       subjects: currentProduct?.subjects || [],
       tuition: currentProduct?.tuition || 0,
+      payfee: currentProduct?.payfee || 0,
       slots: currentProduct?.slots || 0,
       attendances: currentProduct?.attendances || 0,
       feedback: currentProduct?.feedback || '',
@@ -134,7 +135,7 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
         // await fakeRequest(500);
         console.log(values.status);
         if (values.status === 2) {
-          if (window.confirm("Confirm your transaction!")) {
+          if (window.confirm(`${Intl.NumberFormat({ style: 'currency' }).format(values.tuition)} VND ! Are you sure?`)) {
             // set status class
             dispatch(updateStatusParentsClass(values));
             console.log("Update data", values);
@@ -147,6 +148,31 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
             console.log('Transaction Canceled!');
           }
 
+          resetForm();
+          setSubmitting(false);
+          navigate(PATH_DASHBOARD.parents.class);
+        }
+        if (values.status === 8 && values.payfee <= values.tuition) {
+          if (window.confirm(`${Intl.NumberFormat({ style: 'currency' }).format(values.payfee)} VND ! Are you sure?`)) {
+            // set status class
+            dispatch(updateStatusParentsClass(values));
+            console.log("Update data", values);
+            // create order
+            dispatch(createOrderPartly(values));
+            console.log("create order", values);
+            enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
+          } else {
+            enqueueSnackbar(!isEdit ? 'Transaction Canceled!' : 'Transaction Canceled!', { variant: 'error' });
+            console.log('Transaction Canceled!');
+          }
+
+          resetForm();
+          setSubmitting(false);
+          navigate(PATH_DASHBOARD.parents.class);
+        }
+        else {
+          enqueueSnackbar(!isEdit ? 'Invalid pay fee!' : 'Invalid pay fee!', { variant: 'error' });
+          console.log('Transaction Canceled!');
           resetForm();
           setSubmitting(false);
           navigate(PATH_DASHBOARD.parents.class);
@@ -261,8 +287,8 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
                     startAdornment: <InputAdornment position="start">VND</InputAdornment>
                   }}
                   label="Tuition"
-                  value={Intl.NumberFormat({style: 'currency'}).format(values.tuition)}
-                  // {...getFieldProps('tuition')}
+                  value={Intl.NumberFormat({ style: 'currency' }).format(values.tuition)}
+                // {...getFieldProps('tuition')}
                 />
 
                 <TextField
@@ -480,132 +506,136 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
                   {(values.status === 2) ? 'End' : ''}
                   {(values.status === 3) ? 'Paid' : ''}
                   {(values.status === 4) ? 'Overdue' : ''}
+                  {(values.status === 8) ? 'Wait for consider' : ''}
                 </InputLabel>
                 <InputLabel>
                   Attendances: {values.attendances} / {values.slots}
                 </InputLabel>
               </Card>
 
-              {/* <Card sx={{ p: 3 }}>
-                <Stack spacing={3}>
-                  <TextField
-                    fullWidth
-                    placeholder="dd-MM-yyyy"
-                    label="Start date"
-                    {...getFieldProps('dateStart')}
-                    // InputProps={{
-                    //   type: 'number'
-                    // }}
-                    error={Boolean(touched.dateStart && errors.dateStart)}
-                    helperText={touched.dateStart && errors.dateStart}
-                  />
+              {(values.status === 8) ?
+                <Card sx={{ p: 3 }}>
+                  <Stack spacing={3}>
+                    <TextField
+                      fullWidth
+                      placeholder="VND"
+                      label="Pay for Tutor (without service charge)"
+                      {...getFieldProps('payfee')}
+                      InputProps={{
+                        type: 'number',
+                        startAdornment: <InputAdornment position="start">VND</InputAdornment>
+                      }}
+                    />
 
-                  <TextField
-                    fullWidth
-                    placeholder="dd-MM-yyyy"
-                    label="End date"
-                    {...getFieldProps('dateEnd')}
-                    // InputProps={{
-                    //   type: 'number'
-                    // }}
-                    error={Boolean(touched.dateEnd && errors.dateEnd)}
-                    helperText={touched.dateEnd && errors.dateEnd}
-                  />
+                    {/* <TextField
+                  fullWidth
+                  placeholder="dd-MM-yyyy"
+                  label="End date"
+                  {...getFieldProps('dateEnd')}
+                  // InputProps={{
+                  //   type: 'number'
+                  // }}
+                  error={Boolean(touched.dateEnd && errors.dateEnd)}
+                  helperText={touched.dateEnd && errors.dateEnd}
+                /> */}
 
-                  <DatePicker
-                    // disabled={!isAdmin}
-                    // disableFuture
-                    inputFormat='dd/MM/yyyy'
-                    label="Date Start"
-                    openTo="year"
-                    views={['year', 'month', 'day']}
-                    value={moment(values.dateStart, "DD/MM/YYYY")}
-                    {...getFieldProps('dateStart')}
-                    onChange={(newValue) => {
-                      setFieldValue('dateStart', newValue);
-                    }}
-                    disabled
-                    renderInput={(params) => <TextField {...params} error={Boolean(touched.dateStart && errors.dateStart)}
-                      helperText={touched.dateStart && errors.dateStart} />}
-                  />
+                    {/* <DatePicker
+                  // disabled={!isAdmin}
+                  // disableFuture
+                  inputFormat='dd/MM/yyyy'
+                  label="Date Start"
+                  openTo="year"
+                  views={['year', 'month', 'day']}
+                  value={moment(values.dateStart, "DD/MM/YYYY")}
+                  {...getFieldProps('dateStart')}
+                  onChange={(newValue) => {
+                    setFieldValue('dateStart', newValue);
+                  }}
+                  disabled
+                  renderInput={(params) => <TextField {...params} error={Boolean(touched.dateStart && errors.dateStart)}
+                    helperText={touched.dateStart && errors.dateStart} />}
+                /> */}
 
-                  <DatePicker
-                    // disabled={!isAdmin}
-                    // disableFuture
-                    inputFormat='dd/MM/yyyy'
-                    label="Date End"
-                    openTo="year"
-                    views={['year', 'month', 'day']}
-                    value={moment(values.dateStart, "DD/MM/YYYY")}
-                    {...getFieldProps('dateEnd')}
-                    onChange={(newValue) => {
-                      setFieldValue('dateEnd', newValue);
-                    }}
-                    disabled
-                    renderInput={(params) => <TextField {...params} error={Boolean(touched.dateStart && errors.dateStart)}
-                      helperText={touched.dateStart && errors.dateStart} />}
-                  />
+                    {/* <DatePicker
+                  // disabled={!isAdmin}
+                  // disableFuture
+                  inputFormat='dd/MM/yyyy'
+                  label="Date End"
+                  openTo="year"
+                  views={['year', 'month', 'day']}
+                  value={moment(values.dateStart, "DD/MM/YYYY")}
+                  {...getFieldProps('dateEnd')}
+                  onChange={(newValue) => {
+                    setFieldValue('dateEnd', newValue);
+                  }}
+                  disabled
+                  renderInput={(params) => <TextField {...params} error={Boolean(touched.dateStart && errors.dateStart)}
+                    helperText={touched.dateStart && errors.dateStart} />}
+                /> */}
 
-                  <TextField
-                    fullWidth
-                    placeholder="dd-MM-yyyy"
-                    label="Create date"
-                    {...getFieldProps('price')}
-                    InputProps={{
-                      type: 'number'
-                    }}
-                    error={Boolean(touched.price && errors.price)}
-                    helperText={touched.price && errors.price}
-                  />
+                    {/* <TextField
+                  fullWidth
+                  placeholder="dd-MM-yyyy"
+                  label="Create date"
+                  {...getFieldProps('price')}
+                  InputProps={{
+                    type: 'number'
+                  }}
+                  error={Boolean(touched.price && errors.price)}
+                  helperText={touched.price && errors.price}
+                /> */}
 
-                  <TextField
-                    fullWidth
-                    placeholder="dd-MM-yyyy"
-                    label="Modified date"
-                    {...getFieldProps('price')}
-                    InputProps={{
-                      type: 'number'
-                    }}
-                    error={Boolean(touched.price && errors.price)}
-                    helperText={touched.price && errors.price}
-                  />
+                    {/* <TextField
+                  fullWidth
+                  placeholder="dd-MM-yyyy"
+                  label="Modified date"
+                  {...getFieldProps('price')}
+                  InputProps={{
+                    type: 'number'
+                  }}
+                  error={Boolean(touched.price && errors.price)}
+                  helperText={touched.price && errors.price}
+                /> */}
 
-                  <Select label="Status" native {...getFieldProps('')} value={values.category} fullWidth>
-
-
-                  {CATEGORY_OPTION.map((category) => (
-                    <optgroup key={category.group} label={category.group}>
-                      {category.classify.map((classify) => (
-                        <option key={classify} value={classify}>
-                          {classify}
-                        </option>
-                      ))}
-                    </optgroup>
-                  ))}
+                    {/* <Select label="Status" native {...getFieldProps('')} value={values.category} fullWidth> */}
 
 
-                  </Select>
+                    {/* {CATEGORY_OPTION.map((category) => (
+                  <optgroup key={category.group} label={category.group}>
+                    {category.classify.map((classify) => (
+                      <option key={classify} value={classify}>
+                        {classify}
+                      </option>
+                    ))}
+                  </optgroup>
+                ))} */}
 
-                  <TextField
-                    fullWidth
-                    placeholder="0.00"
-                    label="Sale Price"
-                    {...getFieldProps('priceSale')}
-                    InputProps={{
-                      startAdornment: <InputAdornment position="start">$</InputAdornment>,
-                      type: 'number'
-                    }}
-                  />
-                </Stack>
 
-                <FormControlLabel
-                  control={<Switch {...getFieldProps('taxes')} checked={values.taxes} />}
-                  label="Price includes taxes"
-                  sx={{ mt: 2 }}
-                />
-              </Card> */}
+                    {/* </Select> */}
 
-              {(values.status === 2) ?
+                    {/* <TextField
+                  fullWidth
+                  placeholder="0.00"
+                  label="Sale Price"
+                  {...getFieldProps('priceSale')}
+                  InputProps={{
+                    startAdornment: <InputAdornment position="start">$</InputAdornment>,
+                    type: 'number'
+                  }}
+                /> */}
+                  </Stack>
+
+                  {/* <FormControlLabel
+                control={<Switch {...getFieldProps('taxes')} checked={values.taxes} />}
+                label="Price includes taxes"
+                sx={{ mt: 2 }}
+              /> */}
+                </Card>
+                :
+                <></>
+              }
+
+              {(values.status === 2 || values.status === 8) ?
                 <LoadingButton type="submit" fullWidth variant="contained" size="large" loading={isSubmitting} >
                   {!isEdit ? 'Create Product' : 'Pay Tutor'}
                 </LoadingButton>

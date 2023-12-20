@@ -307,8 +307,8 @@ export default function EcommerceProductList() {
                             //   'success'
                             // }
                             // color={(status === 2) ? 'success' : 'error'}
-                            color={(status === 2) ? 'success' : 'default'}
-                            variant={(status === 2) ? 'filled' : 'outlined'}
+                            color={(status === 0) ? 'primary' : 'default'}
+                            variant={(status === 0) ? 'filled' : 'outlined'}
                           >
                             {(status === 1) ? 'assigned' : ''}
                             {(status === 2) ? 'finished' : ''}

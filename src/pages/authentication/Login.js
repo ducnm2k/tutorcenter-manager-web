@@ -90,9 +90,9 @@ export default function Login() {
 
           {method === 'firebase' && <AuthFirebaseSocials />}
 
-          <Alert severity="info" sx={{ mb: 3 }}>
+          {/* <Alert severity="info" sx={{ mb: 3 }}>
             Use email : <strong>nguyenvanc@gmail.com</strong> / password :<strong>&nbsp;1</strong>
-          </Alert>
+          </Alert> */}
 
           {method !== 'auth0' ? (
             <LoginForm />

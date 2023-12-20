@@ -105,7 +105,7 @@ function applyStatusFilter(array, comparator, query) {
   });
 
   if (query) {
-    return filter(array, (_product) => _product.status===2);
+    return filter(array, (_product) => (_product.status===2 || _product.status===8));
   }
 
   return stabilizedThis.map((el) => el[0]);
@@ -286,13 +286,14 @@ export default function EcommerceProductList() {
                             //   'success'
                             // }
                             // color={(status === 2) ? 'success' : 'error'}
-                            color={(status === 2) ? 'primary' : 'default'}
-                            variant={(status === 2) ? 'filled' : 'outlined'}
+                            color={(status === 2 || status === 8) ? 'primary' : 'default'}
+                            variant={(status === 2 || status === 8) ? 'filled' : 'outlined'}
                           >
                             {(status === 1) ? 'started' : ''}
                             {(status === 2) ? 'ended' : ''}
                             {(status === 3) ? 'paid' : ''}
                             {(status === 4) ? 'overdue' : ''}
+                            {(status === 8) ? 'wait for consider' : ''}
                             {(status === 0) ? 'default' : ''}
                           </Label>
                         </TableCell>

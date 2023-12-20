@@ -520,6 +520,26 @@ export function createOrder(data) {
 
 // ----------------------------------------------------------------------
 
+export function createOrderPartly(data) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const url = `/api/order/createPartly`;
+      const d = {
+        "clazzId": data.id,
+        "amount": data.tuition
+      };
+      const response = await axios.post(url, d);
+      console.log('createOrderPartly ', response);
+      dispatch(slice.actions.getProductSuccess(response.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
 export function putAutoAssign() {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
