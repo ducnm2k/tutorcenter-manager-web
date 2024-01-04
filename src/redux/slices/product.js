@@ -37,6 +37,7 @@ const slice = createSlice({
     // START LOADING
     startLoading(state) {
       state.isLoading = true;
+      state.product = null;
     },
 
     // HAS ERROR
@@ -469,7 +470,7 @@ export function updateStatusRequestVerification(data) {
       };
       // console.log(url);
       // console.log(data);
-      const response = await axios.put(url,d);
+      const response = await axios.put(url, d);
       console.log('updateStatusRequestVerification', response);
       dispatch(slice.actions.getProductSuccess(response.data.data));
     } catch (error) {
@@ -692,6 +693,140 @@ export function getStatistic() {
       dispatch(slice.actions.getProductSuccess(statistic));
     } catch (error) {
       // dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function getQuestionList() {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axios.get(`api/question/`);
+      console.log('question list', response.data.data);
+      dispatch(slice.actions.getProductsSuccess(response.data.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function getQuestionDetail(id) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const url = `/api/question/${id}`;
+      // console.log(url);
+      const response = await axios.get(url);
+      console.log('getQuestionDetail', response.data.data);
+      dispatch(slice.actions.getProductSuccess(response.data.data));
+      // if(response.status !== 200){
+      //   //tra ve kieu ..
+      // }  
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function putUpdateQuestion(data) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const url = `/api/question/update`;
+      const d = {
+        "id": data.id,
+        "subjectId": data.subjectId,
+        "subjectName": data.subjectName,
+        "subjectLevel": data.subjectLevel,
+        "difficulty": data.difficulty,
+        "content": data.content,
+        "dateCreate": data.dateCreate,
+        "answers": [
+          {
+            "id": data.answers[0].id,
+            "questionId": data.answers[0].questionId,
+            "content": data.option1,
+            "correct": data.answers[0].correct
+          },
+          {
+            "id": data.answers[1].id,
+            "questionId": data.answers[1].questionId,
+            "content": data.option2,
+            "correct": data.answers[1].correct
+          },
+          {
+            "id": data.answers[2].id,
+            "questionId": data.answers[2].questionId,
+            "content": data.option3,
+            "correct": data.answers[2].correct
+          },
+          {
+            "id": data.answers[3].id,
+            "questionId": data.answers[3].questionId,
+            "content": data.option4,
+            "correct": data.answers[3].correct
+          },
+        ]
+      }
+
+      // console.log(url);
+      const response = await axios.put(url, d);
+      console.log('putUpdateQuestion', response);
+      // dispatch(slice.actions.getProductSuccess(response.data.data));
+      // if(response.status !== 200){
+      //   //tra ve kieu ..
+      // }  
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function delDeleletQuestion(id) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const url = `/api/question/delete/${id}`;
+      // console.log(url);
+      const response = await axios.delete(url);
+      console.log('delDeleletQuestion', response.data.data);
+      dispatch(slice.actions.getProductSuccess(response.data.data));
+      // if(response.status !== 200){
+      //   //tra ve kieu ..
+      // }  
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function postNewQuestions(file) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const formData = new FormData();
+      formData.append(
+        'file',
+        file
+      );
+      const response = await axios.post('/api/question/import', formData)
+      console.log(response);
+      dispatch(slice.actions.getProductSuccess(response.data.data));
+      // if(response.status !== 200){
+      //   //tra ve kieu ..
+      // }  
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
     }
   };
 }

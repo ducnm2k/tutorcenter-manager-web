@@ -22,7 +22,7 @@ import {
 } from '@material-ui/core';
 // redux
 import { useDispatch, useSelector } from '../../redux/store';
-import { getProducts, deleteProduct, getParentClassList } from '../../redux/slices/product';
+import { getProducts, deleteProduct, getTutorVerificationList, getQuestionList } from '../../redux/slices/product';
 // utils
 import { fDate } from '../../utils/formatTime';
 import { fCurrency } from '../../utils/formatNumber';
@@ -45,12 +45,10 @@ import {
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  // { id: 'id' },
-  { id: 'parentName', label: 'Parent', alignRight: false },
-  // { id: 'subjects', label: 'Subjects', alignRight: false },
-  { id: 'tuition', label: 'Tuition', alignRight: false },
-  { id: 'districtName', label: 'Location', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
+  { id: 'tutorId', label: 'Subject', alignRight: false },
+  { id: 'tutorName', label: 'Content', alignRight: false },
+  { id: 'status', label: 'Difficulty', alignRight: true },
+  { id: 'dateCreate', label: 'Create At', alignRight: false },
   { id: '' }
 ];
 
@@ -89,7 +87,7 @@ function applySortFilter(array, comparator, query) {
   });
 
   if (query) {
-    return filter(array, (_product) => _product.parentName.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_product) => _product.subjectName.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
 
   return stabilizedThis.map((el) => el[0]);
@@ -105,7 +103,7 @@ function applyStatusFilter(array, comparator, query) {
   });
 
   if (query) {
-    return filter(array, (_product) => (_product.status===2 || _product.status===8));
+    return filter(array, (_product) => _product.status === 0);
   }
 
   return stabilizedThis.map((el) => el[0]);
@@ -127,7 +125,7 @@ export default function EcommerceProductList() {
   const [orderBy, setOrderBy] = useState('id');
 
   useEffect(() => {
-    dispatch(getParentClassList());
+    dispatch(getQuestionList());
   }, [dispatch]);
 
   const handleRequestSort = (event, property) => {
@@ -190,39 +188,39 @@ export default function EcommerceProductList() {
   };
 
   const handleStatusNeedHandleClick = (e) => {
-    setFilterStatus('2');
+    setFilterStatus('0');
     console.log('filterStatus', filterStatus);
   };
 
   return (
-    <Page title="Parents: Class List | Minimal-UI">
+    <Page title="Question List | Minimal-UI">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Class List"
+          heading="Question List"
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
             {
-              name: 'Parents',
-              href: PATH_DASHBOARD.parents.list
+              name: 'Question',
+              href: PATH_DASHBOARD.question.list
             },
-            { name: 'Class List' }
+            { name: 'Question List' }
           ]}
-          // action={
-          //   <Button
-          //     variant="contained"
-          //     component={RouterLink}
-          //     to={PATH_DASHBOARD.eCommerce.newProduct}
-          //     startIcon={<Icon icon={plusFill} />}
-          //   >
-          //     New Product
-          //   </Button>
-          // }
+        // action={
+        //   <Button
+        //     variant="contained"
+        //     component={RouterLink}
+        //     to={PATH_DASHBOARD.eCommerce.newProduct}
+        //     startIcon={<Icon icon={plusFill} />}
+        //   >
+        //     New Product
+        //   </Button>
+        // }
         />
 
         <Card>
           <ProductListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
-          {/* <Button onClick={handleStatusAllClick}>All</Button> */}
-          {/* <Button onClick={handleStatusNeedHandleClick}>Need Handle</Button> */}
+          {/* <Button onClick={handleStatusAllClick}>All</Button>
+          <Button onClick={handleStatusNeedHandleClick}>Need Handle</Button> */}
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -237,9 +235,9 @@ export default function EcommerceProductList() {
                 />
                 <TableBody>
                   {filteredProductsByStatus.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, parentName, subjects, tuition, districtName, provinceName, status } = row;
+                    const { id, subjectName, subjectLevel, content, difficulty, dateCreate } = row;
 
-                    const isItemSelected = selected.indexOf(id) !== -1;
+                    const isItemSelected = selected.indexOf(subjectName) !== -1;
 
                     return (
                       <TableRow
@@ -250,16 +248,13 @@ export default function EcommerceProductList() {
                         selected={isItemSelected}
                         aria-checked={isItemSelected}
                         component={RouterLink}
-                        to={`${PATH_DASHBOARD.parents.root}/class/edit/${id}`}
+                        to={`${PATH_DASHBOARD.question.root}/edit/${id}`}
                         sx={{ textDecoration: 'none' }}
                       >
                         <TableCell padding="checkbox">
-                          {/* <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, id)} /> */}
+                          {/* <Checkbox checked={isItemSelected} onChange={(event) => handleClick(event, name)} /> */}
                         </TableCell>
-                        {/* <TableCell padding="checkbox">
-                          {}
-                        </TableCell> */}
-                        <TableCell component="th" scope="row" padding="none">
+                        {/* <TableCell component="th" scope="row" padding="none">
                           <Box
                             sx={{
                               py: 2,
@@ -267,17 +262,15 @@ export default function EcommerceProductList() {
                               alignItems: 'center'
                             }}
                           >
-                            {/* <ThumbImgStyle alt={name} src={cover} /> */}
+                            <ThumbImgStyle alt={name} src={cover} />
                             <Typography variant="subtitle2" noWrap>
-                            {parentName}
+                              {tutorId}
                             </Typography>
                           </Box>
-                        </TableCell>
-                        {/* <TableCell style={{ minWidth: 160 }}>{(subjects.length === 0 )? 'Chưa chọn môn' : `${subjects[0].name}  ${subjects[0].level}`}</TableCell> */}
-                        <TableCell style={{ minWidth: 160 }}>{Intl.NumberFormat({ style: 'currency' }).format(tuition)} VNĐ</TableCell>
-                        <TableCell style={{ minWidth: 160 }}>{districtName}, {provinceName}</TableCell>
-                        {/* <TableCell style={{ minWidth: 160 }}>{provinceName}</TableCell> */}
-                        <TableCell style={{ minWidth: 160 }}>
+                        </TableCell> */}
+                        <TableCell style={{ minWidth: 160 }}>{subjectName} {subjectLevel}</TableCell>
+                        <TableCell style={{ minWidth: 160 }}>{content}</TableCell>
+                        <TableCell align="right" style={{ minWidth: 160 }}>
                           <Label
                             // variant={theme.palette.mode === 'light' ? 'ghost' : 'filled'}
                             // color={
@@ -285,21 +278,18 @@ export default function EcommerceProductList() {
                             //   (inventoryType === 'low_stock' && 'warning') ||
                             //   'success'
                             // }
-                            // color={(status === 2) ? 'success' : 'error'}
-                            color={(status === 2 || status === 8) ? 'primary' : 'default'}
-                            variant={(status === 2 || status === 8) ? 'filled' : 'outlined'}
+                            // color={(status === 1) ? 'success' : 'error'}
+                            color={(difficulty === 0) ? 'default' : 'default'}
+                            variant={(difficulty === 0) ? 'filled' : 'filled'}
                           >
-                            {(status === 1) ? 'started' : ''}
-                            {(status === 2) ? 'ended' : ''}
-                            {(status === 3) ? 'paid' : ''}
-                            {(status === 4) ? 'overdue' : ''}
-                            {(status === 7) ? 'wait for feedback' : ''}
-                            {(status === 8) ? 'wait for consider' : ''}
-                            {(status === 0) ? 'default' : ''}
+                            {(difficulty === 1) ? 'easy' : ''}
+                            {(difficulty === 2) ? 'normal' : ''}
+                            {(difficulty === 3) ? 'hard' : ''}
                           </Label>
                         </TableCell>
+                        <TableCell align="right">{(dateCreate == null) ? '' : dateCreate}</TableCell>
                         <TableCell align="right">
-                          {/* <ProductMoreMenu onDelete={() => handleDeleteProduct(id)} productName={id} /> */}
+                          {/* <ProductMoreMenu onDelete={() => handleDeleteProduct(id)} productName={name} /> */}
                         </TableCell>
                       </TableRow>
                     );

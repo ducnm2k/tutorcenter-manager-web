@@ -24,7 +24,8 @@ import {
   Autocomplete,
   InputAdornment,
   FormHelperText,
-  FormControlLabel
+  FormControlLabel,
+  Rating
 } from '@material-ui/core';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -115,7 +116,11 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
       slots: currentProduct?.slots || 0,
       attendances: currentProduct?.attendances || 0,
       feedback: currentProduct?.feedback || '',
-      rating: currentProduct?.rating || 0,
+      professionalSkill: currentProduct?.professionalSkill || 0,
+      supportOt: currentProduct?.supportOt || 0,
+      pedagogicalSkill: currentProduct?.pedagogicalSkill || 0,
+      workingStyle: currentProduct?.workingStyle || 0,
+      courseCover: currentProduct?.courseCover || 0,
       // name: currentProduct?.name || '',
       // description: currentProduct?.description || '',
       // images: currentProduct?.images || [],
@@ -140,8 +145,8 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
             dispatch(updateStatusParentsClass(values));
             console.log("Update data", values);
             // create order
-            dispatch(createOrder(values));
-            console.log("create order", values);
+            // dispatch(createOrder(values));
+            // console.log("create order", values);
             enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
           } else {
             enqueueSnackbar(!isEdit ? 'Transaction Canceled!' : 'Transaction Canceled!', { variant: 'error' });
@@ -221,6 +226,23 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
     console.log(txt);
   };
 
+  function getSubjectFromSubjects() {
+    let rs = ' ';
+    if (values.subjects.length === 0) rs = 'Chưa chọn môn';
+    if (values.subjects.length === 1) {
+      // console.log(values.subject.concat(' ').concat(values.level));
+      rs = rs.concat(values.subjects[0].name).concat(' ').concat(values.subjects[0].level);
+    }
+    if (values.subjects.length > 1) {
+      for (let index = 0; index < values.subjects.length; index += 1) {
+        rs = rs.concat(values.subjects[index].name).concat(' ').concat(values.subjects[index].level).concat(' | ');
+      }
+      // console.log(rs);
+    }
+
+    return rs;
+  }
+
   return (
     <FormikProvider value={formik}>
       <Form noValidate autoComplete="off" onSubmit={handleSubmit}>
@@ -228,7 +250,7 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
           <Grid item xs={12} md={8}>
             <Card sx={{ p: 3 }}>
               <Stack spacing={3}>
-                <LabelStyle>Un-editable</LabelStyle>
+                {/* <LabelStyle>Un-editable</LabelStyle> */}
                 <TextField
                   fullWidth
                   InputProps={{
@@ -282,6 +304,16 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
 
                 <TextField
                   fullWidth
+                  label="Subjects"
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  // {...getFieldProps('subject')}
+                  value={getSubjectFromSubjects()}
+                />
+
+                <TextField
+                  fullWidth
                   InputProps={{
                     readOnly: true,
                     startAdornment: <InputAdornment position="start">VND</InputAdornment>
@@ -291,23 +323,14 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
                 // {...getFieldProps('tuition')}
                 />
 
-                <TextField
+                {/* <TextField
                   fullWidth
                   InputProps={{
                     readOnly: true,
                   }}
                   label="Rating"
                   {...getFieldProps('rating')}
-                />
-
-                <TextField
-                  fullWidth
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  label="Feedback"
-                  {...getFieldProps('feedback')}
-                />
+                /> */}
 
                 <div>
                   {/* <LabelStyle>Subject</LabelStyle>
@@ -501,22 +524,79 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
                   />
                 </Stack> */}
                 <InputLabel>
-                  Status: {(values.status === 0) ? 'Default' : ''}
-                  {(values.status === 1) ? 'Start' : ''}
-                  {(values.status === 2) ? 'End' : ''}
-                  {(values.status === 3) ? 'Paid' : ''}
-                  {(values.status === 4) ? 'Overdue' : ''}
-                  {(values.status === 8) ? 'Wait for consider' : ''}
+                  Status: {(values.status === 0) ? 'Unpaid' : ''}
+                  {(values.status === 1) ? 'Available' : ''}
+                  {(values.status === 2) ? 'Started' : ''}
+                  {(values.status === 3) ? 'Ended' : ''}
+                  {(values.status === 4) ? 'Canceled' : ''}
                 </InputLabel>
-                <InputLabel>
-                  Attendances: {values.attendances} / {values.slots}
-                </InputLabel>
+
+                <TextField
+                  sx={{ mt: 1 }}
+                  fullWidth
+                  multiline
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  label="Feedback"
+                  {...getFieldProps('feedback')}
+                />
+
+                <div>
+                  <LabelStyle sx={{ pt: 1 }}>Course Cover</LabelStyle>
+                  <Rating
+                    name="half-rating"
+                    value={values.courseCover}
+                    precision={0.5}
+                    disabled
+                  />
+                </div>
+
+                <div>
+                  <LabelStyle sx={{ pt: 1 }}>Pedagogical Skill</LabelStyle>
+                  <Rating
+                    name="half-rating"
+                    value={values.pedagogicalSkill}
+                    precision={0.5}
+                    disabled
+                  />
+                </div>
+
+                <div>
+                  <LabelStyle sx={{ pt: 1 }}>Professional Skill</LabelStyle>
+                  <Rating
+                    name="half-rating"
+                    value={values.professionalSkill}
+                    precision={0.5}
+                    disabled
+                  />
+                </div>
+
+                <div>
+                  <LabelStyle sx={{ pt: 1 }}>After-class Support </LabelStyle>
+                  <Rating
+                    name="half-rating"
+                    value={values.supportOt}
+                    precision={0.5}
+                    disabled
+                  />
+                </div>
+
+                <div>
+                  <LabelStyle sx={{ pt: 1 }}>Manners</LabelStyle>
+                  <Rating
+                    name="half-rating"
+                    value={values.workingStyle}
+                    precision={0.5}
+                    disabled
+                  />
+                </div>
               </Card>
 
               {(values.status === 8) ?
                 <Card sx={{ p: 3 }}>
                   <Stack spacing={3}>
-                    <TextField
+                    {/* <TextField
                       fullWidth
                       placeholder="VND"
                       label="Pay for Tutor (without service charge)"
@@ -525,7 +605,7 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
                         type: 'number',
                         startAdornment: <InputAdornment position="start">VND</InputAdornment>
                       }}
-                    />
+                    /> */}
 
                     {/* <TextField
                   fullWidth
@@ -635,7 +715,7 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
                 <></>
               }
 
-              {(values.status === 2 || values.status === 8) ?
+              {/* {(values.status === 2 || values.status === 8) ?
                 <LoadingButton type="submit" fullWidth variant="contained" size="large" loading={isSubmitting} >
                   {!isEdit ? 'Create Product' : 'Pay Tutor'}
                 </LoadingButton>
@@ -643,7 +723,7 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
                 <LoadingButton type="submit" fullWidth variant="contained" size="large" loading={isSubmitting} disabled>
                   {!isEdit ? 'Create Product' : 'Class Must End To Pay Tutor'}
                 </LoadingButton>
-              }
+              } */}
             </Stack>
           </Grid>
         </Grid>

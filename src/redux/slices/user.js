@@ -11,6 +11,7 @@ const initialState = {
   myProfile: null,
   posts: [],
   users: [],
+  user: null,
   userList: [],
   followers: [],
   friends: [],
@@ -46,6 +47,12 @@ const slice = createSlice({
     getPostsSuccess(state, action) {
       state.isLoading = false;
       state.posts = action.payload;
+    },
+
+    // GET USER
+    getUserSuccess(state, action) {
+      state.isLoading = false;
+      state.user = action.payload;
     },
 
     // GET USERS
@@ -356,6 +363,78 @@ export function postAuth(email, password) {
         console.log('access_token', resAuthen.data.access_token);
         dispatch(slice.actions.loginSuccess(resAuthen.data));
       }
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function getManagerList() {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axios.get('/api/admin/list-managers');
+      console.log('response', response);
+      dispatch(slice.actions.getUserListSuccess(response.data.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function getManagerDetail(id) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axios.get(`/api/admin/manager/${id}`);
+      console.log('response', response);
+      dispatch(slice.actions.getUserSuccess(response.data.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function putEditManagerAccount(id, data) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const d = {
+        "fullname": data.fullname,
+        "email": data.email,
+        "phone": data.phone,
+        "status": data.status
+      }
+      const response = await axios.put(`/api/admin/manager/${id}`, d);
+      console.log('response', response);
+      dispatch(slice.actions.getUserSuccess(response.data.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function postNewManagerAccount(id, data) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const d = {
+        "fullname": data.fullname,
+        "email": data.email,
+        "phone": data.phone,
+        "status": data.status
+      }
+      const response = await axios.put(`/api/admin/manager/${id}`, d);
+      console.log('response', response);
+      dispatch(slice.actions.getUserSuccess(response.data.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
     }

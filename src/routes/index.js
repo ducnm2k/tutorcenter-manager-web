@@ -140,6 +140,7 @@ export default function Router() {
         },
         { path: 'calendar', element: <Calendar /> },
         { path: 'kanban', element: <Kanban /> },
+        // MANAGER
         {
           path: 'parents',
           children: [
@@ -160,6 +161,15 @@ export default function Router() {
             { path: 'verification/edit/:id', element: <TutorVerifyById /> }
           ]
         },
+        // QUESTION
+        {
+          path: 'question',
+          children: [
+            { path: 'list', element: <QuestionList /> },
+            { path: 'new-post', element: <QuestionNew /> },
+            { path: 'edit/:id', element: <QuestionNew /> }
+          ]
+        },
         {
           path: 'transaction',
           children: [
@@ -168,10 +178,20 @@ export default function Router() {
           ]
         },
         // ADMIN
+        // SYSTEM
         { path: 'assign', element: <AutoAssign /> },
         { path: 'system-variables', element: <SystemVariable /> },
         { path: 'system-variables/edit/:id', element: <SystemVariableById /> },
         { path: 'statistic', element: <Statistic /> },
+        // MANAGE ACCOUNT
+        {
+          path: 'manager-account',
+          children: [
+            { path: 'list', element: <ManagerList /> },
+            { path: 'new-account', element: <ManagerById /> },
+            { path: 'edit/:id', element: <ManagerById /> }
+          ]
+        },
       ]
     },
 
@@ -303,6 +323,9 @@ const TutorList = Loadable(lazy(() => import('../pages/dashboard/TutorList')));
 const TutorById = Loadable(lazy(() => import('../pages/dashboard/TutorDetail')));
 const TutorVerifyList = Loadable(lazy(() => import('../pages/dashboard/TutorVerifyList')));
 const TutorVerifyById = Loadable(lazy(() => import('../pages/dashboard/TutorVerifyDetail')));
+// Question Bank
+const QuestionList = Loadable(lazy(() => import('../pages/dashboard/QuestionList')));
+const QuestionNew = Loadable(lazy(() => import('../pages/dashboard/QuestionNew')));
 // Transaction
 const TransactionList = Loadable(lazy(() => import('../pages/dashboard/TransactionList')));
 const TransactionDetail = Loadable(lazy(() => import('../pages/dashboard/TransactionDetail')));
@@ -311,6 +334,8 @@ const AutoAssign = Loadable(lazy(() => import('../pages/dashboard/AdminTaskList'
 const SystemVariable = Loadable(lazy(() => import('../pages/dashboard/AdminSystemVariables')));
 const SystemVariableById = Loadable(lazy(() => import('../pages/dashboard/SystemVariablesDetail')));
 const Statistic = Loadable(lazy(() => import('../pages/dashboard/GeneralEcommerce')));
+const ManagerList = Loadable(lazy(() => import('../pages/dashboard/ManagerList')));
+const ManagerById = Loadable(lazy(() => import('../pages/dashboard/ManagerDetail')));
 // Main
 const LandingPage = Loadable(lazy(() => import('../pages/LandingPage')));
 const About = Loadable(lazy(() => import('../pages/About')));

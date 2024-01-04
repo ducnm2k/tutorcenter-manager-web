@@ -231,12 +231,39 @@ export const sidebarConfigManager = [
           { title: 'list', path: PATH_DASHBOARD.blog.list },
           { title: 'new post', path: PATH_DASHBOARD.blog.newPost }
         ]
-      }
+      },
+      // MANAGEMENT : QUESTION
+      {
+        title: 'question bank',
+        path: PATH_DASHBOARD.question.root,
+        icon: ICONS.dashboard,
+        children: [
+          { title: 'list', path: PATH_DASHBOARD.question.list },
+          { title: 'new post', path: PATH_DASHBOARD.question.newQuestion }
+        ]
+      },
+      { title: 'Statistic', path: PATH_DASHBOARD.statistic, icon: ICONS.analytics }
     ]
   }
 ];
 
 export const sidebarConfigAdmin = [
+  // ACCOUNT
+  {
+    subheader: 'Account',
+    items: [
+      {
+        title: 'Manager',
+        path: PATH_DASHBOARD.user.root,
+        icon: ICONS.user,
+        children: [
+          { title: 'Account list', path: PATH_DASHBOARD.managerAccount.list },
+          { title: 'New account', path: PATH_DASHBOARD.managerAccount.newAccount }
+        ]
+      },
+    ]
+  },
+
   // SYSTEM
   // ----------------------------------------------------------------------
   {

@@ -101,10 +101,23 @@ export const PATH_DASHBOARD = {
     postById: path(ROOTS_DASHBOARD, '/blog/post/apply-these-7-secret-techniques-to-improve-event'),
     newPost: path(ROOTS_DASHBOARD, '/blog/new-post')
   },
+  question:{
+    root: path(ROOTS_DASHBOARD, '/question'),
+    list: path(ROOTS_DASHBOARD, '/question/list'),
+    newQuestion: path(ROOTS_DASHBOARD, '/question/new-post'),
+    questionById: path(ROOTS_DASHBOARD, '/question/edit/:id')
+  },
   // Admin
   assign: path(ROOTS_DASHBOARD, '/assign'),
   variables: path(ROOTS_DASHBOARD, '/system-variables'),
   statistic: path(ROOTS_DASHBOARD, '/statistic'),
+  // Manager account
+  managerAccount:{
+    root: path(ROOTS_DASHBOARD, '/manager-account'),
+    list: path(ROOTS_DASHBOARD, '/manager-account/list'),
+    newAccount: path(ROOTS_DASHBOARD, '/manager-account/new-account'),
+    accountById: path(ROOTS_DASHBOARD, '/manager-account/edit/:id'),
+  },
 };
 
 export const PATH_DOCS = 'https://docs-minimals.vercel.app/introduction';
