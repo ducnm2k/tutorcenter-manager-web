@@ -20,6 +20,7 @@ import {
   Button
 } from '@material-ui/core';
 // utils
+import axios from '../../../utils/axios';
 import { fData } from '../../../utils/formatNumber';
 import fakeRequest from '../../../utils/fakeRequest';
 // routes
@@ -27,6 +28,8 @@ import { PATH_DASHBOARD } from '../../../routes/paths';
 //
 import Label from '../../Label';
 import { UploadAvatar } from '../../upload';
+import { getCheckEmailExisted, postNewManagerAccount, putEditManagerAccount } from '../../../redux/slices/user';
+
 // import countries from './countries';
 
 // ----------------------------------------------------------------------
@@ -45,6 +48,8 @@ export default function ManagerDetailForm({ isEdit, currentUser }) {
     fullname: Yup.string().required('Name is required'),
     email: Yup.string().required('Email is required').email(),
     phone: Yup.string().required('Phone number is required'),
+    password: Yup.string().required('Password is required'),
+    confirm: Yup.string().required('Confirm password is required'),
     // address: Yup.string().required('Address is required'),
     // country: Yup.string().required('country is required'),
     // company: Yup.string().required('Company is required'),
@@ -57,9 +62,12 @@ export default function ManagerDetailForm({ isEdit, currentUser }) {
   const formik = useFormik({
     enableReinitialize: true,
     initialValues: {
-      fullname: currentUser?.fullname || '',
-      email: currentUser?.email || '',
-      phone: currentUser?.phone || '',
+      userId: currentUser?.userId || 0,
+      fullname: currentUser?.fullname || ' ',
+      email: currentUser?.email || ' ',
+      phone: currentUser?.phone || ' ',
+      password: currentUser?.password || ' ',
+      confirm: currentUser?.confirm || ' ',
       // address: currentUser?.address || '',
       // country: currentUser?.country || '',
       // state: currentUser?.state || '',
@@ -67,27 +75,43 @@ export default function ManagerDetailForm({ isEdit, currentUser }) {
       // zipCode: currentUser?.zipCode || '',
       // avatarUrl: currentUser?.avatarUrl || null,
       // isVerified: currentUser?.isVerified || true,
-      status: currentUser?.status,
+      status: currentUser?.status || 0,
       // company: currentUser?.company || '',
       // role: currentUser?.role || ''
     },
     validationSchema: NewUserSchema,
     onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
       try {
-        // add new
-        if (isEdit) {
-          dispatch();
-        }
-        // update
-        else if (!isEdit) {
-          dispatch();
-        }
+        const emailExist = await axios.get(`/api/auth/emailExist/${values.email}`);
+        if (!emailExist.data.data) {
+          // update
+          if (isEdit) {
+            dispatch(putEditManagerAccount(values));
+            // await fakeRequest(500);
+            resetForm();
+            setSubmitting(false);
+            enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
+            navigate(PATH_DASHBOARD.managerAccount.list);
+          }
 
-        await fakeRequest(500);
-        resetForm();
-        setSubmitting(false);
-        enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
-        navigate(PATH_DASHBOARD.user.list);
+          // add new
+          else if (!isEdit) {
+            if (values.confirm === values.password) {
+              dispatch(postNewManagerAccount(values));
+              // await fakeRequest(500);
+              resetForm();
+              setSubmitting(false);
+              enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
+              navigate(PATH_DASHBOARD.managerAccount.list);
+            }
+            else {
+              enqueueSnackbar('Please confirm password again!', { variant: 'error' });
+            }
+          }
+        }
+        else {
+          enqueueSnackbar('Email existed!', { variant: 'error' });
+        }
       } catch (error) {
         console.error(error);
         setSubmitting(false);
@@ -208,20 +232,20 @@ export default function ManagerDetailForm({ isEdit, currentUser }) {
                   />
                   <TextField
                     fullWidth
-                    label="Email Address"
-                    {...getFieldProps('email')}
-                    error={Boolean(touched.email && errors.email)}
-                    helperText={touched.email && errors.email}
+                    label="Phone Number"
+                    {...getFieldProps('phone')}
+                    error={Boolean(touched.phoneNumber && errors.phoneNumber)}
+                    helperText={touched.phoneNumber && errors.phoneNumber}
                   />
                 </Stack>
 
                 <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
                   <TextField
                     fullWidth
-                    label="Phone Number"
-                    {...getFieldProps('phone')}
-                    error={Boolean(touched.phoneNumber && errors.phoneNumber)}
-                    helperText={touched.phoneNumber && errors.phoneNumber}
+                    label="Email Address"
+                    {...getFieldProps('email')}
+                    error={Boolean(touched.email && errors.email)}
+                    helperText={touched.email && errors.email}
                   />
                   {/* <TextField
                     select
@@ -241,6 +265,30 @@ export default function ManagerDetailForm({ isEdit, currentUser }) {
                     ))}
                   </TextField> */}
                 </Stack>
+
+                {(!isEdit) ?
+                  <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
+                    <TextField
+                      fullWidth
+                      label="Password"
+                      type='password'
+                      {...getFieldProps('password')}
+                      error={Boolean(touched.password && errors.password)}
+                      helperText={touched.password && errors.password}
+                    />
+                    <TextField
+                      fullWidth
+                      label="Confirm"
+                      type='password'
+                      {...getFieldProps('confirm')}
+                      error={Boolean(touched.confirm && errors.confirm)}
+                      helperText={touched.confirm && errors.confirm}
+                    />
+                  </Stack>
+                  :
+                  <></>
+                }
+
 
                 {/* <Stack direction={{ xs: 'column', sm: 'row' }} spacing={{ xs: 3, sm: 2 }}>
                   <TextField
@@ -291,13 +339,12 @@ export default function ManagerDetailForm({ isEdit, currentUser }) {
                   <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
                     {!isEdit ? 'Create User' : 'Save Changes'}
                   </LoadingButton>
-
-                  {(isEdit) ?
-                    <Button variant="contained" color='error' sx={{ ml: 2 }}>Delete</Button>
-                    :
-                    <></>
-                  }
                 </Box>
+                {(isEdit) ?
+                  <Button variant="contained" color='error' sx={{ ml: 2 }}>Bann</Button>
+                  :
+                  <></>
+                }
               </Stack>
             </Card>
           </Grid>

@@ -41,7 +41,7 @@ export default function UserCreate() {
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
             { name: 'Manager', href: PATH_DASHBOARD.managerAccount.list },
-            { name: !isEdit ? 'New user' : name }
+            { name: !isEdit ? 'New user' : user?.fullname }
           ]}
         />
 

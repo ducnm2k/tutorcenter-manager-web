@@ -223,7 +223,7 @@ export function getUserList() {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.get('/api/parent');
-      console.log('response', response);
+      // console.log('response', response);
       dispatch(slice.actions.getUserListSuccess(response.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -238,7 +238,7 @@ export function getParentsList() {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.get('/api/parent/list');
-      console.log('response', response);
+      // console.log('response', response);
       dispatch(slice.actions.getUserListSuccess(response.data.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -253,7 +253,7 @@ export function getTutorList() {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.get('/api/tutor');
-      console.log('response', response);
+      // console.log('response', response);
       dispatch(slice.actions.getUserListSuccess(response.data.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -360,7 +360,7 @@ export function postAuth(email, password) {
             "password": password
           }
         });
-        console.log('access_token', resAuthen.data.access_token);
+        // console.log('access_token', resAuthen.data.access_token);
         dispatch(slice.actions.loginSuccess(resAuthen.data));
       }
     } catch (error) {
@@ -376,7 +376,7 @@ export function getManagerList() {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.get('/api/admin/list-managers');
-      console.log('response', response);
+      // console.log('response', response);
       dispatch(slice.actions.getUserListSuccess(response.data.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -391,7 +391,7 @@ export function getManagerDetail(id) {
     dispatch(slice.actions.startLoading());
     try {
       const response = await axios.get(`/api/admin/manager/${id}`);
-      console.log('response', response);
+      // console.log('response', response);
       dispatch(slice.actions.getUserSuccess(response.data.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -401,7 +401,7 @@ export function getManagerDetail(id) {
 
 // ----------------------------------------------------------------------
 
-export function putEditManagerAccount(id, data) {
+export function putEditManagerAccount(data) {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
@@ -411,8 +411,8 @@ export function putEditManagerAccount(id, data) {
         "phone": data.phone,
         "status": data.status
       }
-      const response = await axios.put(`/api/admin/manager/${id}`, d);
-      console.log('response', response);
+      const response = await axios.put(`/api/admin/manager/${data.userId}`, d);
+      // console.log('response', response);
       dispatch(slice.actions.getUserSuccess(response.data.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
@@ -422,18 +422,33 @@ export function putEditManagerAccount(id, data) {
 
 // ----------------------------------------------------------------------
 
-export function postNewManagerAccount(id, data) {
+export function postNewManagerAccount(data) {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());
     try {
       const d = {
-        "fullname": data.fullname,
         "email": data.email,
+        "fullname": data.fullname,
         "phone": data.phone,
-        "status": data.status
+        "password": data.password
       }
-      const response = await axios.put(`/api/admin/manager/${id}`, d);
-      console.log('response', response);
+      const response = await axios.post(`/api/admin/manager`, d);
+      // console.log('response', response);
+      dispatch(slice.actions.getUserSuccess(response.data.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function getCheckEmailExisted(data) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axios.get(`/api/auth/emailExist/${data.email}`);
+      // console.log('response', response);
       dispatch(slice.actions.getUserSuccess(response.data.data));
     } catch (error) {
       dispatch(slice.actions.hasError(error));
