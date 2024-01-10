@@ -129,7 +129,7 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
         // resetForm();
         setSubmitting(false);
         enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
-        // navigate(PATH_DASHBOARD.tutor.verification);
+        navigate(PATH_DASHBOARD.tutor.verification);
       } catch (error) {
         console.error(error);
         setSubmitting(false);
@@ -361,7 +361,7 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
 
                   <RadioGroup {...getFieldProps('status')} value={values.status} row>
                     <Stack spacing={1} direction="row">
-                      <FormControlLabel value="0" control={<Radio />} label="Default" />
+                      {/* <FormControlLabel value="0" control={<Radio />} label="Default" /> */}
                       <FormControlLabel value="1" control={<Radio />} label="Accept" />
                       <FormControlLabel value="2" control={<Radio />} label="Reject" />
                     </Stack>

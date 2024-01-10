@@ -80,13 +80,13 @@ export default function UserAccount() {
           heading="Account"
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'User', href: PATH_DASHBOARD.user.root },
+            { name: 'User', href: PATH_DASHBOARD.user.account },
             { name: 'Account Settings' }
           ]}
         />
 
         <Stack spacing={5}>
-          <Tabs
+          {/* <Tabs
             value={currentTab}
             scrollButtons="auto"
             variant="scrollable"
@@ -96,7 +96,7 @@ export default function UserAccount() {
             {ACCOUNT_TABS.map((tab) => (
               <Tab disableRipple key={tab.value} label={capitalCase(tab.value)} icon={tab.icon} value={tab.value} />
             ))}
-          </Tabs>
+          </Tabs> */}
 
           {ACCOUNT_TABS.map((tab) => {
             const isMatched = tab.value === currentTab;

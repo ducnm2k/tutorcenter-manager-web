@@ -39,16 +39,16 @@ export default function AccountGeneral() {
     enableReinitialize: true,
     initialValues: {
       displayName: user.displayName || '',
-      email: user.email,
-      photoURL: user.photoURL,
-      phoneNumber: user.phoneNumber,
-      country: user.country,
-      address: user.address,
-      state: user.state,
-      city: user.city,
-      zipCode: user.zipCode,
-      about: user.about,
-      isPublic: user.isPublic
+      email: user.email|| '',
+      // photoURL: user.photoURL,
+      // phoneNumber: user.phoneNumber,
+      role: user.role|| '',
+      // address: user.address,
+      // state: user.state,
+      // city: user.city,
+      // zipCode: user.zipCode,
+      // about: user.about,
+      // isPublic: user.isPublic
     },
 
     validationSchema: UpdateUserSchema,
@@ -87,7 +87,7 @@ export default function AccountGeneral() {
     <FormikProvider value={formik}>
       <Form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <Grid container spacing={3}>
-          <Grid item xs={12} md={4}>
+          {/* <Grid item xs={12} md={4}>
             <Card sx={{ py: 10, px: 3, textAlign: 'center' }}>
               <UploadAvatar
                 accept="image/*"
@@ -123,7 +123,7 @@ export default function AccountGeneral() {
                 sx={{ mt: 5 }}
               />
             </Card>
-          </Grid>
+          </Grid> */}
 
           <Grid item xs={12} md={8}>
             <Card sx={{ p: 3 }}>
@@ -133,12 +133,12 @@ export default function AccountGeneral() {
                   <TextField fullWidth disabled label="Email Address" {...getFieldProps('email')} />
                 </Stack>
 
-                <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
+                {/* <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
                   <TextField fullWidth label="Phone Number" {...getFieldProps('phoneNumber')} />
                   <TextField fullWidth label="Address" {...getFieldProps('address')} />
-                </Stack>
+                </Stack> */}
 
-                <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
+                {/* <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
                   <TextField
                     select
                     fullWidth
@@ -157,21 +157,21 @@ export default function AccountGeneral() {
                     ))}
                   </TextField>
                   <TextField fullWidth label="State/Region" {...getFieldProps('state')} />
-                </Stack>
+                </Stack> */}
 
-                <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
+                {/* <Stack direction={{ xs: 'column', md: 'row' }} spacing={2}>
                   <TextField fullWidth label="City" {...getFieldProps('city')} />
                   <TextField fullWidth label="Zip/Code" {...getFieldProps('zipCode')} />
-                </Stack>
+                </Stack> */}
 
-                <TextField {...getFieldProps('about')} fullWidth multiline minRows={4} maxRows={4} label="About" />
+                <TextField {...getFieldProps('role')} fullWidth label="Role" />
               </Stack>
 
-              <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
+              {/* <Box sx={{ mt: 3, display: 'flex', justifyContent: 'flex-end' }}>
                 <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
                   Save Changes
                 </LoadingButton>
-              </Box>
+              </Box> */}
             </Card>
           </Grid>
         </Grid>

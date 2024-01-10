@@ -86,7 +86,7 @@ function AuthProvider({ children }) {
             systemWallet: walletBalance,
             // password: 'demo1234',
             photoURL: '/static/mock-images/avatars/avatar_default.jpg',
-            // phoneNumber: '+40 777666555',
+            // phone: dataUser.phone,
             // country: 'United States',
             // address: '90210 Broadway Blvd',
             // state: 'California',

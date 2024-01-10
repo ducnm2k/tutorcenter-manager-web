@@ -432,7 +432,7 @@ export function postNewManagerAccount(data) {
         "phone": data.phone,
         "password": data.password
       }
-      const response = await axios.post(`/api/admin/manager`, d);
+      const response = await axios.post(` `, d);
       // console.log('response', response);
       dispatch(slice.actions.getUserSuccess(response.data.data));
     } catch (error) {
