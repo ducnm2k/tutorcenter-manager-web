@@ -33,7 +33,7 @@ export default function EcommerceProductCreate() {
   // console.log(currentProduct);
 
   return (
-    <Page title="System Variable: Detail | Minimal-UI">
+    <Page title="System Variable: Detail | Tutor Center">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
           heading={!isEdit ? 'System Variable detail' : 'System Variable edit'}

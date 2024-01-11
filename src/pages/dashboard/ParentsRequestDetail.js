@@ -34,7 +34,7 @@ export default function EcommerceProductCreate() {
   // console.log(currentProduct);
 
   return (
-    <Page title="Parents: Request detail | Minimal-UI">
+    <Page title="Parents: Request detail | Tutor Center">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
           heading={!isEdit ? 'Request detail' : 'Request edit'}

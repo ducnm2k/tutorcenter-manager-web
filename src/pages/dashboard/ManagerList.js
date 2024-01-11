@@ -147,10 +147,10 @@ export default function UserList() {
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
-    <Page title="Parents: List | Minimal-UI">
+    <Page title="Parents: List | Tutor Center">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
-          heading="Parents List"
+          heading="Manager List"
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
             { name: 'Manager', href: PATH_DASHBOARD.managerAccount.list },

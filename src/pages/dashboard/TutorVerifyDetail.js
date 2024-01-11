@@ -33,7 +33,7 @@ export default function EcommerceProductCreate() {
   }, [dispatch]);
 
   return (
-    <Page title="Tutor: Verification request | Minimal-UI">
+    <Page title="Tutor: Verification request | Tutor Center">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
           heading={!isEdit ? 'Verification request' : 'Verification request'}

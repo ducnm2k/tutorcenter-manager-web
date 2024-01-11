@@ -34,7 +34,7 @@ export default function EcommerceProductCreate() {
   }, [dispatch]);
 
   return (
-    <Page title="Parents: Class Detail | Minimal-UI">
+    <Page title="Parents: Class Detail | Tutor Center">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
           heading={!isEdit ? 'Class Detail' : 'Class Detail'}

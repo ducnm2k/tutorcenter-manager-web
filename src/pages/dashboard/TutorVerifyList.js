@@ -193,7 +193,7 @@ export default function EcommerceProductList() {
   };
 
   return (
-    <Page title="Tutor: Verification Request List | Minimal-UI">
+    <Page title="Tutor: Verification Request List | Tutor Center">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
           heading="Verification Request List"

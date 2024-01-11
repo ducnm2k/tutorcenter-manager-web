@@ -193,7 +193,7 @@ export default function EcommerceProductList() {
   };
 
   return (
-    <Page title="Parents: Request List | Minimal-UI">
+    <Page title="Parents: Request List | Tutor Center">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
           heading="Request List"

@@ -57,12 +57,12 @@ export default function Login() {
 
   return (
     <RootStyle title="Login | Minimal-UI">
-      <AuthLayout>
+      {/* <AuthLayout>
         Don’t have an account? &nbsp;
         <Link underline="none" variant="subtitle2" component={RouterLink} to={PATH_AUTH.register}>
           Get started
         </Link>
-      </AuthLayout>
+      </AuthLayout> */}
 
       <MHidden width="mdDown">
         <SectionStyle>
@@ -83,9 +83,9 @@ export default function Login() {
               <Typography sx={{ color: 'text.secondary' }}>Enter your details below.</Typography>
             </Box>
 
-            <Tooltip title={capitalCase(method)}>
+            {/* <Tooltip title={capitalCase(method)}>
               <Box component="img" src={`/static/auth/ic_${method}.png`} sx={{ width: 32, height: 32 }} />
-            </Tooltip>
+            </Tooltip> */}
           </Stack>
 
           {method === 'firebase' && <AuthFirebaseSocials />}

@@ -32,7 +32,7 @@ export default function UserCreate() {
   }, [dispatch]);
 
   return (
-    <Page title="Tutor: Detail | Minimal-UI">
+    <Page title="Tutor: Detail | Tutor Center">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
           heading={!isEdit ? 'Tutor detail' : 'Tutor detail'}

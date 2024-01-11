@@ -87,7 +87,7 @@ function applySortFilter(array, comparator, query) {
   });
 
   if (query) {
-    return filter(array, (_product) => _product.subjectName.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_product) => ((_product.subjectName).concat(" ").concat(_product.subjectLevel)).toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
 
   return stabilizedThis.map((el) => el[0]);
@@ -193,7 +193,7 @@ export default function EcommerceProductList() {
   };
 
   return (
-    <Page title="Question List | Minimal-UI">
+    <Page title="Question List | Tutor Center">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
           heading="Question List"

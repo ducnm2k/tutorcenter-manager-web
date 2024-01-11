@@ -37,7 +37,7 @@ export default function EcommerceProductCreate() {
   }, [dispatch]);
 
   return (
-    <Page title="New Question | Minimal-UI">
+    <Page title="New Question | Tutor Center">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
           heading={!isEdit ? 'New Question' : 'Edit Question'}

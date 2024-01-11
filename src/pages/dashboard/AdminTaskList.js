@@ -49,7 +49,7 @@ import useAuth from '../../hooks/useAuth';
 const TABLE_HEAD = [
   { id: 'id', label: 'Task Id', alignRight: false },
   { id: 'name', label: 'Type', alignRight: false },
-  { id: 'requestId', label: 'Request Id', alignRight: false },
+  // { id: 'requestId', label: 'Request Id', alignRight: false },
   { id: 'managerEmail', label: 'Manager Email', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
   { id: 'dateCreate', label: 'Create At', alignRight: false },
@@ -91,7 +91,7 @@ function applySortFilter(array, comparator, query) {
   });
 
   if (query) {
-    return filter(array, (_product) => _product.name.toLowerCase().indexOf(query.toLowerCase()) !== -1);
+    return filter(array, (_product) => _product.managerEmail.toLowerCase().indexOf(query.toLowerCase()) !== -1);
   }
 
   return stabilizedThis.map((el) => el[0]);
@@ -225,7 +225,7 @@ export default function EcommerceProductList() {
   }
 
   return (
-    <Page title="Task list | Minimal-UI">
+    <Page title="Task list | Tutor Center">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <div>
           <HeaderBreadcrumbs
@@ -316,7 +316,7 @@ export default function EcommerceProductList() {
                             </Typography>
                           </Box>
                         </TableCell>
-                        <TableCell style={{ minWidth: 160 }}>{requestId}</TableCell>
+                        {/* <TableCell style={{ minWidth: 160 }}>{requestId}</TableCell> */}
                         {/* <TableCell style={{ minWidth: 160 }}>{type}</TableCell> */}
                         <TableCell style={{ minWidth: 160 }}>{managerEmail}</TableCell>
 

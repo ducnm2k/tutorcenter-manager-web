@@ -82,7 +82,7 @@ function AuthProvider({ children }) {
           const user = {
             id: dataUser.id,
             displayName: dataUser.fullName,
-            email: 'demo@minimals.cc',
+            email: dataUser.email,
             systemWallet: walletBalance,
             // password: 'demo1234',
             photoURL: '/static/mock-images/avatars/avatar_default.jpg',
@@ -133,6 +133,7 @@ function AuthProvider({ children }) {
       email,
       password
     });
+    // console.log(response);
     // const { accessToken, user } = response.data;
     const accessToken = response.data.data.access_token;
     const refreshToken = response.data.data.refresh_token;
@@ -140,13 +141,17 @@ function AuthProvider({ children }) {
 
     const authProfile = await axios.get('/api/user/authProfile');
     const dataUser = authProfile.data.data;
+
+    const sysWallet = await axios.get('/api/sysWallet');
+    const walletBalance = sysWallet.data.data;
     const user = {
       id: dataUser.id,
-      displayName: dataUser.fullname,
-      email,
-      // password: '1',
-      // photoURL: '/static/mock-images/avatars/avatar_default.jpg',
-      // phoneNumber: '+40 777666555',
+      displayName: dataUser.fullName,
+      email: dataUser.email,
+      systemWallet: walletBalance,
+      // password: 'demo1234',
+      photoURL: '/static/mock-images/avatars/avatar_default.jpg',
+      // phone: dataUser.phone,
       // country: 'United States',
       // address: '90210 Broadway Blvd',
       // state: 'California',

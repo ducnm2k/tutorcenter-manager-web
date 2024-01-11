@@ -35,7 +35,7 @@ export default function GeneralEcommerce() {
   console.log(product);
 
   return (
-    <Page title="General: E-commerce | Minimal-UI">
+    <Page title="General: E-commerce | Tutor Center">
       <Container maxWidth={themeStretch ? false : 'xl'}>
         <Grid container spacing={3}>
           {/* <Grid item xs={12} md={8}>

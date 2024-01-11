@@ -35,6 +35,7 @@ import { PATH_DASHBOARD } from '../../../routes/paths';
 //
 import { QuillEditor } from '../../editor';
 import { UploadMultiFile } from '../../upload';
+import { DOMAIN } from '../../../utils/axios';
 
 // ----------------------------------------------------------------------
 
@@ -222,6 +223,14 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
                   InputProps={{
                     readOnly: true,
                   }}
+                  label="Test result"
+                />
+
+                <TextField
+                  fullWidth
+                  InputProps={{
+                    readOnly: true,
+                  }}
                   label="ID Number"
                   {...getFieldProps('idNumber')}
                 />
@@ -268,7 +277,7 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
                   fullWidth
                   component="img"
                   alt="Certificate image"
-                  src={"http://localhost:9000/api/user/image/".concat(values.imgCertificate)}
+                  src={DOMAIN.concat("/api/user/image/").concat(values.imgCertificate)}
                 />
 
                 {/* <TextField
@@ -285,13 +294,13 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
                   fullWidth
                   component="img"
                   alt="ID card image 1"
-                  src={"http://localhost:9000/api/user/image/".concat(IMG_ID[0])}
+                  src={DOMAIN.concat("/api/user/image/").concat(IMG_ID[0])}
                 />
                 <Box
                   fullWidth
                   component="img"
                   alt="ID card image 2"
-                  src={"http://localhost:9000/api/user/image/".concat(IMG_ID[1])}
+                  src={DOMAIN.concat("/api/user/image/").concat(IMG_ID[1])}
                 />
 
                 {/* <TextField
@@ -367,7 +376,7 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
                     </Stack>
                   </RadioGroup>
                 </div>
-                
+
                 <TextField
                   fullWidth
                   label="Reject reason"

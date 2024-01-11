@@ -341,7 +341,7 @@ export default function ManagerDetailForm({ isEdit, currentUser }) {
                   </LoadingButton>
                 </Box>
                 {(isEdit) ?
-                  <Button variant="contained" color='error' sx={{ ml: 2 }}>Bann</Button>
+                  <Button variant="contained" color='error' sx={{ ml: 2 }}>Ban</Button>
                   :
                   <></>
                 }

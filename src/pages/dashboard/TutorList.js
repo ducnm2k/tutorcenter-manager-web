@@ -35,6 +35,7 @@ import Scrollbar from '../../components/Scrollbar';
 import SearchNotFound from '../../components/SearchNotFound';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import { UserListHead, UserListToolbar, UserMoreMenu } from '../../components/_dashboard/user/list';
+import { DOMAIN } from '../../utils/axios';
 
 // ----------------------------------------------------------------------
 
@@ -147,7 +148,7 @@ export default function UserList() {
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
-    <Page title="Tutor: List | Minimal-UI">
+    <Page title="Tutor: List | Tutor Center">
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <HeaderBreadcrumbs
           heading="Tutor List"
@@ -202,7 +203,7 @@ export default function UserList() {
                         </TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={tutorName} src={"http://localhost:9000/api/user/image/".concat(imgAvatar)} />
+                            <Avatar alt={tutorName} src={DOMAIN.concat("/api/user/image/").concat(imgAvatar)} />
                             <Typography variant="subtitle2" noWrap>
                               {tutorName}
                             </Typography>
