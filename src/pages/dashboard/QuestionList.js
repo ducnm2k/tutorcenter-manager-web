@@ -279,7 +279,7 @@ export default function EcommerceProductList() {
                             //   'success'
                             // }
                             // color={(status === 1) ? 'success' : 'error'}
-                            color={(difficulty === 0) ? 'default' : 'default'}
+                            color={(difficulty === 0) ? 'error' : 'default'}
                             variant={(difficulty === 0) ? 'filled' : 'filled'}
                           >
                             {(difficulty === 1) ? 'easy' : ''}

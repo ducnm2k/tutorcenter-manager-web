@@ -46,6 +46,7 @@ import {
 
 const TABLE_HEAD = [
   // { id: 'id' },
+  { id: 'id', label: 'Class Id', alignRight: false },
   { id: 'parentName', label: 'Parent', alignRight: false },
   // { id: 'subjects', label: 'Subjects', alignRight: false },
   { id: 'tuition', label: 'Tuition', alignRight: false },
@@ -259,6 +260,7 @@ export default function EcommerceProductList() {
                         {/* <TableCell padding="checkbox">
                           {}
                         </TableCell> */}
+                        <TableCell style={{ minWidth: 160 }}>{id}</TableCell>
                         <TableCell component="th" scope="row" padding="none">
                           <Box
                             sx={{
@@ -286,15 +288,13 @@ export default function EcommerceProductList() {
                             //   'success'
                             // }
                             // color={(status === 2) ? 'success' : 'error'}
-                            color={(status === 2 || status === 8) ? 'primary' : 'default'}
-                            variant={(status === 2 || status === 8) ? 'filled' : 'outlined'}
+                            color={(status === 2 || status === 3) ? 'primary' : 'default'}
+                            variant={(status === 2 || status === 3) ? 'filled' : 'outlined'}
                           >
-                            {(status === 1) ? 'started' : ''}
-                            {(status === 2) ? 'ended' : ''}
-                            {(status === 3) ? 'paid' : ''}
-                            {(status === 4) ? 'overdue' : ''}
-                            {(status === 7) ? 'wait for feedback' : ''}
-                            {(status === 8) ? 'wait for consider' : ''}
+                            {(status === 1) ? 'available' : ''}
+                            {(status === 2) ? 'start' : ''}
+                            {(status === 3) ? 'end' : ''}
+                            {(status === 4) ? 'cancel' : ''}
                             {(status === 0) ? 'default' : ''}
                           </Label>
                         </TableCell>

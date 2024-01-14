@@ -156,16 +156,16 @@ export default function UserList() {
             { name: 'Manager', href: PATH_DASHBOARD.managerAccount.list },
             { name: 'List' }
           ]}
-          // action={
-          //   <Button
-          //     variant="contained"
-          //     component={RouterLink}
-          //     to={PATH_DASHBOARD.user.newUser}
-          //     startIcon={<Icon icon={plusFill} />}
-          //   >
-          //     New User
-          //   </Button>
-          // }
+          action={
+            <Button
+              variant="contained"
+              component={RouterLink}
+              to={PATH_DASHBOARD.managerAccount.newAccount}
+              startIcon={<Icon icon={plusFill} />}
+            >
+              New Account
+            </Button>
+          }
         />
 
         <Card>

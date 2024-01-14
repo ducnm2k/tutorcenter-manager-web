@@ -171,11 +171,11 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
     if (values.subjects.length === 0) rs = 'Chưa chọn môn';
     if (values.subjects.length === 1) {
       // console.log(values.subject.concat(' ').concat(values.level));
-      rs = rs.concat(values.subjects[0].name).concat(' ').concat(values.subjects[0].level);
+      rs = rs.concat(values.subjects[0].name).concat(' ').concat(values.subjects[0].level).concat(': ').concat(values.subjects[0].latestGrade).concat('% ');
     }
     if (values.subjects.length > 1) {
       for (let index = 0; index < values.subjects.length; index += 1) {
-        rs = rs.concat(values.subjects[index].name).concat(' ').concat(values.subjects[index].level).concat(' | ');
+        rs = rs.concat(values.subjects[index].name).concat(' ').concat(values.subjects[index].level).concat(': ').concat(values.subjects[index].latestGrade).concat('% | ');
       }
       // console.log(rs);
     }
@@ -216,14 +216,6 @@ export default function ProductNewForm({ isEdit, currentProduct }) {
                   }}
                   label="Phone"
                   {...getFieldProps('phone')}
-                />
-
-                <TextField
-                  fullWidth
-                  InputProps={{
-                    readOnly: true,
-                  }}
-                  label="Test result"
                 />
 
                 <TextField
