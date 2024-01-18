@@ -219,8 +219,8 @@ export default function EcommerceProductList() {
 
         <Card>
           <ProductListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
-          <Button onClick={handleStatusAllClick}>All</Button>
-          <Button onClick={handleStatusNeedHandleClick}>Need Handle</Button>
+          {/* <Button onClick={handleStatusAllClick}>All</Button> */}
+          {/* <Button onClick={handleStatusNeedHandleClick}>Need Handle</Button> */}
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>

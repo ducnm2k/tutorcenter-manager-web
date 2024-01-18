@@ -22,7 +22,7 @@ import {
 } from '@material-ui/core';
 // redux
 import { useDispatch, useSelector } from '../../redux/store';
-import { getProducts, deleteProduct, getParentClassList } from '../../redux/slices/product';
+import { getProducts, deleteProduct, getParentClassList, getAllParentClassList } from '../../redux/slices/product';
 // utils
 import { fDate } from '../../utils/formatTime';
 import { fCurrency } from '../../utils/formatNumber';
@@ -186,13 +186,15 @@ export default function EcommerceProductList() {
   const isProductNotFound = filteredProducts.length === 0;
 
   const handleStatusAllClick = (e) => {
-    setFilterStatus('');
+    dispatch(getAllParentClassList());
+    // setFilterStatus('');
     // console.log('filterStatus', filterStatus);
   };
 
   const handleStatusNeedHandleClick = (e) => {
-    setFilterStatus('2');
-    console.log('filterStatus', filterStatus);
+    dispatch(getParentClassList());
+    // setFilterStatus('2');
+    // console.log('filterStatus', filterStatus);
   };
 
   return (
@@ -222,8 +224,8 @@ export default function EcommerceProductList() {
 
         <Card>
           <ProductListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
-          {/* <Button onClick={handleStatusAllClick}>All</Button> */}
-          {/* <Button onClick={handleStatusNeedHandleClick}>Need Handle</Button> */}
+          <Button onClick={handleStatusAllClick}>General</Button>
+          <Button onClick={handleStatusNeedHandleClick}>Your's</Button>
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>

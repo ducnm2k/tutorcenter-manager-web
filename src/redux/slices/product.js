@@ -275,6 +275,25 @@ export function getParentClassList() {
 
 // ----------------------------------------------------------------------
 
+export function getAllParentClassList() {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      // const response = await axios.get('/api/products');
+      const response = await axios.get('/api/clazz');
+      console.log('response.data.data', response.data.data);
+      if (response.data.responseCode !== '200' && response.data.responseCode !== '00'  ){
+        response.data.data = [];
+      }
+      dispatch(slice.actions.getProductsSuccess(response.data.data));
+    } catch (error) {
+      // dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
 export function getParentsRequestList() {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());

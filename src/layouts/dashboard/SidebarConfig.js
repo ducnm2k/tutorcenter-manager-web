@@ -202,9 +202,10 @@ export const sidebarConfigManager = [
         children: [
           { title: 'Parents list', path: PATH_DASHBOARD.parents.list },
           { title: 'Request list', path: PATH_DASHBOARD.parents.request },
-          { title: 'Class list', path: PATH_DASHBOARD.parents.class }
+          // { title: 'Class list', path: PATH_DASHBOARD.parents.class }
         ]
       },
+      { title: 'Class list', path: PATH_DASHBOARD.parents.class, icon:ICONS.booking },
       // ACCOUNT : TUTOR
       {
         title: 'Tutor',

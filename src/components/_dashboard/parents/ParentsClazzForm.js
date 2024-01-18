@@ -104,7 +104,9 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
     enableReinitialize: true,
     initialValues: {
       id: currentProduct?.id || '',
+      tutorId: currentProduct?.tutorId || '',
       name: currentProduct?.parentName || '',
+      tutorName: currentProduct?.tutorFullName || '',
       phone: currentProduct?.phone || '',
       address: currentProduct?.address || '',
       districtName: currentProduct?.districtName || '',
@@ -530,6 +532,17 @@ export default function ParentsClazzForm({ isEdit, currentProduct }) {
                   {(values.status === 3) ? 'Ended' : ''}
                   {(values.status === 4) ? 'Canceled' : ''}
                 </InputLabel>
+
+                <TextField
+                  sx={{ mt: 1 }}
+                  fullWidth
+                  multiline
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  label="Tutor"
+                  {...getFieldProps('tutorName')}
+                />
 
                 <TextField
                   sx={{ mt: 1 }}

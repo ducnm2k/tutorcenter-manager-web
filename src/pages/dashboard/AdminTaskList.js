@@ -51,7 +51,7 @@ const TABLE_HEAD = [
   { id: 'name', label: 'Type', alignRight: false },
   // { id: 'requestId', label: 'Request Id', alignRight: false },
   { id: 'managerEmail', label: 'Manager Email', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
+  // { id: 'status', label: 'Status', alignRight: false },
   { id: 'dateCreate', label: 'Create At', alignRight: false },
   { id: '' }
 ];
@@ -209,19 +209,19 @@ export default function EcommerceProductList() {
   }
 
   const adminStatusColor = (status) => {
-    if(status === 0) return 'primary';
-    if(status === 1) return 'default';
-    if(status === 2) return 'success';
-    if(status === 3) return 'error';
-    if(status === 4) return 'success';
+    if (status === 0) return 'primary';
+    if (status === 1) return 'default';
+    if (status === 2) return 'success';
+    if (status === 3) return 'error';
+    if (status === 4) return 'success';
   }
 
   const managerStatusColor = (status) => {
-    if(status === 0) return 'default';
-    if(status === 1) return 'primary';
-    if(status === 2) return 'success';
-    if(status === 3) return 'error';
-    if(status === 4) return 'primary';
+    if (status === 0) return 'default';
+    if (status === 1) return 'primary';
+    if (status === 2) return 'success';
+    if (status === 3) return 'error';
+    if (status === 4) return 'primary';
   }
 
   return (
@@ -294,7 +294,7 @@ export default function EcommerceProductList() {
                         sx={{ textDecoration: 'none' }}
                       >
                         <TableCell padding="checkbox">
-                          {}
+                          { }
                         </TableCell>
                         <TableCell padding="checkbox">
                           {id}
@@ -319,7 +319,7 @@ export default function EcommerceProductList() {
                         {/* <TableCell style={{ minWidth: 160 }}>{requestId}</TableCell> */}
                         {/* <TableCell style={{ minWidth: 160 }}>{type}</TableCell> */}
                         <TableCell style={{ minWidth: 160 }}>{managerEmail}</TableCell>
-
+                        {/* 
                         {(user?.role === 'ADMIN') ?
                           <TableCell style={{ minWidth: 160 }}>
                             <Label
@@ -360,7 +360,7 @@ export default function EcommerceProductList() {
                               {(status === 0) ? 'unassigned' : ''}
                             </Label>
                           </TableCell>
-                        }
+                        } */}
 
                         <TableCell style={{ minWidth: 160 }}>{dateCreate}</TableCell>
                         <TableCell align="right">

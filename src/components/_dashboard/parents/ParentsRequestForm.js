@@ -130,7 +130,7 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
       subjects: currentProduct?.subjects || [],
       // subject: currentProduct?.subjects?.[0].name || [],
       // level: currentProduct?.subjects?.[0].level || [],
-      // dateEnd: currentProduct?.dateEnd || ''
+      dateEnd: currentProduct?.dateEnd || ''
       // name: currentProduct?.name || '',
       // description: currentProduct?.description || '',
       // images: currentProduct?.images || [],
