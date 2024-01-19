@@ -244,7 +244,7 @@ export function getBlogList() {
       // const response = await axios.get('/api/products');
       const response = await axios.get('/api/blog');
       console.log('response.data.data', response.data.data);
-      if (response.responseCode !== 200){
+      if (response.responseCode !== 200) {
         response.data.data = [];
       }
       dispatch(slice.actions.getProductsSuccess(response.data.data));
@@ -263,7 +263,7 @@ export function getParentClassList() {
       // const response = await axios.get('/api/products');
       const response = await axios.get('/api/clazz/manager');
       console.log('response.data.data', response.data.data);
-      if (response.data.responseCode !== '200' && response.data.responseCode !== '00'  ){
+      if (response.data.responseCode !== '200' && response.data.responseCode !== '00') {
         response.data.data = [];
       }
       dispatch(slice.actions.getProductsSuccess(response.data.data));
@@ -282,7 +282,7 @@ export function getAllParentClassList() {
       // const response = await axios.get('/api/products');
       const response = await axios.get('/api/clazz');
       console.log('response.data.data', response.data.data);
-      if (response.data.responseCode !== '200' && response.data.responseCode !== '00'  ){
+      if (response.data.responseCode !== '200' && response.data.responseCode !== '00') {
         response.data.data = [];
       }
       dispatch(slice.actions.getProductsSuccess(response.data.data));
@@ -300,7 +300,7 @@ export function getParentsRequestList() {
     try {
       const response = await axios.get('/api/request/manager');
       console.log('response.data.data', response.data);
-      if (response.data.responseCode !== '200' && response.data.responseCode !== '00'  ){
+      if (response.data.responseCode !== '200' && response.data.responseCode !== '00') {
         response.data.data = [];
       }
       dispatch(slice.actions.getProductsSuccess(response.data.data));
@@ -457,7 +457,7 @@ export function getTutorVerificationList() {
     try {
       const response = await axios.get(`api/requestVerification/manager`);
       console.log('response.data.data', response.data);
-      if (response.data.responseCode !== '200' && response.data.responseCode !== '00'  ){
+      if (response.data.responseCode !== '200' && response.data.responseCode !== '00') {
         response.data.data = [];
       }
       dispatch(slice.actions.getProductsSuccess(response.data.data));
@@ -593,7 +593,7 @@ export function getAdminTaskList() {
       // const response = await axios.get('/api/products');
       const response = await axios.get('/api/task/');
       console.log('tasks', response.data.data);
-      if (response.data.responseCode !== '200' && response.data.responseCode !== '00'  ){
+      if (response.data.responseCode !== '200' && response.data.responseCode !== '00') {
         response.data.data = [];
       }
       dispatch(slice.actions.getProductsSuccess(response.data.data));
@@ -612,7 +612,7 @@ export function getAdminVariableList() {
       // const response = await axios.get('/api/products');
       const response = await axios.get('/api/systemVariable/');
       console.log('tasks', response.data.data);
-      if (response.data.responseCode !== '200' && response.data.responseCode !== '00'  ){
+      if (response.data.responseCode !== '200' && response.data.responseCode !== '00') {
         response.data.data = [];
       }
       dispatch(slice.actions.getProductsSuccess(response.data.data));
@@ -717,9 +717,9 @@ export function getStatistic() {
       const response2 = await axios.get('/api/admin/totalSale');
       // YEARLY SALES
       const response3 = await axios.get('/api/admin/yearlySale');
-      console.log('response1', response1.data.data);
-      console.log('response2', response2.data.data);
-      console.log('response3', response3.data.data);
+      // console.log('response1', response1.data.data);
+      // console.log('response2', response2.data.data);
+      // console.log('response3', response3.data.data);
 
       const statistic = [
         response1.data.data,
@@ -742,7 +742,7 @@ export function getQuestionList() {
     try {
       const response = await axios.get(`api/question/`);
       console.log('question list', response.data.data);
-      if (response.data.responseCode !== '200' && response.data.responseCode !== '00'  ){
+      if (response.data.responseCode !== '200' && response.data.responseCode !== '00') {
         response.data.data = [];
       }
       dispatch(slice.actions.getProductsSuccess(response.data.data));
@@ -859,8 +859,8 @@ export function postNewQuestions(file) {
         'file',
         file
       );
-      const response = await axios.post('/api/question/import', formData)
-      console.log(response);
+      const response = await axios.post('/api/question/importV2', formData)
+      console.log("postNewQuestions ", response);
       dispatch(slice.actions.getProductSuccess(response.data.data));
       // if(response.status !== 200){
       //   //tra ve kieu ..

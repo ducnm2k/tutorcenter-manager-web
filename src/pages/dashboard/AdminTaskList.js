@@ -51,7 +51,7 @@ const TABLE_HEAD = [
   { id: 'name', label: 'Type', alignRight: false },
   // { id: 'requestId', label: 'Request Id', alignRight: false },
   { id: 'managerEmail', label: 'Manager Email', alignRight: false },
-  // { id: 'status', label: 'Status', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false },
   { id: 'dateCreate', label: 'Create At', alignRight: false },
   { id: '' }
 ];
@@ -243,7 +243,7 @@ export default function EcommerceProductList() {
           //   </Button>
           // }
           />
-          {(user?.role === 'ADMIN') ?
+          {/* {(user?.role === 'ADMIN') ?
             <Button
               variant="contained"
               onClick={handleAutoAssign}
@@ -252,7 +252,7 @@ export default function EcommerceProductList() {
             </Button>
             :
             <></>
-          }
+          } */}
           {/* <Button
             variant="contained"
             onClick={handleAutoAssign}
@@ -319,7 +319,7 @@ export default function EcommerceProductList() {
                         {/* <TableCell style={{ minWidth: 160 }}>{requestId}</TableCell> */}
                         {/* <TableCell style={{ minWidth: 160 }}>{type}</TableCell> */}
                         <TableCell style={{ minWidth: 160 }}>{managerEmail}</TableCell>
-                        {/* 
+                        
                         {(user?.role === 'ADMIN') ?
                           <TableCell style={{ minWidth: 160 }}>
                             <Label
@@ -360,7 +360,7 @@ export default function EcommerceProductList() {
                               {(status === 0) ? 'unassigned' : ''}
                             </Label>
                           </TableCell>
-                        } */}
+                        }
 
                         <TableCell style={{ minWidth: 160 }}>{dateCreate}</TableCell>
                         <TableCell align="right">

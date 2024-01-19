@@ -10,7 +10,7 @@ import { BaseOptionChart } from '../../charts';
 // ----------------------------------------------------------------------
 
 export default function EcommerceYearlySales() {
-  const [seriesData, setSeriesData] = useState(2019);
+  const [seriesData, setSeriesData] = useState(2023);
   const { product } = useSelector((state) => state.product);
 
   const chartD = product?.[2];
@@ -18,17 +18,17 @@ export default function EcommerceYearlySales() {
 
   const CHART_DATA = [
     {
-      year: 2019,
+      year: 2023,
       data: [
-        { name: 'Total Income', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, chartD?.[0]?.data['11-2023']?.totalTuition, chartD?.[0]?.data['12-2023']?.totalTuition] },
-        { name: 'Total Expenses', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, chartD?.[0]?.data['11-2023']?.totalPaid, chartD?.[0]?.data['12-2023']?.totalPaid] }
+        { name: 'Total Income', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, chartD?.[0]?.data['12-2023']?.totalTuition] },
+        { name: 'Total Expenses', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, chartD?.[0]?.data['12-2023']?.totalPaid] }
       ]
     },
     {
-      year: 2020,
+      year: 2024,
       data: [
-        { name: 'Total Income', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
-        { name: 'Total Expenses', data: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
+        { name: 'Total Income', data: [chartD?.[0]?.data['01-2024']?.totalTuition, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] },
+        { name: 'Total Expenses', data: [chartD?.[0]?.data['01-2024']?.totalPaid, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] }
       ]
     }
   ];
@@ -49,27 +49,27 @@ export default function EcommerceYearlySales() {
       <CardHeader
         title="Yearly Sales"
         subheader="(+43%) than last year"
-        // action={
-        //   <TextField
-        //     select
-        //     fullWidth
-        //     value={seriesData}
-        //     SelectProps={{ native: true }}
-        //     onChange={handleChangeSeriesData}
-        //     sx={{
-        //       '& fieldset': { border: '0 !important' },
-        //       '& select': { pl: 1, py: 0.5, pr: '24px !important', typography: 'subtitle2' },
-        //       '& .MuiOutlinedInput-root': { borderRadius: 0.75, bgcolor: 'background.neutral' },
-        //       '& .MuiNativeSelect-icon': { top: 4, right: 0, width: 20, height: 20 }
-        //     }}
-        //   >
-        //     {CHART_DATA.map((option) => (
-        //       <option key={option.year} value={option.year}>
-        //         {option.year}
-        //       </option>
-        //     ))}
-        //   </TextField>
-        // }
+        action={
+          <TextField
+            select
+            fullWidth
+            value={seriesData}
+            SelectProps={{ native: true }}
+            onChange={handleChangeSeriesData}
+            sx={{
+              '& fieldset': { border: '0 !important' },
+              '& select': { pl: 1, py: 0.5, pr: '24px !important', typography: 'subtitle2' },
+              '& .MuiOutlinedInput-root': { borderRadius: 0.75, bgcolor: 'background.neutral' },
+              '& .MuiNativeSelect-icon': { top: 4, right: 0, width: 20, height: 20 }
+            }}
+          >
+            {CHART_DATA.map((option) => (
+              <option key={option.year} value={option.year}>
+                {option.year}
+              </option>
+            ))}
+          </TextField>
+        }
       />
 
       {CHART_DATA.map((item) => (

@@ -240,7 +240,7 @@ export const sidebarConfigManager = [
         icon: ICONS.dashboard,
         children: [
           { title: 'list', path: PATH_DASHBOARD.question.list },
-          { title: 'Add New', path: PATH_DASHBOARD.question.newQuestion }
+          { title: 'Import', path: PATH_DASHBOARD.question.newQuestion }
         ]
       },
       { title: 'Statistic', path: PATH_DASHBOARD.statistic, icon: ICONS.analytics }

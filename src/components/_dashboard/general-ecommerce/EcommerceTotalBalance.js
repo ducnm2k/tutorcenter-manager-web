@@ -61,7 +61,7 @@ export default function EcommerceTotalBalance() {
     <Card sx={{ display: 'flex', alignItems: 'center', p: 3 }}>
       <Box sx={{ flexGrow: 1 }}>
         <Typography variant="subtitle2" paragraph>
-          Total Tuition
+          Total Income
         </Typography>
         <Typography variant="h3" gutterBottom>
           {fNumber(salesProfit?.totalTuition)} VND

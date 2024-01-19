@@ -83,19 +83,20 @@ export default function ManagerDetailForm({ isEdit, currentUser }) {
     onSubmit: async (values, { setSubmitting, resetForm, setErrors }) => {
       try {
         const emailExist = await axios.get(`/api/auth/emailExist/${values.email}`);
-        if (!emailExist.data.data) {
-          // update
-          if (isEdit) {
-            dispatch(putEditManagerAccount(values));
-            // await fakeRequest(500);
-            resetForm();
-            setSubmitting(false);
-            enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
-            navigate(PATH_DASHBOARD.managerAccount.list);
-          }
 
-          // add new
-          else if (!isEdit) {
+        // update
+        if (isEdit) {
+          dispatch(putEditManagerAccount(values));
+          // await fakeRequest(500);
+          resetForm();
+          setSubmitting(false);
+          enqueueSnackbar(!isEdit ? 'Create success' : 'Update success', { variant: 'success' });
+          navigate(PATH_DASHBOARD.managerAccount.list);
+        }
+
+        // add new
+        else if (!isEdit) {
+          if (!emailExist.data.data) {
             if (values.confirm === values.password) {
               dispatch(postNewManagerAccount(values));
               // await fakeRequest(500);
@@ -108,10 +109,11 @@ export default function ManagerDetailForm({ isEdit, currentUser }) {
               enqueueSnackbar('Please confirm password again!', { variant: 'error' });
             }
           }
+          else {
+            enqueueSnackbar('Email existed!', { variant: 'error' });
+          }
         }
-        else {
-          enqueueSnackbar('Email existed!', { variant: 'error' });
-        }
+
       } catch (error) {
         console.error(error);
         setSubmitting(false);
@@ -340,11 +342,11 @@ export default function ManagerDetailForm({ isEdit, currentUser }) {
                     {!isEdit ? 'Create User' : 'Save Changes'}
                   </LoadingButton>
                 </Box>
-                {(isEdit) ?
+                {/* {(isEdit) ?
                   <Button variant="contained" color='error' sx={{ ml: 2 }}>Ban</Button>
                   :
                   <></>
-                }
+                } */}
               </Stack>
             </Card>
           </Grid>

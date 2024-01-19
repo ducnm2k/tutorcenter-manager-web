@@ -40,7 +40,7 @@ export default function EcommerceSalesProfit() {
   const theme = useTheme();
   const { product } = useSelector((state) => state.product);
 
-  const salesProfit = product?.[1];
+  const salesProfit = product?.[2];
   console.log(salesProfit);
 
   const chartOptions = merge(BaseOptionChart(), {
@@ -63,10 +63,10 @@ export default function EcommerceSalesProfit() {
     <Card sx={{ display: 'flex', alignItems: 'center', p: 3 }}>
       <Box sx={{ flexGrow: 1 }}>
         <Typography variant="subtitle2" paragraph>
-          Total Revenue
+          Last Month Income
         </Typography>
         <Typography variant="h3" gutterBottom>
-          {fNumber(salesProfit?.totalRevenue)} VND
+          {fNumber(salesProfit?.[0]?.data['12-2023']?.totalTuition)} VND
         </Typography>
 
         {/* <Stack direction="row" alignItems="center" flexWrap="wrap">
