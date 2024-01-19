@@ -263,6 +263,38 @@ export function getTutorList() {
 
 // ----------------------------------------------------------------------
 
+export function putBanTutor(id) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axios.put(`/api/tutor/ban/${id}`);
+      console.log("Ban user with Id = ", id);
+      dispatch(slice.actions.getUserListSuccess(response.data.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+// ----------------------------------------------------------------------
+
+export function putUnbanTutor(id) {
+  return async (dispatch) => {
+    dispatch(slice.actions.startLoading());
+    try {
+      const response = await axios.put(`/api/tutor/unban/${id}`);
+      console.log("Unban user with Id = ", id);
+      dispatch(slice.actions.getUserListSuccess(response.data.data));
+    } catch (error) {
+      dispatch(slice.actions.hasError(error));
+    }
+  };
+}
+
+
+
+// ----------------------------------------------------------------------
+
 export function getCards() {
   return async (dispatch) => {
     dispatch(slice.actions.startLoading());

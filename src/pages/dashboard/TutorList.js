@@ -23,7 +23,7 @@ import {
 } from '@material-ui/core';
 // redux
 import { useDispatch, useSelector } from '../../redux/store';
-import { getUserList, deleteUser, getTutorList } from '../../redux/slices/user';
+import { getUserList, deleteUser, getTutorList, putBanTutor, putUnbanTutor } from '../../redux/slices/user';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // hooks
@@ -44,6 +44,7 @@ const TABLE_HEAD = [
   { id: 'phone', label: 'Phone', alignRight: false },
   { id: 'email', label: 'Email', alignRight: false },
   { id: 'provinceName', label: 'Location', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: true },
   { id: '' }
 ];
 
@@ -141,6 +142,16 @@ export default function UserList() {
     dispatch(deleteUser(userId));
   };
 
+  const handleBanUser = (userId) => {
+    dispatch(putBanTutor(userId));
+    window.location.reload();
+  };
+
+  const handleUnbanUser = (userId) => {
+    dispatch(putUnbanTutor(userId));
+    window.location.reload();
+  };
+
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - userList.length) : 0;
 
   const filteredUsers = applySortFilter(userList, getComparator(order, orderBy), filterName);
@@ -186,7 +197,7 @@ export default function UserList() {
                 />
                 <TableBody>
                   {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, imgAvatar, tutorName, major, university, provinceName, districtName, email, phone } = row;
+                    const { id, imgAvatar, tutorName, major, university, provinceName, districtName, email, phone, status } = row;
                     const isItemSelected = selected.indexOf(tutorName) !== -1;
 
                     return (
@@ -232,7 +243,14 @@ export default function UserList() {
                         </TableCell> */}
                         {/* <TableCell align="left">{enabled ? 'Yes' : 'No'}</TableCell> */}
                         <TableCell align="right">
-                          {/* <UserMoreMenu onDelete={() => handleDeleteUser(id)} userName={fullname} /> */}
+                          {status === 3 ? 
+                          <Button onClick={() => handleUnbanUser(id)} variant='outlined' color='error'>Banned</Button>
+                          :
+                          <Button onClick={() => handleBanUser(id)} variant='outlined' color='primary'>Unbanned</Button>
+                          }
+                        </TableCell>
+                        <TableCell align="right">
+                          {/* <UserMoreMenu onDelete={() => handleDeleteUser(id)} userName={} /> */}
                         </TableCell>
                       </TableRow>
                     );
