@@ -47,7 +47,7 @@ import {
 const TABLE_HEAD = [
   { id: 'tutorId', label: 'Subject', alignRight: false },
   { id: 'tutorName', label: 'Content', alignRight: false },
-  { id: 'status', label: 'Difficulty', alignRight: true },
+  { id: 'difficulty', label: 'Difficulty', alignRight: true },
   { id: 'dateCreate', label: 'Create At', alignRight: false },
   { id: '' }
 ];
