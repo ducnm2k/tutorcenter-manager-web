@@ -480,13 +480,18 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                       error={Boolean(touched.status && errors.status)}
                       helperText={touched.status && errors.status}
                     /> */}
-                    <RadioGroup {...getFieldProps('status')} row>
-                      <Stack spacing={1} direction="row">
-                        {/* <FormControlLabel value="0" control={<Radio />} label="Default" /> */}
-                        <FormControlLabel value="1" control={<Radio />} label="Accept" />
-                        <FormControlLabel value="2" control={<Radio />} label="Reject" />
-                      </Stack>
-                    </RadioGroup>
+                    {(values.status === 0) ?
+                      <RadioGroup {...getFieldProps('status')} row>
+                        <Stack spacing={1} direction="row">
+                          {/* <FormControlLabel value="0" control={<Radio />} label="Default" /> */}
+                          <FormControlLabel value="1" control={<Radio />} label="Accept" />
+                          <FormControlLabel value="2" control={<Radio />} label="Reject" />
+                        </Stack>
+                      </RadioGroup>
+                      :
+                      <></>
+                    }
+
                   </div>
 
                   {/* <FormControl fullWidth>
@@ -506,13 +511,19 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                     </Select>
                   </FormControl> */}
 
-                  <TextField
-                    fullWidth
-                    label="Reject reason"
-                    {...getFieldProps('reject')}
-                    error={Boolean(touched.parent && errors.parent)}
-                    helperText={touched.parent && errors.parent}
-                  />
+                  {(values.status === 0) ?
+                    <TextField
+                      fullWidth
+                      label="Reject reason"
+                      {...getFieldProps('reject')}
+                      error={Boolean(touched.parent && errors.parent)}
+                      helperText={touched.parent && errors.parent}
+                    />
+                    :
+                    <></>
+                  }
+
+
 
                   {/* <Autocomplete
                     multiple
