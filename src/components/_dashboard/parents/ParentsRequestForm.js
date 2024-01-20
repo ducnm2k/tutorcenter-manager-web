@@ -480,7 +480,7 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                       error={Boolean(touched.status && errors.status)}
                       helperText={touched.status && errors.status}
                     /> */}
-                    {(values.status === 0) ?
+                    {(values.status === "0") ?
                       <RadioGroup {...getFieldProps('status')} row>
                         <Stack spacing={1} direction="row">
                           {/* <FormControlLabel value="0" control={<Radio />} label="Default" /> */}
@@ -489,7 +489,7 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                         </Stack>
                       </RadioGroup>
                       :
-                      <></>
+                      <LabelStyle>Status: {values.status}</LabelStyle>
                     }
 
                   </div>
@@ -511,7 +511,7 @@ export default function ParentsRequestForm({ isEdit, currentProduct }) {
                     </Select>
                   </FormControl> */}
 
-                  {(values.status === 0) ?
+                  {(values.status === "2") ?
                     <TextField
                       fullWidth
                       label="Reject reason"
